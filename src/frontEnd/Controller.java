@@ -1,4 +1,4 @@
-package sample;
+package frontEnd;
 
 public class Controller {
 }
