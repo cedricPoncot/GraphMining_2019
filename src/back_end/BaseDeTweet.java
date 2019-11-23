@@ -1,4 +1,4 @@
-package java;
+package back_end;
 
 import java.io.*;
 import java.util.HashMap;
@@ -74,6 +74,11 @@ public class BaseDeTweet {
                 }
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 }
 
