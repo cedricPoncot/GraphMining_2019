@@ -34,7 +34,7 @@ public class BaseDeTweet {
             e.printStackTrace();
         }
     }
-    //aaaa
+    //aaaab
 
     //Getter / Setter
     public String getNomBase(){
