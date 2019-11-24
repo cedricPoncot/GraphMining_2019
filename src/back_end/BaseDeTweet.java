@@ -1,5 +1,6 @@
 package back_end;
 
+import javax.jws.soap.SOAPBinding;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,9 +9,21 @@ import java.util.Map;
 
 public class BaseDeTweet {
 
+    class CoupleStringOrdonne {
+        String UserInitial;
+        String UserFinal;
+        CoupleStringOrdonne(String UserInitial,String UserFinal){
+            this.UserInitial=UserInitial;
+            this.UserFinal=UserFinal;
+        }
+        public String toString(){
+            return UserInitial+" has RT "+UserFinal;
+        }
+    }
+
     //Attributs
     private HashMap<String, List<Tweet>>  baseTweet=new HashMap();
-    private List <Link> listLink=new ArrayList<Link>();
+    private HashMap <CoupleStringOrdonne,Integer> listLink=new HashMap();
     private String nomBase;
 
 
@@ -57,7 +70,24 @@ public class BaseDeTweet {
 
 
                 Tweet t = null;
-                if(data.length==5) t=new Tweet(data[0],data[1],data[2],data[3],data[4]);
+                if(data.length==5){
+                    t=new Tweet(data[0],data[1],data[2],data[3],data[4]);
+
+                    CoupleStringOrdonne key= new CoupleStringOrdonne(data[1],data[4]);
+
+                    //Si le lien n'existe pas, on le créer
+                    if(listLink.get(key)==null){
+                        listLink.put(key,1);
+                    }
+                    //Sinon on incrémente le poids
+                    else{
+                        System.out.println("2 rt");
+                        int poids=listLink.get(key);
+                        listLink.put(key,poids+1);
+                        break;
+                    }
+
+                }
                 if(data.length==4) t=new Tweet(data[0],data[1],data[2],data[3]);
                 if(data.length !=4 && data.length !=5){
                     System.out.println("Problème de longueur de data. !!!");
@@ -91,10 +121,11 @@ public class BaseDeTweet {
     }
 
     @Override
+    //TODO IMPLEM
     public String toString() {
         System.out.println("Fin import");
         String data="";
-
+        /*
         for(Map.Entry me : baseTweet.entrySet()){
             System.out.println("");
             ArrayList<Tweet> liste=(ArrayList<Tweet>)me.getValue();
@@ -102,7 +133,11 @@ public class BaseDeTweet {
             for(Tweet t:liste){
                 System.out.println(t);
             }
+        }
 
+        */
+        for(Map.Entry me : listLink.entrySet()){
+            System.out.println(me.getKey()+"->"+me.getValue());
         }
         return "";
     }
