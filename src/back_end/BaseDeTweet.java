@@ -65,14 +65,15 @@ public class BaseDeTweet {
 
                 List<Tweet> listeDeTweet;
                 if(baseTweet.get(data[0])==null){
+                    System.out.println("?");
                     listeDeTweet=new ArrayList<Tweet>();
                 }
                 else{
+                    System.out.println("??");
                     listeDeTweet=baseTweet.get(data[0]);
                 }
                 listeDeTweet.add(t);
                 baseTweet.put(data[0],listeDeTweet);
-
             }
 
         }
@@ -96,6 +97,8 @@ public class BaseDeTweet {
         String data="fin";
 
         for(Map.Entry me : baseTweet.entrySet()){
+
+            //TODO refaire ça proprement, sans copie de var
             ArrayList<Tweet> liste=(ArrayList<Tweet>)me.getValue();
             int i=liste.size();
             System.out.println(me.getKey()+"      "+i);
