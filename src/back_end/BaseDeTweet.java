@@ -10,6 +10,7 @@ public class BaseDeTweet {
 
     //Attributs
     private HashMap<String, List<Tweet>>  baseTweet=new HashMap();
+    private List <Link> listLink=new ArrayList<Link>();
     private String nomBase;
 
 
@@ -64,16 +65,14 @@ public class BaseDeTweet {
                 }
 
                 List<Tweet> listeDeTweet;
-                if(baseTweet.get(data[0])==null){
-                    System.out.println("?");
+                if(baseTweet.get(data[1])==null){
                     listeDeTweet=new ArrayList<Tweet>();
                 }
                 else{
-                    System.out.println("??");
-                    listeDeTweet=baseTweet.get(data[0]);
+                    listeDeTweet=baseTweet.get(data[1]);
                 }
                 listeDeTweet.add(t);
-                baseTweet.put(data[0],listeDeTweet);
+                baseTweet.put(data[1],listeDeTweet);
             }
 
         }
@@ -93,17 +92,19 @@ public class BaseDeTweet {
 
     @Override
     public String toString() {
-        System.out.println("Passage toString");
-        String data="fin";
+        System.out.println("Fin import");
+        String data="";
 
         for(Map.Entry me : baseTweet.entrySet()){
-
-            //TODO refaire ça proprement, sans copie de var
+            System.out.println("");
             ArrayList<Tweet> liste=(ArrayList<Tweet>)me.getValue();
-            int i=liste.size();
-            System.out.println(me.getKey()+"      "+i);
+            System.out.println("User"+me.getKey()+"   Nombre de tweet :"+liste.size());
+            for(Tweet t:liste){
+                System.out.println(t);
+            }
+
         }
-        return data;
+        return "";
     }
 }
 
