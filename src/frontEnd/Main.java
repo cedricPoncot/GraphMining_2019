@@ -17,19 +17,17 @@ public class Main extends Application {
         Button btn = new Button();
         btn.setLayoutX(100);
         btn.setLayoutY(80);
-        btn.setText("Button");
+        btn.setText("Import");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
                 new Graph();
             }
         });
-       //.Setonaction(fonction)
         Group root = new Group();
         primaryStage.setTitle("Hello World");
         root.getChildren().add(btn);
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
-
     }
 
 

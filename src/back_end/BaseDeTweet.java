@@ -1,8 +1,10 @@
 package back_end;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BaseDeTweet {
 
@@ -50,9 +52,9 @@ public class BaseDeTweet {
             int compteur_ligne=0;
             while((line=br.readLine())!=null){
                 String[] data=line.split("\t");
-               /* for(int i =0;i<data.length;i++) {
-                    System.out.println(data[i]);
-                }*/
+
+
+
                 Tweet t = null;
                 if(data.length==5) t=new Tweet(data[0],data[1],data[2],data[3],data[4]);
                 if(data.length==4) t=new Tweet(data[0],data[1],data[2],data[3]);
@@ -60,7 +62,19 @@ public class BaseDeTweet {
                     System.out.println("Problème de longueur de data. !!!");
                     break;
                 }
+
+                List<Tweet> listeDeTweet;
+                if(baseTweet.get(data[0])==null){
+                    listeDeTweet=new ArrayList<Tweet>();
+                }
+                else{
+                    listeDeTweet=baseTweet.get(data[0]);
+                }
+                listeDeTweet.add(t);
+                baseTweet.put(data[0],listeDeTweet);
+
             }
+
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -78,7 +92,15 @@ public class BaseDeTweet {
 
     @Override
     public String toString() {
-        return "";
+        System.out.println("Passage toString");
+        String data="fin";
+
+        for(Map.Entry me : baseTweet.entrySet()){
+            ArrayList<Tweet> liste=(ArrayList<Tweet>)me.getValue();
+            int i=liste.size();
+            System.out.println(me.getKey()+"      "+i);
+        }
+        return data;
     }
 }
 
