@@ -1,10 +1,7 @@
 package back_end;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BaseDeTweet {
 
@@ -12,7 +9,27 @@ public class BaseDeTweet {
     private HashMap<String, List<Tweet>>  baseTweet=new HashMap();
     private HashMap <String,HashMap<String,Integer>> baseLink=new HashMap();
     private String nomBase;
+    private HashMap<String,Integer> centrality=new HashMap();
 
+    class Centralite implements Comparable{
+        String nom;
+        int poids;
+        Centralite(String nom,int poids){
+            this.poids=poids;
+            this.nom=nom;
+        }
+        public int compareTo(Object o){
+            Centralite c=(Centralite)o;
+            if(this.poids<c.poids){
+                return 1;
+            }
+            if(this.poids==c.poids){
+                return this.nom.compareTo(c.nom);
+            }
+            return  -1;
+        }
+    };
+    int nbUserCentraux=5;
 
     //Constructeurs
     BaseDeTweet(String cheminCSV){
@@ -34,7 +51,6 @@ public class BaseDeTweet {
             e.printStackTrace();
         }
     }
-    //aaaab
 
     //Getter / Setter
     public String getNomBase(){
@@ -49,6 +65,8 @@ public class BaseDeTweet {
     void importCSV(String cheminCSV) throws FileNotFoundException {
         BufferedReader br=null;
         String line="";
+
+        int poids_min_tabCentralite=0;
         try {
             br=new BufferedReader(new FileReader(cheminCSV));
             int compteur_ligne=0;
@@ -57,6 +75,19 @@ public class BaseDeTweet {
                 Tweet t = null;
                 if(data.length==5){
                     t=new Tweet(data[0],data[1],data[2],data[3],data[4]);
+
+
+                    //centralité
+                    if(centrality.get(data[4])==null ){
+                        centrality.put(data[4],1);
+                    }
+                    else {
+                        centrality.put(data[4],centrality.get(data[4])+1);
+                    }
+
+
+
+                    //arrêtes
                     if(baseLink.get(data[4])==null ){
                             HashMap<String, Integer> retweeter = new HashMap();
                             retweeter.put(data[1], 1);
@@ -107,11 +138,41 @@ public class BaseDeTweet {
                 }
             }
         }
+        UserCentraux();
     }
 
+    public void UserCentraux(){
+        TreeSet<Centralite> treeSetUserCentraux=new TreeSet();
+        int poidsMin=0;
+        int taille=0;
+        for (String i : centrality.keySet()) {
+            if(taille< nbUserCentraux){
+                treeSetUserCentraux.add(new Centralite(i, centrality.get(i)));
+                poidsMin = treeSetUserCentraux.last().poids;
+                taille++;
+                System.out.println(i+""+centrality.get(i));
+                for(Centralite c : treeSetUserCentraux){
+                    System.out.println(c.nom+" "+c.poids);
+                }
+            }
+            else{
+                if(centrality.get(i)>poidsMin) {
+                    System.out.println("1");
+
+                    treeSetUserCentraux.pollLast();
+                    treeSetUserCentraux.add(new Centralite(i, centrality.get(i)));
+                    poidsMin = treeSetUserCentraux.last().poids;
+                }
+            }
+        }
+
+        for(Centralite c : treeSetUserCentraux){
+            System.out.println(c.nom+" "+c.poids);
+        }
+    }
     @Override
     public String toString() {
-        System.out.println("Fin import");
+        //Affichage des tweets (texte)
         String data="";
         /*
         for(Map.Entry me : baseTweet.entrySet()){
@@ -131,6 +192,9 @@ public class BaseDeTweet {
             }
         }
         */
+
+        //Affichage des arrêtes
+        /*
         int maxRT=0;
         String UtilisateurMaxRT="";
         for(Map.Entry me : baseLink.entrySet()){
@@ -145,7 +209,9 @@ public class BaseDeTweet {
             }
         }
         System.out.println("\nMax RT="+maxRT+" by "+ UtilisateurMaxRT);
+        */
         return "";
+
     }
 }
 
