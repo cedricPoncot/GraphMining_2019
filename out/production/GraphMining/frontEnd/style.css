@@ -1,8 +1,11 @@
 .anchor1{
-
+    -fx-background-color: #f2f2f2;
 }
 .anchor2{
-    -fx-background-color : #6e9cf7;
+    -fx-background-color : #00b5b5;
+}
+.anchor3{
+    -fx-background-color: white;
 }
 
 .text-field{
@@ -20,8 +23,19 @@
     -fx-font-size: 14;
     -fx-text-family: "System";
 }
-.button{
-    -fx-font-size: 14;
+.label3{
+    -fx-text-fill : #f2f2f2;
+    -fx-font-size: 18;
+    -fx-text-family: "System";
+}
+.label4{
+    -fx-text-fill : white;
+    -fx-font-size: 18;
+    -fx-text-family: "System";
+    -fx-font-weight: bold;
+}
+.button1{
+    -fx-font-size: 18;
 }
 .line{
     -fx-stroke: #6e9cf7;
@@ -31,8 +45,10 @@
     -fx-prompt-text-fill: grey;
 }
 .radio-button{
-    -fx-font-size: 14;
-    -jfx-selected-color: #6e9cf7;
+    -fx-font-size: 18;
+    -fx-text-fill: white;
+    -jfx-selected-color: #fbfdce;
+    -jfx-unselected-color: white;
 }
 .check-box{
     -fx-font-size: 14;
