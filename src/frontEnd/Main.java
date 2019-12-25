@@ -4,7 +4,9 @@ import back_end.Graphe;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -20,26 +22,29 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Button btn = new Button();
-        btn.setLayoutX(100);
-        btn.setLayoutY(80);
-        btn.setText("Import");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                new Graphe();
-            }
-        });
-        Group root = new Group();
+        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.setScene(new Scene(root, 1000, 600));
         primaryStage.show();
+    }
 
+
+    public static void main(String[] args) {
+
+        launch(args);
         Graph<URI, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
 
-        URI google = new URI("http://www.google.com");
-        URI wikipedia = new URI("http://www.wikipedia.org");
-        URI jgrapht = new URI("http://www.jgrapht.org");
+        URI google = null;
+        URI wikipedia = null;
+        URI jgrapht = null;
+
+        try {
+            google = new URI("http://www.google.com");
+            wikipedia = new URI("http://www.wikipedia.org");
+            jgrapht = new URI("http://www.jgrapht.org");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         // add the vertices
         g.addVertex(google);
@@ -53,12 +58,6 @@ public class Main extends Application {
         g.addEdge(wikipedia, google);
 
         System.out.println(g);
-    }
-
-
-    public static void main(String[] args) {
-
-        launch(args);
 
     }
 }
