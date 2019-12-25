@@ -18,7 +18,7 @@ public class Controller {
         }
         else
             if(rdFoot.isSelected()){
-                new Graphe("src/data/climat.txt");
+                new Graphe("src/data/foot.txt");
                 System.out.println("données importées");
             }
     }
