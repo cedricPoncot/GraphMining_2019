@@ -1,9 +1,9 @@
 package back_end;
 
-public class Graph {
+public class Graphe {
 
 
-        public Graph() {
+        public Graphe() {
             System.out.println("Entrée Import");
             //Création de la base de tweet
             String cheminCSV = "src/data/foot.txt";

@@ -1,6 +1,6 @@
 package frontEnd;
 
-import back_end.Graph;
+import back_end.Graphe;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,6 +8,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+
+import org.jgrapht.Graph;
+import org.jgrapht.graph.*;
+
+import java.net.*;
+
 
 public class Main extends Application {
 
@@ -20,7 +26,7 @@ public class Main extends Application {
         btn.setText("Import");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                new Graph();
+                new Graphe();
             }
         });
         Group root = new Group();
@@ -28,6 +34,25 @@ public class Main extends Application {
         root.getChildren().add(btn);
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+
+        Graph<URI, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
+
+        URI google = new URI("http://www.google.com");
+        URI wikipedia = new URI("http://www.wikipedia.org");
+        URI jgrapht = new URI("http://www.jgrapht.org");
+
+        // add the vertices
+        g.addVertex(google);
+        g.addVertex(wikipedia);
+        g.addVertex(jgrapht);
+
+        // add edges to create linking structure
+        g.addEdge(jgrapht, wikipedia);
+        g.addEdge(google, jgrapht);
+        g.addEdge(google, wikipedia);
+        g.addEdge(wikipedia, google);
+
+        System.out.println(g);
     }
 
 
