@@ -34,6 +34,7 @@ public class Main extends Application {
         launch(args);
         Graph<URI, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
 
+
         URI google = null;
         URI wikipedia = null;
         URI jgrapht = null;
