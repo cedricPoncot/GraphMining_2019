@@ -35,12 +35,12 @@
                            <HBox.margin>
                               <Insets />
                            </HBox.margin></Label>
-                        <JFXRadioButton styleClass="radio-button" text="Climat">
+                        <JFXRadioButton fx:id="rdClimat" styleClass="radio-button" text="Climat" onAction="#selectedDataset">
                            <toggleGroup>
                                     <ToggleGroup fx:id="group1" />
                            </toggleGroup>
                         </JFXRadioButton>
-                        <JFXRadioButton styleClass="radio-button" text="Foot" toggleGroup="$group1" />
+                        <JFXRadioButton fx:id="rdFoot" styleClass="radio-button" text="Foot" toggleGroup="$group1" onAction="#selectedDataset"/>
                      </children>
                      <padding>
                         <Insets top="15.0" />
@@ -48,10 +48,7 @@
                   </HBox>
                   <JFXButton layoutX="382.0" prefHeight="60.0" prefWidth="55.0" text=" ">
                      <graphic>
-                        <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../Downloads/binoculars%20(1).png" />
-                           </image>
+                        <ImageView fx:id="bVisualiser" fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                         </ImageView>
                      </graphic>
                   </JFXButton>
@@ -114,7 +111,7 @@
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <JFXButton buttonType="RAISED" layoutX="777.0" layoutY="400.0" prefHeight="48.0" prefWidth="188.0" ripplerFill="#00b5b5" styleClass="button1" text="Clustering" />
+                  <JFXButton fx:id="bClustering" buttonType="RAISED" layoutX="777.0" layoutY="400.0" prefHeight="48.0" prefWidth="188.0" ripplerFill="#00b5b5" styleClass="button1" text="Clustering" />
          </children></AnchorPane>
             <Label layoutX="52.0" layoutY="12.0" text="Graph Mining">
                <font>
