@@ -36,7 +36,7 @@ public class Main extends Application {
         primaryStage.show();
 
         Graph<URI, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
-
+        
         URI google = new URI("http://www.google.com");
         URI wikipedia = new URI("http://www.wikipedia.org");
         URI jgrapht = new URI("http://www.jgrapht.org");

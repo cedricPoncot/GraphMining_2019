@@ -1,6 +1,12 @@
 package back_end;
 
+import org.jgrapht.Graph;
+import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DirectedWeightedMultigraph;
+
 import java.io.*;
+import java.net.URI;
 import java.util.*;
 
 public class BaseDeTweet {
@@ -65,7 +71,8 @@ public class BaseDeTweet {
     void importCSV(String cheminCSV) throws FileNotFoundException {
         BufferedReader br=null;
         String line="";
-
+        Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
+            
         int poids_min_tabCentralite=0;
         try {
             br=new BufferedReader(new FileReader(cheminCSV));
