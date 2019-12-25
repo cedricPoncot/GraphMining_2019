@@ -13,6 +13,7 @@ public class Controller {
 
     public void selectedDataset(){
         if(rdClimat.isSelected()){
+            System.out.println("données importées");
             new Graphe("src/data/climat.txt");
             System.out.println("données importées");
         }

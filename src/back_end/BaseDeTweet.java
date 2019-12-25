@@ -72,7 +72,7 @@ public class BaseDeTweet {
     void importCSV(String cheminCSV) throws FileNotFoundException {
         BufferedReader br=null;
         String line="";
-        Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
+       // Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
 
         int poids_min_tabCentralite=0;
         try {
@@ -92,13 +92,13 @@ public class BaseDeTweet {
                     else {
                         centrality.put(data[4],centrality.get(data[4])+1);
                     }
-
+/*
                     g.addVertex(data[4]);
                     g.addVertex(data[1]);
                     g.addEdge(data[4],data[1]);
                     g.setEdgeWeight(data[4],data[1],g.getEdgeWeight(g.getEdge(data[4],data[1]))+1);
 
-
+*/
                     //arrêtes
                     if(baseLink.get(data[4])==null ){
                             HashMap<String, Integer> retweeter = new HashMap();
@@ -151,7 +151,7 @@ public class BaseDeTweet {
             }
         }
         UserCentraux();
-        System.out.println(g);
+  //      System.out.println(g);
     }
 
     public void UserCentraux(){
