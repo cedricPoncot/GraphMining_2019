@@ -150,14 +150,9 @@ public class BaseDeTweet {
                 treeSetUserCentraux.add(new Centralite(i, centrality.get(i)));
                 poidsMin = treeSetUserCentraux.last().poids;
                 taille++;
-                System.out.println(i+""+centrality.get(i));
-                for(Centralite c : treeSetUserCentraux){
-                    System.out.println(c.nom+" "+c.poids);
-                }
             }
             else{
                 if(centrality.get(i)>poidsMin) {
-                    System.out.println("1");
 
                     treeSetUserCentraux.pollLast();
                     treeSetUserCentraux.add(new Centralite(i, centrality.get(i)));
