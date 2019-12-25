@@ -10,7 +10,6 @@ import java.net.URI;
 import java.util.*;
 
 public class BaseDeTweet {
-    static final double DEFAULT_EDGE_WEIGHT=0;
 
     //Attributs
     private HashMap<String, List<Tweet>>  baseTweet=new HashMap();
@@ -72,7 +71,7 @@ public class BaseDeTweet {
     void importCSV(String cheminCSV) throws FileNotFoundException {
         BufferedReader br=null;
         String line="";
-       // Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
+        Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
 
         int poids_min_tabCentralite=0;
         try {
@@ -92,13 +91,20 @@ public class BaseDeTweet {
                     else {
                         centrality.put(data[4],centrality.get(data[4])+1);
                     }
-/*
                     g.addVertex(data[4]);
                     g.addVertex(data[1]);
-                    g.addEdge(data[4],data[1]);
-                    g.setEdgeWeight(data[4],data[1],g.getEdgeWeight(g.getEdge(data[4],data[1]))+1);
+                    //On ne compte pas les gens qui se retweet eux mêmes
+                    if(!data[4].equals(data[1])) {
+                        if (!g.containsEdge(data[4], data[1])){
+                            g.addEdge(data[4], data[1]);
+                            g.setEdgeWeight(data[4], data[1], 1);
+                        }
+                        else {
+                            g.setEdgeWeight(data[4], data[1], g.getEdgeWeight(g.getEdge(data[4], data[1])) + 1);
+                        }
 
-*/
+                    }
+
                     //arrêtes
                     if(baseLink.get(data[4])==null ){
                             HashMap<String, Integer> retweeter = new HashMap();
@@ -151,7 +157,7 @@ public class BaseDeTweet {
             }
         }
         UserCentraux();
-  //      System.out.println(g);
+      System.out.println(g);
     }
 
     public void UserCentraux(){

@@ -32,6 +32,7 @@ public class Main extends Application {
     public static void main(String[] args) {
 
         launch(args);
+        /*
         Graph<URI, DefaultEdge> g = new DefaultDirectedGraph<>(DefaultEdge.class);
 
 
@@ -59,6 +60,6 @@ public class Main extends Application {
         g.addEdge(wikipedia, google);
 
         System.out.println(g);
-
+*/
     }
 }
