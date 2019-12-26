@@ -82,7 +82,7 @@ public class BaseDeTweet {
                         else {
                             g.setEdgeWeight(data[4], data[1], g.getEdgeWeight(g.getEdge(data[4], data[1])) + 1);
                         }
-                        //On gagne un degré ext et un degré int
+                        //On gagne un degré ext et un degré int à chaque ajout d'arrête
                         sommeDegre+=2;
                     }
 
