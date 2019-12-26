@@ -1,12 +1,10 @@
 package back_end;
 
 import org.jgrapht.Graph;
-import org.jgrapht.graph.DefaultDirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 
 import java.io.*;
-import java.net.URI;
 import java.util.*;
 
 public class BaseDeTweet {
@@ -16,25 +14,6 @@ public class BaseDeTweet {
     private HashMap <String,HashMap<String,Integer>> baseLink=new HashMap();
     private String nomBase;
     private HashMap<String,Integer> centrality=new HashMap();
-
-    class Centralite implements Comparable{
-        String nom;
-        int poids;
-        Centralite(String nom,int poids){
-            this.poids=poids;
-            this.nom=nom;
-        }
-        public int compareTo(Object o){
-            Centralite c=(Centralite)o;
-            if(this.poids<c.poids){
-                return 1;
-            }
-            if(this.poids==c.poids){
-                return this.nom.compareTo(c.nom);
-            }
-            return  -1;
-        }
-    };
     int nbUserCentraux=5;
 
     //Constructeurs
@@ -156,17 +135,17 @@ public class BaseDeTweet {
                 }
             }
         }
-        UserCentraux();
+        //UserCentraux();
       System.out.println(g);
     }
 
-    public void UserCentraux(){
-        TreeSet<Centralite> treeSetUserCentraux=new TreeSet();
+    public TreeSet<Centrality>  UserCentraux(){
+        TreeSet<Centrality> treeSetUserCentraux=new TreeSet();
         int poidsMin=0;
         int taille=0;
         for (String i : centrality.keySet()) {
             if(taille< nbUserCentraux){
-                treeSetUserCentraux.add(new Centralite(i, centrality.get(i)));
+                treeSetUserCentraux.add(new Centrality(i, centrality.get(i)));
                 poidsMin = treeSetUserCentraux.last().poids;
                 taille++;
             }
@@ -174,15 +153,16 @@ public class BaseDeTweet {
                 if(centrality.get(i)>poidsMin) {
 
                     treeSetUserCentraux.pollLast();
-                    treeSetUserCentraux.add(new Centralite(i, centrality.get(i)));
+                    treeSetUserCentraux.add(new Centrality(i, centrality.get(i)));
                     poidsMin = treeSetUserCentraux.last().poids;
                 }
             }
         }
 
-        for(Centralite c : treeSetUserCentraux){
+        for(Centrality c : treeSetUserCentraux){
             System.out.println(c.nom+" "+c.poids);
         }
+        return treeSetUserCentraux;
     }
     @Override
     public String toString() {
