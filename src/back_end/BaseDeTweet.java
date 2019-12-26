@@ -3,6 +3,7 @@ package back_end;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
+import sun.security.provider.certpath.Vertex;
 
 import java.io.*;
 import java.util.*;
@@ -13,7 +14,11 @@ public class BaseDeTweet {
     private HashMap<String, List<Tweet>>  baseTweet = new HashMap();
     private HashMap <String,HashMap<String,Integer>> baseLink = new HashMap();
     private HashMap<String,Integer> centrality = new HashMap();
+    //Graphe
+    Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
     static final int nbUserCentraux = 5;
+    public double degreeMoyen=0;
+    public int ordre=0;
 
     //Constructeur
     public BaseDeTweet(String cheminCSV){
@@ -36,11 +41,9 @@ public class BaseDeTweet {
         //Buffer pour la lecture du fichier
         BufferedReader br=null;
         String line="";
-        //Graphe
-        Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
 
+        int sommeDegre=0;
         int poids_min_tabCentralite=0;
-
         try {
             br=new BufferedReader(new FileReader(cheminCSV));
             int compteur_ligne=0;
@@ -57,8 +60,12 @@ public class BaseDeTweet {
                     else {
                         centrality.put(data[4],centrality.get(data[4])+1);
                     }
-                    g.addVertex(data[4]);
-                    g.addVertex(data[1]);
+                    if(g.addVertex(data[4])){
+                        ordre++;
+                    }
+                    if(g.addVertex(data[1])){
+                        ordre++;
+                    }
                     //On ne compte pas les gens qui se retweet eux mêmes
                     if(!data[4].equals(data[1])) {
                         if (!g.containsEdge(data[4], data[1])){
@@ -68,6 +75,8 @@ public class BaseDeTweet {
                         else {
                             g.setEdgeWeight(data[4], data[1], g.getEdgeWeight(g.getEdge(data[4], data[1])) + 1);
                         }
+                        //On gagne un degré ext et un degré int
+                        sommeDegre+=2;
                     }
 
                     //arrêtes
@@ -107,7 +116,11 @@ public class BaseDeTweet {
                 baseTweet.put(data[1],listeDeTweet);
                 */
             }
-
+            if(ordre!=0) {
+                degreeMoyen = sommeDegre*1.0 / ordre;
+                System.out.println(degreeMoyen);
+                System.out.println(ordre);
+            }
         }
         catch (IOException e) {
             e.printStackTrace();
