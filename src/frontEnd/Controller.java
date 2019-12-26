@@ -12,6 +12,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.text.DecimalFormat;
 import java.util.TreeSet;
 
 public class Controller {
@@ -37,9 +38,10 @@ public class Controller {
         Graphe g;
         if(dataset==1){
             g = new Graphe("src/data/climat.txt");
+            DecimalFormat df = new DecimalFormat("0.00");
             setTab(g.bd.UserCentraux());
             lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
-            lbDegreMoy.setText(String.valueOf(g.bd.getDegreeMoyen()));
+            lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
 
         }
         else{
