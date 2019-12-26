@@ -32,6 +32,7 @@ public class BaseDeTweet {
     private double degreeMoyen=0;
     private int ordre=0;
     private int diametre=0;
+    private int volume=0;
 
     public  int getDiametre(){
         return diametre;
@@ -42,7 +43,9 @@ public class BaseDeTweet {
     public int getOrdre(){
         return ordre;
     }
-
+    public int getVolume(){
+        return volume;
+    }
     //Constructeur
     public BaseDeTweet(String cheminCSV){
         try {
@@ -94,6 +97,7 @@ public class BaseDeTweet {
                         if (!g.containsEdge(data[4], data[1])){
                             g.addEdge(data[4], data[1]);
                             g.setEdgeWeight(data[4], data[1], 1);
+                            volume++;
                         }
                         else {
                             g.setEdgeWeight(data[4], data[1], g.getEdgeWeight(g.getEdge(data[4], data[1])) + 1);
