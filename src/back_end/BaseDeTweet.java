@@ -10,15 +10,13 @@ import java.util.*;
 public class BaseDeTweet {
 
     //Attributs
-    private HashMap<String, List<Tweet>>  baseTweet=new HashMap();
-    private HashMap <String,HashMap<String,Integer>> baseLink=new HashMap();
-    private String nomBase;
-    private HashMap<String,Integer> centrality=new HashMap();
-    int nbUserCentraux=5;
+    private HashMap<String, List<Tweet>>  baseTweet = new HashMap();
+    private HashMap <String,HashMap<String,Integer>> baseLink = new HashMap();
+    private HashMap<String,Integer> centrality = new HashMap();
+    static final int nbUserCentraux = 5;
 
-    //Constructeurs
-    BaseDeTweet(String cheminCSV){
-        nomBase="undefined";
+    //Constructeur
+    public BaseDeTweet(String cheminCSV){
         try {
             importCSV(cheminCSV);
         }
@@ -27,32 +25,22 @@ public class BaseDeTweet {
         }
     }
 
-    public BaseDeTweet(String cheminCSV, String nomBase){
-        this.nomBase=nomBase;
-        try {
-            importCSV(cheminCSV);
-        }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-    }
-
-    //Getter / Setter
-    public String getNomBase(){
-        return nomBase;
-    }
-
+    //Getter et Setter
     public HashMap<String, List<Tweet>> getBaseTweet() {
         return baseTweet;
     }
 
     //Fonctions
     void importCSV(String cheminCSV) throws FileNotFoundException {
+
+        //Buffer pour la lecture du fichier
         BufferedReader br=null;
         String line="";
+        //Graphe
         Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
 
         int poids_min_tabCentralite=0;
+
         try {
             br=new BufferedReader(new FileReader(cheminCSV));
             int compteur_ligne=0;
@@ -60,11 +48,10 @@ public class BaseDeTweet {
                 String[] data=line.split("\t");
                 Tweet t = null;
                 if(data.length==5){
-                    t=new Tweet(data[0],data[1],data[2],data[3],data[4]);
-
+                    t = new Tweet(data[0],data[1],data[2],data[3],data[4]);
 
                     //centralité
-                    if(centrality.get(data[4])==null ){
+                    if(centrality.get(data[4])==null){
                         centrality.put(data[4],1);
                     }
                     else {
@@ -81,14 +68,13 @@ public class BaseDeTweet {
                         else {
                             g.setEdgeWeight(data[4], data[1], g.getEdgeWeight(g.getEdge(data[4], data[1])) + 1);
                         }
-
                     }
 
                     //arrêtes
                     if(baseLink.get(data[4])==null ){
-                            HashMap<String, Integer> retweeter = new HashMap();
-                            retweeter.put(data[1], 1);
-                            baseLink.put(data[4], retweeter);
+                        HashMap<String, Integer> retweeter = new HashMap();
+                        retweeter.put(data[1], 1);
+                        baseLink.put(data[4], retweeter);
 
                     }
                     else{
@@ -104,7 +90,7 @@ public class BaseDeTweet {
 
                     }
                 }
-                if(data.length==4) t=new Tweet(data[0],data[1],data[2],data[3]);
+                if(data.length==4) t = new Tweet(data[0],data[1],data[2],data[3]);
                 if(data.length !=4 && data.length !=5){
                     System.out.println("Problème de longueur de data. !!!");
                     break;
@@ -135,8 +121,6 @@ public class BaseDeTweet {
                 }
             }
         }
-        //UserCentraux();
-      System.out.println(g);
     }
 
     public TreeSet<Centrality>  UserCentraux(){
@@ -151,7 +135,6 @@ public class BaseDeTweet {
             }
             else{
                 if(centrality.get(i)>poidsMin) {
-
                     treeSetUserCentraux.pollLast();
                     treeSetUserCentraux.add(new Centrality(i, centrality.get(i)));
                     poidsMin = treeSetUserCentraux.last().poids;
@@ -164,6 +147,7 @@ public class BaseDeTweet {
         }
         return treeSetUserCentraux;
     }
+
     @Override
     public String toString() {
         //Affichage des tweets (texte)
