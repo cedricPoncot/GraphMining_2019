@@ -17,8 +17,15 @@ public class BaseDeTweet {
     //Graphe
     Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
     static final int nbUserCentraux = 5;
-    public double degreeMoyen=0;
-    public int ordre=0;
+    private double degreeMoyen=0;
+    private int ordre=0;
+
+    public double getDegreeMoyen(){
+        return degreeMoyen;
+    }
+    public int getOrdre(){
+        return ordre;
+    }
 
     //Constructeur
     public BaseDeTweet(String cheminCSV){
