@@ -38,22 +38,22 @@ public class Controller {
         Graphe g;
         DecimalFormat df = new DecimalFormat("0.00");
         if(dataset==1){
-            g = new Graphe("src/data/climat.txt");
-            setTab(g.bd.UserCentraux());
-            lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
-            lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
-            if(g.bd.getDiametre()<0) lbDiametre.setText("+∞");
-            else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
+            affichageCalculs(new Graphe("src/data/climat.txt"));
 
         }
         else{
             if(dataset==2){
-                g = new Graphe("src/data/foot.txt");
-                setTab(g.bd.UserCentraux());
-                lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
-                lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
+                affichageCalculs(new Graphe("src/data/foot.txt"));
             }
         }
+    }
+
+    public void affichageCalculs(Graphe g){
+        DecimalFormat df = new DecimalFormat("0.00");
+        lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
+        lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
+        if(g.bd.getDiametre()<0) lbDiametre.setText("+∞");
+        else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
     }
 
     public void selectedDataset(){
