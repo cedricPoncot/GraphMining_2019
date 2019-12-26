@@ -50,7 +50,7 @@ public class BaseDeTweet {
                 if(data.length==5){
                     t = new Tweet(data[0],data[1],data[2],data[3],data[4]);
 
-                    //centralité
+                    //Remplissage de la map centrality contenant pour chaque utilisateur sa centralité
                     if(centrality.get(data[4])==null){
                         centrality.put(data[4],1);
                     }
@@ -124,6 +124,7 @@ public class BaseDeTweet {
     }
 
     public TreeSet<Centrality>  UserCentraux(){
+        //Récuperation des "nbUserCentraux" (constante définie dans les attributs de la classe)  utilisateurs les plus centraux. (Complexité linéaire)
         TreeSet<Centrality> treeSetUserCentraux=new TreeSet();
         int poidsMin=0;
         int taille=0;
