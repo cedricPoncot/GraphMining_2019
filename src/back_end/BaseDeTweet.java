@@ -4,9 +4,11 @@ import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.layout.mxIGraphLayout;
 import com.mxgraph.util.mxCellRenderer;
 import org.jgrapht.Graph;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
+import sun.security.provider.certpath.Vertex;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -142,8 +144,26 @@ public class BaseDeTweet {
                 System.out.println(degreeMoyen);
                 System.out.println(ordre);
             }
+
+            //Calcul du diamètre
             if(!isConnected(g)){
                 diametre=-1;
+            }
+            else{
+
+                //TODO dans l'idée, faire marcher ce pseudo code
+
+                /*
+                int distance;
+                for(Vertex s1:g) {
+                    for(Vertex s2:g){
+                        DijkstraShortestPath dijkstra=new DijkstraShortestPath(g);
+                        distance=(int)(dijkstra.getPathWeigth(s1,s2));
+                        if(distance>diametre){
+                            diametre=distance;
+                        }
+                    }
+                }*/
             }
         }
         catch (IOException e) {
