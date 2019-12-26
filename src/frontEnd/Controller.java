@@ -36,13 +36,13 @@ public class Controller {
 
     public void calculs(){
         Graphe g;
+        DecimalFormat df = new DecimalFormat("0.00");
         if(dataset==1){
             g = new Graphe("src/data/climat.txt");
-            DecimalFormat df = new DecimalFormat("0.00");
             setTab(g.bd.UserCentraux());
             lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
             lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
-            if(g.bd.getDiametre()<0) lbDiametre.setText("∞");
+            if(g.bd.getDiametre()<0) lbDiametre.setText("+∞");
             else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
 
         }
@@ -51,7 +51,7 @@ public class Controller {
                 g = new Graphe("src/data/foot.txt");
                 setTab(g.bd.UserCentraux());
                 lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
-                lbDegreMoy.setText(String.valueOf(g.bd.getDegreeMoyen()));
+                lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
             }
         }
     }
