@@ -47,9 +47,21 @@
                         <Insets top="15.0" />
                      </padding>
                   </HBox>
-                  <JFXButton layoutX="382.0" prefHeight="60.0" prefWidth="55.0" text=" ">
+                  <JFXButton fx:id="bCalculer" layoutX="416.0" onAction="#calculs" prefHeight="60.0" prefWidth="55.0" text=" ">
                      <graphic>
-                        <ImageView fx:id="bVisualiser" fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/calculating.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="bVisualiser" layoutX="509.0" prefHeight="60.0" prefWidth="55.0" text=" ">
+                     <graphic>
+                        <ImageView fx:id="bVisualiser1" fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../Images/binoculars.png" />
+                           </image>
                         </ImageView>
                      </graphic>
                   </JFXButton>
@@ -75,10 +87,10 @@
                         </VBox>
                         <VBox layoutX="106.0" prefHeight="157.0" prefWidth="114.0" spacing="20.0">
                            <children>
-                              <Label styleClass="label2" text="0" />
-                              <Label styleClass="label2" text="0" />
-                              <Label styleClass="label2" text="0" />
-                              <Label styleClass="label2" text="0" />
+                              <Label fx:id="lbOrdre" styleClass="label2" text="0" />
+                              <Label fx:id="lbDiametre" styleClass="label2" text="0" />
+                              <Label fx:id="lbVolume" styleClass="label2" text="0" />
+                              <Label fx:id="lbDegreMoy" styleClass="label2" text="0" />
                            </children>
                            <padding>
                               <Insets left="10.0" top="10.0" />
@@ -106,8 +118,8 @@
                               </Label>
                               <TableView fx:id="table" prefHeight="221.0" prefWidth="299.0">
                                  <columns>
-                                    <TableColumn fx:id="col1" prefWidth="140.0" />
-                                    <TableColumn fx:id="col2" prefWidth="133.0"/>
+                                    <TableColumn fx:id="col1" editable="false" prefWidth="140.0" />
+                                    <TableColumn fx:id="col2" editable="false" prefWidth="133.0" />
                                  </columns>
                               </TableView>
                            </children>
