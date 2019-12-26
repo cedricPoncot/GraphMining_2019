@@ -16,6 +16,8 @@ import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 
+import static org.jgrapht.GraphTests.isConnected;
+
 public class BaseDeTweet {
 
     //Attributs
@@ -27,7 +29,11 @@ public class BaseDeTweet {
     static final int nbUserCentraux = 5;
     private double degreeMoyen=0;
     private int ordre=0;
+    private int diametre=0;
 
+    public  int getDiametre(){
+        return diametre;
+    }
     public double getDegreeMoyen(){
         return degreeMoyen;
     }
@@ -135,6 +141,9 @@ public class BaseDeTweet {
                 degreeMoyen = sommeDegre*1.0 / ordre;
                 System.out.println(degreeMoyen);
                 System.out.println(ordre);
+            }
+            if(!isConnected(g)){
+                diametre=-1;
             }
         }
         catch (IOException e) {

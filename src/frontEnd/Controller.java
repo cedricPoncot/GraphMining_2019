@@ -42,6 +42,8 @@ public class Controller {
             setTab(g.bd.UserCentraux());
             lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
             lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
+            if(g.bd.getDiametre()<0) lbDiametre.setText("∞");
+            else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
 
         }
         else{
