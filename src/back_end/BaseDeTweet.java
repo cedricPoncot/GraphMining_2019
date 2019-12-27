@@ -26,6 +26,7 @@ public class BaseDeTweet {
     private HashMap<String, List<Tweet>>  baseTweet = new HashMap();
     private HashMap <String,HashMap<String,Integer>> baseLink = new HashMap();
     private HashMap<String,Integer> centrality = new HashMap();
+    private ArrayList<Tweet> tweets = new ArrayList<>();
     //Graphe
     Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
     static final int nbUserCentraux = 5;
@@ -86,6 +87,7 @@ public class BaseDeTweet {
                 Tweet t = null;
                 if(data.length==5){
                     t = new Tweet(data[0],data[1],data[2],data[3],data[4]);
+                    tweets.add(t);
 
                     //Remplissage de la map centrality contenant pour chaque utilisateur sa centralité
                     if(centrality.get(data[4])==null){
@@ -134,7 +136,10 @@ public class BaseDeTweet {
 
                     }
                 }
-                if(data.length==4) t = new Tweet(data[0],data[1],data[2],data[3]);
+                if(data.length==4) {
+                    t = new Tweet(data[0],data[1],data[2],data[3]);
+                    tweets.add(t);
+                }
                 if(data.length !=4 && data.length !=5){
                     System.out.println("Problème de longueur de data. !!!");
                     break;
