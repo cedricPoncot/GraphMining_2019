@@ -6,16 +6,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
 
-public class JFXTweet {
-    private AnchorPane pane;
+public class JFXTweet extends AnchorPane{
     private JFXTextArea texte;
     private Label nbRetweets, date, time, retweeters, username;
     private ImageView idImage;
 
-    public JFXTweet(String username, String texte, String time, String date, String nbRetweets, int x, int y){
+    public JFXTweet(String username, String texte, String time, String date, int nbRetweets, int x, int y){
         //OBJETS
-        pane = new AnchorPane();
-        pane.setPrefSize(480,175);
+        this.setPrefSize(480,175);
         this.texte = new JFXTextArea();
         this.texte.setPrefSize(400,60);
         idImage = new ImageView();
@@ -28,8 +26,8 @@ public class JFXTweet {
         this.nbRetweets = new Label();
 
         //POSITION
-        pane.setLayoutX(x);
-        pane.setLayoutY(y);
+        this.setLayoutX(x);
+        this.setLayoutY(y);
         this.texte.setLayoutX(63);
         this.texte.setLayoutY(57);
         this.username.setLayoutX(63);
@@ -47,7 +45,7 @@ public class JFXTweet {
 
         //CONTENU
         this.username.setText(username);
-        this.nbRetweets.setText(nbRetweets);
+        this.nbRetweets.setText(String.valueOf(nbRetweets));
         this.time.setText(time);
         this.date.setText(date);
         this.texte.setText(texte);

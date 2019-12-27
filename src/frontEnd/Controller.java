@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -33,12 +34,14 @@ public class Controller {
     @FXML
     Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy;
 
-    private byte dataset = 0; //1: climat 2 : foot
-    //TODO : TreeTableColumns à ajouter par programmation
+    @FXML
+    AnchorPane pnListeTweets, pnAffichage, pnCalculs;
 
+    private byte dataset = 0; //1: climat 2 : foot
+    private int x=0, y=0; //position du tweet
+
+    //fonctions
     public void calculs(){
-        Graphe g;
-        DecimalFormat df = new DecimalFormat("0.00");
         if(dataset==1){
             affichageCalculs(new Graphe("src/data/climat.txt"));
         }
@@ -70,10 +73,29 @@ public class Controller {
         table.setItems(usersCentreaux);
     }
 
+    //Methodes d'affichages des panes
+    public void affichagePane(){
+        pnCalculs.setVisible(false);
+        pnAffichage.setVisible(true);
+        //afficherTweets(g);
+    }
+    public void calculsPane(){
+        pnAffichage.setVisible(false);
+        pnCalculs.setVisible(true);
+        calculs();
+    }
+
     //Affichage des tweets
     public void afficherTweets(Graphe g){
-        g.bd.getBaseTweet();
-        //for(Tweet t: )
+        ArrayList<Tweet> liste = g.bd.getTweets();
+        for(Tweet t : liste){
+            if(t.getRetweeter().isEmpty()) {
+                String time = t.getDate().getHour() + ":" + t.getDate().getMinute();
+                String date = t.getDate().getDayOfMonth() + "/" + t.getDate().getMonthValue() + "/" + t.getDate().getYear();
+                pnListeTweets.getChildren().add(new JFXTweet(t.getTweeter(), t.getTexte(), time, date, 0, x, y));
+                y += 180;
+            }
+        }
     }
 
     //Fonctions FXML
