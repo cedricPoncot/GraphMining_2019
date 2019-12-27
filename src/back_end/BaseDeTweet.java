@@ -34,19 +34,29 @@ public class BaseDeTweet {
     private int diametre=0;
     private int volume=0;
 
+    //GETTERS
+    public HashMap<String, List<Tweet>> getBaseTweet() {
+        return baseTweet;
+    }
+
     public  int getDiametre(){
         return diametre;
     }
+
     public double getDegreeMoyen(){
         return degreeMoyen;
     }
+
     public int getOrdre(){
         return ordre;
     }
+
     public int getVolume(){
         return volume;
     }
-    //Constructeur
+
+
+    //CONSTRUCTEUR
     public BaseDeTweet(String cheminCSV){
         try {
             importCSV(cheminCSV);
@@ -56,12 +66,10 @@ public class BaseDeTweet {
         }
     }
 
-    //Getter et Setter
-    public HashMap<String, List<Tweet>> getBaseTweet() {
-        return baseTweet;
-    }
 
-    //Fonctions
+    //FONCTIONS
+
+    //Import des données
     void importCSV(String cheminCSV) throws FileNotFoundException {
 
         //Buffer pour la lecture du fichier

@@ -2,6 +2,7 @@ package frontEnd;
 
 import back_end.Centrality;
 import back_end.Graphe;
+import back_end.Tweet;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
 import javafx.collections.FXCollections;
@@ -13,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class Controller {
@@ -39,7 +41,6 @@ public class Controller {
         DecimalFormat df = new DecimalFormat("0.00");
         if(dataset==1){
             affichageCalculs(new Graphe("src/data/climat.txt"));
-
         }
         else{
             if(dataset==2){
@@ -67,6 +68,12 @@ public class Controller {
     public void setTab(TreeSet<Centrality> tab) {
         ObservableList<Centrality> usersCentreaux = FXCollections.observableArrayList(tab);
         table.setItems(usersCentreaux);
+    }
+
+    //Affichage des tweets
+    public void afficherTweets(Graphe g){
+        g.bd.getBaseTweet();
+        //for(Tweet t: )
     }
 
     //Fonctions FXML
