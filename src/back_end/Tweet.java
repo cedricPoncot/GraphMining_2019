@@ -5,12 +5,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Tweet {
-    BigInteger identifiant;
-    String tweeter;
-    LocalDateTime date;
-    String texte;
-    String retweeter;
+    //ATTRIBUTS
+    private BigInteger identifiant;
+    private String tweeter;
+    private LocalDateTime date;
+    private String texte;
+    private String retweeter;
 
+    //CONSTRUCTEURS
     Tweet(String identifiant,String tweeter,String date,String texte,String retweeter){
         this.identifiant=new BigInteger(identifiant);
         this.tweeter=tweeter;
@@ -27,6 +29,28 @@ public class Tweet {
         this.texte=texte;
     }
 
+    //GETTERS AND SETTERS
+    public String getRetweeter() {
+        return retweeter;
+    }
+
+    public String getTweeter() {
+        return tweeter;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public BigInteger getIdentifiant() {
+        return identifiant;
+    }
+
+    public String getTexte() {
+        return texte;
+    }
+
+    //FONCTIONS
     public String toString(){
         if(retweeter==null) {
             return identifiant + "\t" + tweeter + "\t" + date + "\t" + texte;

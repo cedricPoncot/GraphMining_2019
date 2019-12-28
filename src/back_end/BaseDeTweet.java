@@ -40,6 +40,10 @@ public class BaseDeTweet {
         return baseTweet;
     }
 
+    public ArrayList<Tweet> getTweets(){
+        return tweets;
+    }
+
     public  int getDiametre(){
         return diametre;
     }
