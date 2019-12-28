@@ -116,7 +116,7 @@ public class BaseDeTweet {
                         sommeDegre+=2;
                     }
 
-                    //arrêtes
+                    //arêtes
                     if(baseLink.get(data[4])==null ){
                         HashMap<String, Integer> retweeter = new HashMap();
                         retweeter.put(data[1], 1);
@@ -207,6 +207,11 @@ public class BaseDeTweet {
         ImageIO.write(image, "PNG", imgFile);
     }*/
 
+    //Calcul le plus court chemin entre les sommets s1 et s2 dans le graphe g (défini en global).
+    //Dijkstra est un bon algo pour ce type de graphe car toutes les arêtes sont valuées strictement positives
+    int Dijkstra(Vertex s1,Vertex s2){
+
+    }
     public TreeSet<Centrality>  UserCentraux(){
         //Récuperation des "nbUserCentraux" (constante définie dans les attributs de la classe)  utilisateurs les plus centraux. (Complexité linéaire)
         TreeSet<Centrality> treeSetUserCentraux=new TreeSet();
