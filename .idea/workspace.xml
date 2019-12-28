@@ -4,9 +4,8 @@
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Rename package">
       <change beforePath="$PROJECT_DIR$/out/production/GraphMining/back_end/BaseDeTweet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/back_end/BaseDeTweet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/JFXTweet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/JFXTweet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/sample.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/back_end/BaseDeTweet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/back_end/BaseDeTweet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/frontEnd/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontEnd/Controller.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -72,12 +71,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="6" />
-          <entry key="java" value="5778" />
+          <entry key="java" value="6109" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="5778" />
+          <entry key="JAVA" value="6109" />
           <entry key="XML" value="6" />
         </counts>
       </usages-collector>
@@ -101,8 +100,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/frontEnd/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="60" column="66" selection-start-line="60" selection-start-column="66" selection-end-line="60" selection-end-column="66" />
+            <state relative-caret-position="454">
+              <caret line="59" column="82" lean-forward="true" selection-start-line="59" selection-start-column="82" selection-end-line="59" selection-end-column="82" />
             </state>
           </provider>
         </entry>
@@ -123,16 +122,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/back_end/BaseDeTweet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="175" column="58" selection-start-line="175" selection-start-column="58" selection-end-line="175" selection-end-column="58" />
+            <state relative-caret-position="372">
+              <caret line="198" column="13" lean-forward="true" selection-start-line="198" selection-start-column="13" selection-end-line="198" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1347#1348#0" expanded="true" />
                 <element signature="e#1376#1377#0" expanded="true" />
                 <element signature="e#1524#1525#0" expanded="true" />
                 <element signature="e#1553#1554#0" expanded="true" />
-                <element signature="e#7273#7274#0" expanded="true" />
-                <element signature="e#7297#7298#0" expanded="true" />
+                <element signature="e#8126#8127#0" expanded="true" />
+                <element signature="e#8150#8151#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -141,7 +140,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/back_end/Centrality.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
+            <state relative-caret-position="335">
               <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
             </state>
           </provider>
@@ -307,7 +306,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577496505804" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577497706439" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/jar_files/jfoenix-8.0.8.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -528,13 +527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/frontEnd/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="60" column="66" selection-start-line="60" selection-start-column="66" selection-end-line="60" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/frontEnd/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -543,13 +535,6 @@
             <element signature="e#552#553#0" expanded="true" />
             <element signature="e#580#581#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/back_end/Centrality.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -589,18 +574,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/frontEnd/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="59" column="82" lean-forward="true" selection-start-line="59" selection-start-column="82" selection-end-line="59" selection-end-column="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/back_end/Centrality.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="26" column="26" selection-start-line="26" selection-start-column="26" selection-end-line="26" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/back_end/BaseDeTweet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="175" column="58" selection-start-line="175" selection-start-column="58" selection-end-line="175" selection-end-column="58" />
+        <state relative-caret-position="372">
+          <caret line="198" column="13" lean-forward="true" selection-start-line="198" selection-start-column="13" selection-end-line="198" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1347#1348#0" expanded="true" />
             <element signature="e#1376#1377#0" expanded="true" />
             <element signature="e#1524#1525#0" expanded="true" />
             <element signature="e#1553#1554#0" expanded="true" />
-            <element signature="e#7273#7274#0" expanded="true" />
-            <element signature="e#7297#7298#0" expanded="true" />
+            <element signature="e#8126#8127#0" expanded="true" />
+            <element signature="e#8150#8151#0" expanded="true" />
           </folding>
         </state>
       </provider>

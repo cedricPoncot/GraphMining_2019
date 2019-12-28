@@ -57,7 +57,7 @@ public class Controller {
         lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
         lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
         lbVolume.setText(String.valueOf(g.bd.getVolume()));
-        if(g.bd.getDiametre()<0) lbDiametre.setText("+∞");
+        if(g.bd.getDiametre()==Double.POSITIVE_INFINITY) lbDiametre.setText("+∞");
         else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
     }
 

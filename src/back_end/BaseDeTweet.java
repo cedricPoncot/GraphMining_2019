@@ -27,15 +27,13 @@ public class BaseDeTweet {
     private HashMap <String,HashMap<String,Integer>> baseLink = new HashMap();
     private HashMap<String,Integer> centrality = new HashMap();
     private ArrayList<Tweet> tweets = new ArrayList<>();
-    private HashMap<String,Integer> conversionSommetNombreMatrice=new HashMap();
     //Graphe
     Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
     static final int nbUserCentraux = 5;
     private double degreeMoyen=0;
     private int ordre=0;
-    private int diametre=0;
+    private double diametre=0;
     private int volume=0;
-    int[][] matriceAdjacence;
 
     //GETTERS
     public HashMap<String, List<Tweet>> getBaseTweet() {
@@ -46,7 +44,7 @@ public class BaseDeTweet {
         return tweets;
     }
 
-    public  int getDiametre(){
+    public  double getDiametre(){
         return diametre;
     }
 
@@ -103,11 +101,9 @@ public class BaseDeTweet {
                         centrality.put(data[4],centrality.get(data[4])+1);
                     }
                     if(g.addVertex(data[4])){
-                        conversionSommetNombreMatrice.put(data[4],ordre);
                         ordre++;
                     }
                     if(g.addVertex(data[1])){
-                        conversionSommetNombreMatrice.put(data[1],ordre);
                         ordre++;
                     }
                     //On ne compte pas les gens qui se retweet eux mêmes
@@ -180,26 +176,28 @@ public class BaseDeTweet {
                 }
             }
             */
+
             //Calcul du diamètre
-            if(!isConnected(g)){
-                diametre=-1;
-            }
-            else{
-
-                //TODO dans l'idée, faire marcher ce pseudo code
-
-                /*
-                int distance;
-                for(Vertex s1:g) {
-                    for(Vertex s2:g){
-                        DijkstraShortestPath dijkstra=new DijkstraShortestPath(g);
-                        distance=(int)(dijkstra.getPathWeigth(s1,s2));
-                        if(distance>diametre){
-                            diametre=distance;
-                        }
+            double distance;
+            boolean sortie=false;
+            for(String s1:g.vertexSet()) {
+                for(String s2:g.vertexSet()){
+                    DijkstraShortestPath dijkstra=new DijkstraShortestPath(g);
+                    distance=dijkstra.getPathWeight(s1,s2);
+                    if(distance>diametre){
+                        diametre=distance;
                     }
-                }*/
+                    //Si la distance est infinie, on peut arrêter les calculs : le diamêtre sera +inf
+                    if(diametre==Double.POSITIVE_INFINITY){
+                        sortie=true;
+                        //On sort de la première boucle for
+                        break;
+                    }
+                }
+                //On sort de la seconde boucle for
+                if(sortie)break;
             }
+
         }
         catch (IOException e) {
             e.printStackTrace();
