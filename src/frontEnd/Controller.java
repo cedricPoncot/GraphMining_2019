@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXRadioButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,7 +16,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.TreeSet;
 
 public class Controller {
@@ -38,32 +38,42 @@ public class Controller {
     AnchorPane pnListeTweets, pnAffichage, pnCalculs;
 
     private byte dataset = 0; //1: climat 2 : foot
-    private int x=0, y=0; //position du tweet
+    private Graphe g=null;
 
-    //fonctions
-    public void calculs(){
+    /***********************************FONCTIONS***********************************/
+
+    //Import des données
+    public void importerDonnees(){
         if(dataset==1){
-            Graphe g = new Graphe("src/data/climat.txt");
-            affichageCalculs(g);
-            //affichageTweets(g.bd.getTweets()); //Temporaire
+            g = new Graphe("src/data/climat.txt");
+            informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
         }
         else{
             if(dataset==2){
-                affichageCalculs(new Graphe("src/data/foot.txt"));
+                g = new Graphe("src/data/foot.txt");
+                informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
             }
+            else
+                errorDialog("Dataset non sélectionné !", "Veuillez sélectionner un dataset à importer.");
         }
     }
 
-    public void affichageCalculs(Graphe g){
-        DecimalFormat df = new DecimalFormat("0.00");
-        lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
-        lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
-        lbVolume.setText(String.valueOf(g.bd.getVolume()));
-        if(g.bd.getDiametre()==Double.POSITIVE_INFINITY) lbDiametre.setText("+∞");
-        else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
-        setTab(g.bd.UserCentraux());
+    //Calculs : volume, diamètre, ordre etc.
+    public void calculs(){
+        if(g!=null) {
+            DecimalFormat df = new DecimalFormat("0.00");
+            lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
+            lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
+            lbVolume.setText(String.valueOf(g.bd.getVolume()));
+            if (g.bd.getDiametre() == Double.POSITIVE_INFINITY) lbDiametre.setText("+∞");
+            else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
+            setTab(g.bd.UserCentraux());
+        }
+        else
+            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
+    //Slection du ejeu de données
     public void selectedDataset(){
         if(rdClimat.isSelected())
             dataset = 1;
@@ -71,6 +81,7 @@ public class Controller {
             dataset = 2;
     }
 
+    //Affichage des users centraux
     public void setTab(TreeSet<Centrality> tab) {
         ObservableList<Centrality> usersCentraux = FXCollections.observableArrayList(tab);
         table.setItems(usersCentraux);
@@ -80,13 +91,19 @@ public class Controller {
     public void affichagePane(){
         pnCalculs.setVisible(false);
         pnAffichage.setVisible(true);
-        //afficherTweets(g);
-        calculs();
+        if(g!=null)
+            afficherTweets();
+        else
+            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
+
     public void calculsPane(){
         pnAffichage.setVisible(false);
         pnCalculs.setVisible(true);
-        calculs();
+        if(g!=null)
+            calculs();
+        else
+            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
     //Affichage des tweets
@@ -102,12 +119,29 @@ public class Controller {
         }
     }*/
 
-    public void affichageTweets(ArrayList<Tweet> tweets){
-        ObservableList<Tweet> liste = FXCollections.observableArrayList(tweets);
+    public void afficherTweets(){
+        ObservableList<Tweet> liste = FXCollections.observableArrayList(g.bd.getTweets());
         tableAffichage.setItems(liste);
     }
 
-    //Fonctions FXML
+    /***********************************BOITES DE DIALOGUE***********************************/
+    public void informationDialog(String header, String content){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("INFORMATION");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    public void errorDialog(String header, String content){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("ERROR");
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    /***********************************FONCTIONS FXML***********************************/
     @FXML
     public void initialize() {
         col1.setCellValueFactory(new PropertyValueFactory<Centrality, String>("nom"));
