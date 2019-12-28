@@ -97,7 +97,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bClustering" prefHeight="60.0" prefWidth="55.0" text=" ">
+                        <JFXButton fx:id="bClustering" onAction="#graphePane" prefHeight="60.0" prefWidth="55.0" text=" ">
                            <graphic>
                               <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

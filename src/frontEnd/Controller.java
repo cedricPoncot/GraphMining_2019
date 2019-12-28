@@ -1,10 +1,14 @@
 package frontEnd;
 
+import back_end.BaseDeTweet;
 import back_end.Centrality;
 import back_end.Graphe;
 import back_end.Tweet;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXRadioButton;
+import com.mxgraph.layout.mxCircleLayout;
+import com.mxgraph.layout.mxIGraphLayout;
+import com.mxgraph.util.mxCellRenderer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,7 +18,16 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import org._3pq.jgrapht.edge.DefaultEdge;
+import org.jgrapht.Graph;
+import org.jgrapht.ListenableGraph;
+import org.jgrapht.ext.JGraphXAdapter;
+import org.jgrapht.graph.DirectedWeightedMultigraph;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.TreeSet;
 
@@ -35,7 +48,7 @@ public class Controller {
     Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy;
 
     @FXML
-    AnchorPane pnListeTweets, pnAffichage, pnCalculs;
+    AnchorPane pnGraphe, pnAffichage, pnCalculs;
 
     private byte dataset = 0; //1: climat 2 : foot
     private Graphe g=null;
@@ -90,6 +103,7 @@ public class Controller {
     //Methodes d'affichages des panes
     public void affichagePane(){
         pnCalculs.setVisible(false);
+       // pnGraphe.setVisible(false);
         pnAffichage.setVisible(true);
         if(g!=null)
             afficherTweets();
@@ -99,6 +113,7 @@ public class Controller {
 
     public void calculsPane(){
         pnAffichage.setVisible(false);
+        //pnGraphe.setVisible(false);
         pnCalculs.setVisible(true);
         if(g!=null)
             calculs();
@@ -106,18 +121,30 @@ public class Controller {
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
-    //Affichage des tweets
-    /*public void afficherTweets(Graphe g){
-        ArrayList<Tweet> liste = g.bd.getTweets();
-        for(Tweet t : liste){
-            if(t.getRetweeter().isEmpty()) {
-                String time = t.getDate().getHour() + ":" + t.getDate().getMinute();
-                String date = t.getDate().getDayOfMonth() + "/" + t.getDate().getMonthValue() + "/" + t.getDate().getYear();
-                pnListeTweets.getChildren().add(new JFXTweet(t.getTweeter(), t.getTexte(), time, date, 0, x, y));
-                y += 180;
+    //Affichage du graphe
+    public void graphePane(){
+       // pnAffichage.setVisible(false);
+       // pnCalculs.setVisible(false);
+       // pnGraphe.setVisible(true);
+        if(g!=null) {
+            System.out.println("création adapter");
+            JGraphXAdapter<String, DefaultEdge> graphAdapter = new JGraphXAdapter<String, DefaultEdge>(g.bd.listenableG);
+            System.out.println("création image");
+            //mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
+            //layout.execute(graphAdapter.getDefaultParent());
+            BufferedImage image = mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
+            try {
+                System.out.println("écriture image");
+                ImageIO.write(image, "PNG", new File("C:\\Users\\cedri\\Desktop\\Fac\\graph.png"));
+                System.out.println("Image générée");
+            }
+            catch(Exception e){
+                System.out.println("Problème lors de l'écriture");
             }
         }
-    }*/
+        else
+            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
+    }
 
     public void afficherTweets(){
         ObservableList<Tweet> liste = FXCollections.observableArrayList(g.bd.getTweets());

@@ -3,11 +3,13 @@ package back_end;
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.layout.mxIGraphLayout;
 import com.mxgraph.util.mxCellRenderer;
+import org._3pq.jgrapht.ListenableGraph;
 import org._3pq.jgrapht.ext.JGraphModelAdapter;
 import org.jgraph.JGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
+import org.jgrapht.graph.DefaultListenableGraph;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 import sun.security.provider.certpath.Vertex;
 
@@ -23,7 +25,8 @@ public class BaseDeTweet {
     private HashMap<String,Integer> centrality = new HashMap();
     private ArrayList<Tweet> tweets = new ArrayList<>();
     //Graphe
-    Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
+    public Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph(DefaultEdge.class);
+    public   DefaultListenableGraph listenableG;
     static final int nbUserCentraux = 5;
     private double degreeMoyen=0;
     private int ordre=0;
@@ -161,6 +164,7 @@ public class BaseDeTweet {
                 System.out.println(degreeMoyen);
                 System.out.println(ordre);
             }
+            listenableG=new DefaultListenableGraph(g);
             /*
             //Création de la matrice d'adjacence
             matriceAdjacence=new int[ordre][ordre];
@@ -192,7 +196,7 @@ public class BaseDeTweet {
                 //On sort de la seconde boucle for
                 if(sortie)break;
             }
-            JGraph jgraph = new JGraph(new JGraphModelAdapter( g ) );
+            //JGraph jgraph = new JGraph(new JGraphModelAdapter( g ) );
         }
         catch (IOException e) {
             e.printStackTrace();
