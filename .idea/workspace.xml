@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Rename package">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/Images/calculating.png" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/Images/calculating.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/GraphMining/back_end/BaseDeTweet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/back_end/BaseDeTweet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/JFXTweet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/JFXTweet.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/sample.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/back_end/BaseDeTweet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/back_end/BaseDeTweet.java" afterDir="false" />
     </list>
@@ -73,12 +72,12 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="fxml" value="6" />
-          <entry key="java" value="4942" />
+          <entry key="java" value="5778" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="4942" />
+          <entry key="JAVA" value="5778" />
           <entry key="XML" value="6" />
         </counts>
       </usages-collector>
@@ -102,8 +101,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/frontEnd/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="57" column="66" selection-start-line="57" selection-start-column="66" selection-end-line="57" selection-end-column="66" />
+            <state relative-caret-position="298">
+              <caret line="60" column="66" selection-start-line="60" selection-start-column="66" selection-end-line="60" selection-end-column="66" />
             </state>
           </provider>
         </entry>
@@ -124,12 +123,16 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/back_end/BaseDeTweet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="210" column="110" selection-start-line="210" selection-start-column="110" selection-end-line="210" selection-end-column="110" />
+            <state relative-caret-position="187">
+              <caret line="175" column="58" selection-start-line="175" selection-start-column="58" selection-end-line="175" selection-end-column="58" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1347#1348#0" expanded="true" />
+                <element signature="e#1376#1377#0" expanded="true" />
                 <element signature="e#1524#1525#0" expanded="true" />
                 <element signature="e#1553#1554#0" expanded="true" />
+                <element signature="e#7273#7274#0" expanded="true" />
+                <element signature="e#7297#7298#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -185,7 +188,7 @@
           <provider editor-type-id="JavaFX-Scene-Builder" />
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2584">
-              <caret line="152" column="64" selection-start-line="152" selection-start-column="64" selection-end-line="152" selection-end-column="64" />
+              <caret line="161" column="64" selection-start-line="161" selection-start-column="64" selection-end-line="161" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -304,7 +307,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577386406480" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1577496505804" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/jar_files/jfoenix-8.0.8.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -438,6 +441,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.19402985" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -526,8 +530,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/frontEnd/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="57" column="66" selection-start-line="57" selection-start-column="66" selection-end-line="57" selection-end-column="66" />
+        <state relative-caret-position="298">
+          <caret line="60" column="66" selection-start-line="60" selection-start-column="66" selection-end-line="60" selection-end-column="66" />
         </state>
       </provider>
     </entry>
@@ -581,18 +585,22 @@
       <provider editor-type-id="JavaFX-Scene-Builder" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2584">
-          <caret line="152" column="64" selection-start-line="152" selection-start-column="64" selection-end-line="152" selection-end-column="64" />
+          <caret line="161" column="64" selection-start-line="161" selection-start-column="64" selection-end-line="161" selection-end-column="64" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/back_end/BaseDeTweet.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="210" column="110" selection-start-line="210" selection-start-column="110" selection-end-line="210" selection-end-column="110" />
+        <state relative-caret-position="187">
+          <caret line="175" column="58" selection-start-line="175" selection-start-column="58" selection-end-line="175" selection-end-column="58" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1347#1348#0" expanded="true" />
+            <element signature="e#1376#1377#0" expanded="true" />
             <element signature="e#1524#1525#0" expanded="true" />
             <element signature="e#1553#1554#0" expanded="true" />
+            <element signature="e#7273#7274#0" expanded="true" />
+            <element signature="e#7297#7298#0" expanded="true" />
           </folding>
         </state>
       </provider>

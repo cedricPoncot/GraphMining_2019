@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXRadioButton?>
+<?import com.jfoenix.controls.JFXScrollPane?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
@@ -32,21 +33,29 @@
             <AnchorPane fx:id="pnAffichage" layoutY="115.0" prefHeight="489.0" prefWidth="1000.0">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
-                  <AnchorPane layoutX="37.0" layoutY="37.0" prefHeight="175.0" prefWidth="480.0">
+                  <JFXScrollPane layoutX="30.0" layoutY="30.0" prefHeight="419.0" prefWidth="480.0">
                      <children>
-                        <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../../Downloads/user.png" />
-                           </image>
-                        </ImageView>
-                        <Label layoutX="63.0" layoutY="23.0" text="username" />
-                        <JFXTextArea layoutX="63.0" layoutY="57.0" prefHeight="60.0" prefWidth="400.0" text="balblab blablaba tweet" unFocusColor="#e4e4e4" />
-                        <Label layoutX="115.0" layoutY="129.0" text="20/12/2019" />
-                        <Label layoutX="63.0" layoutY="129.0" text="11:20" />
-                        <Label layoutX="395.0" layoutY="129.0" text="20" />
-                        <Label layoutX="415.0" layoutY="129.0" text="Retweets" />
+                        <AnchorPane fx:id="pnListeTweets" prefHeight="419.0" prefWidth="496.0">
+                           <children>
+                              <AnchorPane prefHeight="175.0" prefWidth="480.0">
+                                 <children>
+                                    <ImageView fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../../../../../Downloads/user.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label layoutX="63.0" layoutY="23.0" text="username" />
+                                    <JFXTextArea layoutX="63.0" layoutY="57.0" prefHeight="60.0" prefWidth="400.0" text="balblab blablaba tweet" unFocusColor="#e4e4e4" />
+                                    <Label layoutX="115.0" layoutY="129.0" text="20/12/2019" />
+                                    <Label layoutX="63.0" layoutY="129.0" text="11:20" />
+                                    <Label layoutX="395.0" layoutY="129.0" text="20" />
+                                    <Label layoutX="415.0" layoutY="129.0" text="Retweets" />
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </AnchorPane>
                      </children>
-                  </AnchorPane>
+                  </JFXScrollPane>
                </children>
             </AnchorPane>
             <AnchorPane layoutY="57.0" prefHeight="60.0" prefWidth="1000.0" styleClass="anchor2">
@@ -70,7 +79,7 @@
                   </HBox>
                   <HBox layoutX="426.0" prefHeight="60.0" prefWidth="200.0">
                      <children>
-                        <JFXButton fx:id="bCalculer" onAction="#calculs" prefHeight="60.0" prefWidth="55.0" text=" ">
+                        <JFXButton fx:id="bCalculer" onAction="#calculsPane" prefHeight="60.0" prefWidth="55.0" text=" ">
                            <graphic>
                               <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -79,7 +88,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bVisualiser" prefHeight="60.0" prefWidth="55.0" text=" ">
+                        <JFXButton fx:id="bVisualiser" prefHeight="60.0" prefWidth="55.0" text=" " onAction="#affichagePane">
                            <graphic>
                               <ImageView fx:id="bVisualiser1" fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -100,7 +109,7 @@
                      </children>
                   </HBox>
                </children></AnchorPane>
-            <AnchorPane layoutY="115.0" prefHeight="489.0" prefWidth="1000.0" styleClass="anchor1" visible="false">
+            <AnchorPane fx:id="pnCalculs" layoutY="115.0" prefHeight="489.0" prefWidth="1000.0" styleClass="anchor1" visible="false">
             <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="9.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
                <AnchorPane layoutX="79.0" layoutY="22.0" prefHeight="152.0" prefWidth="220.0">

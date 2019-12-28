@@ -27,6 +27,7 @@ public class BaseDeTweet {
     private HashMap <String,HashMap<String,Integer>> baseLink = new HashMap();
     private HashMap<String,Integer> centrality = new HashMap();
     private ArrayList<Tweet> tweets = new ArrayList<>();
+    private HashMap<String,Integer> conversionSommetNombreMatrice=new HashMap();
     //Graphe
     Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph<>(DefaultEdge.class);
     static final int nbUserCentraux = 5;
@@ -34,6 +35,7 @@ public class BaseDeTweet {
     private int ordre=0;
     private int diametre=0;
     private int volume=0;
+    int[][] matriceAdjacence;
 
     //GETTERS
     public HashMap<String, List<Tweet>> getBaseTweet() {
@@ -101,9 +103,11 @@ public class BaseDeTweet {
                         centrality.put(data[4],centrality.get(data[4])+1);
                     }
                     if(g.addVertex(data[4])){
+                        conversionSommetNombreMatrice.put(data[4],ordre);
                         ordre++;
                     }
                     if(g.addVertex(data[1])){
+                        conversionSommetNombreMatrice.put(data[1],ordre);
                         ordre++;
                     }
                     //On ne compte pas les gens qui se retweet eux mêmes
@@ -114,7 +118,8 @@ public class BaseDeTweet {
                             volume++;
                         }
                         else {
-                            g.setEdgeWeight(data[4], data[1], g.getEdgeWeight(g.getEdge(data[4], data[1])) + 1);
+                            int poids=(int)g.getEdgeWeight(g.getEdge(data[4], data[1])) + 1;
+                            g.setEdgeWeight(data[4], data[1], poids);
                         }
                         //On gagne un degré ext et un degré int à chaque ajout d'arrête
                         sommeDegre+=2;
@@ -165,7 +170,16 @@ public class BaseDeTweet {
                 System.out.println(degreeMoyen);
                 System.out.println(ordre);
             }
-
+            /*
+            //Création de la matrice d'adjacence
+            matriceAdjacence=new int[ordre][ordre];
+            //initialisation de la matrice d'adjacence à 0
+            for(int i=0;i<ordre;i++){
+                for(int j=0;j<ordre;j++){
+                    matriceAdjacence[i][j]=0;
+                }
+            }
+            */
             //Calcul du diamètre
             if(!isConnected(g)){
                 diametre=-1;
@@ -214,8 +228,10 @@ public class BaseDeTweet {
     //Calcul le plus court chemin entre les sommets s1 et s2 dans le graphe g (défini en global).
     //Dijkstra est un bon algo pour ce type de graphe car toutes les arêtes sont valuées strictement positives
     int Dijkstra(Vertex s1,Vertex s2){
-
+        return 0;
     }
+
+
     public TreeSet<Centrality>  UserCentraux(){
         //Récuperation des "nbUserCentraux" (constante définie dans les attributs de la classe)  utilisateurs les plus centraux. (Complexité linéaire)
         TreeSet<Centrality> treeSetUserCentraux=new TreeSet();
