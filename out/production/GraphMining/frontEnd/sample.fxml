@@ -170,8 +170,8 @@
                               </Label>
                               <TableView fx:id="table" prefHeight="221.0" prefWidth="300.0">
                                  <columns>
-                                    <TableColumn fx:id="col1" editable="false" prefWidth="180.0" />
-                                    <TableColumn fx:id="col2" editable="false" prefWidth="120.0" />
+                                    <TableColumn fx:id="col1" editable="false" prefWidth="180.0" text="Utilisateur"/>
+                                    <TableColumn fx:id="col2" editable="false" prefWidth="120.0" text="Poids"/>
                                  </columns>
                               </TableView>
                            </children>

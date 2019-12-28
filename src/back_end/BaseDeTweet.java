@@ -3,6 +3,7 @@ package back_end;
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.layout.mxIGraphLayout;
 import com.mxgraph.util.mxCellRenderer;
+import org.jgraph.JGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.ext.JGraphXAdapter;
@@ -197,7 +198,7 @@ public class BaseDeTweet {
                 //On sort de la seconde boucle for
                 if(sortie)break;
             }
-
+            //JGraph jgraph = new JGraph(new JGraphModelAdapter( g ) );
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -238,20 +239,20 @@ public class BaseDeTweet {
         for (String i : centrality.keySet()) {
             if(taille< nbUserCentraux){
                 treeSetUserCentraux.add(new Centrality(i, centrality.get(i)));
-                poidsMin = treeSetUserCentraux.last().poids;
+                poidsMin = treeSetUserCentraux.last().getPoids();
                 taille++;
             }
             else{
                 if(centrality.get(i)>poidsMin) {
                     treeSetUserCentraux.pollLast();
                     treeSetUserCentraux.add(new Centrality(i, centrality.get(i)));
-                    poidsMin = treeSetUserCentraux.last().poids;
+                    poidsMin = treeSetUserCentraux.last().getPoids();
                 }
             }
         }
 
         for(Centrality c : treeSetUserCentraux){
-            System.out.println(c.nom+" "+c.poids);
+            System.out.println(c.getNom()+" "+c.getPoids());
         }
         return treeSetUserCentraux;
     }
