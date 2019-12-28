@@ -44,8 +44,8 @@ public class Controller {
     public void calculs(){
         if(dataset==1){
             Graphe g = new Graphe("src/data/climat.txt");
-            //affichageCalculs(g);
-            affichageTweets(g.bd.getTweets()); //Temporaire
+            affichageCalculs(g);
+            //affichageTweets(g.bd.getTweets()); //Temporaire
         }
         else{
             if(dataset==2){
@@ -61,6 +61,7 @@ public class Controller {
         lbVolume.setText(String.valueOf(g.bd.getVolume()));
         if(g.bd.getDiametre()==Double.POSITIVE_INFINITY) lbDiametre.setText("+∞");
         else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
+        setTab(g.bd.UserCentraux());
     }
 
     public void selectedDataset(){
@@ -109,8 +110,6 @@ public class Controller {
     //Fonctions FXML
     @FXML
     public void initialize() {
-        col1.setText("Utilisateur");
-        col2.setText("Poids");
         col1.setCellValueFactory(new PropertyValueFactory<Centrality, String>("nom"));
         col2.setCellValueFactory(new PropertyValueFactory<Centrality, String>("poids"));
 
