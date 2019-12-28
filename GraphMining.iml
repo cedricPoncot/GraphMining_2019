@@ -10,5 +10,6 @@
     <orderEntry type="library" name="commons-lang3-3.8.1" level="project" />
     <orderEntry type="library" name="jfoenix-8.0.8" level="project" />
     <orderEntry type="library" name="jgraph" level="project" />
+    <orderEntry type="library" name="jgrapht-0.6.0" level="project" />
   </component>
 </module>

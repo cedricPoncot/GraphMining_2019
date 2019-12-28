@@ -3,6 +3,7 @@ package back_end;
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.layout.mxIGraphLayout;
 import com.mxgraph.util.mxCellRenderer;
+import org._3pq.jgrapht.ext.JGraphModelAdapter;
 import org.jgraph.JGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
@@ -198,7 +199,7 @@ public class BaseDeTweet {
                 //On sort de la seconde boucle for
                 if(sortie)break;
             }
-            //JGraph jgraph = new JGraph(new JGraphModelAdapter( g ) );
+            JGraph jgraph = new JGraph(new JGraphModelAdapter( g ) );
         }
         catch (IOException e) {
             e.printStackTrace();
