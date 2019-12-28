@@ -33,7 +33,7 @@
             <AnchorPane fx:id="pnAffichage" layoutY="115.0" prefHeight="489.0" prefWidth="1000.0">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
-                  <JFXScrollPane layoutX="30.0" layoutY="30.0" prefHeight="419.0" prefWidth="480.0">
+                  <JFXScrollPane layoutX="30.0" layoutY="30.0" prefHeight="419.0" prefWidth="480.0" visible="false">
                      <children>
                         <AnchorPane fx:id="pnListeTweets" prefHeight="419.0" prefWidth="496.0">
                            <children>
@@ -56,6 +56,15 @@
                         </AnchorPane>
                      </children>
                   </JFXScrollPane>
+                  <TableView fx:id="tableAffichage" layoutX="55.0" layoutY="40.0" prefHeight="404.0" prefWidth="901.0">
+                    <columns>
+                      <TableColumn fx:id="col3" prefWidth="75.0" text="ID" />
+                      <TableColumn fx:id="col4" prefWidth="75.0" text="Username" />
+                        <TableColumn fx:id="col5" prefWidth="75.0" text="Date" />
+                        <TableColumn fx:id="col6" prefWidth="75.0" text="Texte" />
+                        <TableColumn fx:id="col7" prefWidth="75.0" text="Retweeter" />
+                    </columns>
+                  </TableView>
                </children>
             </AnchorPane>
             <AnchorPane layoutY="57.0" prefHeight="60.0" prefWidth="1000.0" styleClass="anchor2">
@@ -88,7 +97,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bVisualiser" prefHeight="60.0" prefWidth="55.0" text=" " onAction="#affichagePane">
+                        <JFXButton fx:id="bVisualiser" onAction="#affichagePane" prefHeight="60.0" prefWidth="55.0" text=" ">
                            <graphic>
                               <ImageView fx:id="bVisualiser1" fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
