@@ -23,10 +23,10 @@ public class Controller {
     JFXRadioButton rdClimat, rdFoot;
 
     @FXML
-    TableView table;
+    TableView table, tableAffichage;
 
     @FXML
-    TableColumn col1, col2;
+    TableColumn col1, col2, col3, col4, col5, col6, col7;
 
     @FXML
     JFXButton bVisualiser, bCalculer;
@@ -43,7 +43,9 @@ public class Controller {
     //fonctions
     public void calculs(){
         if(dataset==1){
-            affichageCalculs(new Graphe("src/data/climat.txt"));
+            Graphe g = new Graphe("src/data/climat.txt");
+            //affichageCalculs(g);
+            affichageTweets(g.bd.getTweets()); //Temporaire
         }
         else{
             if(dataset==2){
@@ -69,8 +71,8 @@ public class Controller {
     }
 
     public void setTab(TreeSet<Centrality> tab) {
-        ObservableList<Centrality> usersCentreaux = FXCollections.observableArrayList(tab);
-        table.setItems(usersCentreaux);
+        ObservableList<Centrality> usersCentraux = FXCollections.observableArrayList(tab);
+        table.setItems(usersCentraux);
     }
 
     //Methodes d'affichages des panes
@@ -78,6 +80,7 @@ public class Controller {
         pnCalculs.setVisible(false);
         pnAffichage.setVisible(true);
         //afficherTweets(g);
+        calculs();
     }
     public void calculsPane(){
         pnAffichage.setVisible(false);
@@ -86,7 +89,7 @@ public class Controller {
     }
 
     //Affichage des tweets
-    public void afficherTweets(Graphe g){
+    /*public void afficherTweets(Graphe g){
         ArrayList<Tweet> liste = g.bd.getTweets();
         for(Tweet t : liste){
             if(t.getRetweeter().isEmpty()) {
@@ -96,6 +99,11 @@ public class Controller {
                 y += 180;
             }
         }
+    }*/
+
+    public void affichageTweets(ArrayList<Tweet> tweets){
+        ObservableList<Tweet> liste = FXCollections.observableArrayList(tweets);
+        tableAffichage.setItems(liste);
     }
 
     //Fonctions FXML
@@ -105,5 +113,11 @@ public class Controller {
         col2.setText("Poids");
         col1.setCellValueFactory(new PropertyValueFactory<Centrality, String>("nom"));
         col2.setCellValueFactory(new PropertyValueFactory<Centrality, String>("poids"));
+
+        col3.setCellValueFactory(new PropertyValueFactory<Tweet, String>("identifiant"));
+        col4.setCellValueFactory(new PropertyValueFactory<Tweet, String>("tweeter"));
+        col5.setCellValueFactory(new PropertyValueFactory<Tweet, String>("date"));
+        col6.setCellValueFactory(new PropertyValueFactory<Tweet, String>("texte"));
+        col7.setCellValueFactory(new PropertyValueFactory<Tweet, String>("retweeter"));
     }
 }
