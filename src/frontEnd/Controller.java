@@ -1,6 +1,5 @@
 package frontEnd;
 
-import back_end.BaseDeTweet;
 import back_end.Centrality;
 import back_end.Graphe;
 import back_end.Tweet;
@@ -22,12 +21,14 @@ import org._3pq.jgrapht.edge.DefaultEdge;
 import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
+import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.TreeSet;
 
@@ -58,12 +59,20 @@ public class Controller {
     //Import des données
     public void importerDonnees(){
         if(dataset==1){
-            g = new Graphe("src/data/climat.txt");
+            try {
+                g = new Graphe("src/data/climat.txt");
+            } catch (FileNotFoundException e) {
+                errorDialog("Fichier de données non existant !", "Le fichier de données n'a pas été retrouvé.");
+            }
             informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
         }
         else{
             if(dataset==2){
-                g = new Graphe("src/data/foot.txt");
+                try {
+                    g = new Graphe("src/data/foot.txt");
+                } catch (FileNotFoundException e) {
+                    errorDialog("Fichier de données non existant !", "Le fichier de données n'a pas été retrouvé.");
+                }
                 informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
             }
             else
@@ -135,7 +144,7 @@ public class Controller {
             BufferedImage image = mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
             try {
                 System.out.println("écriture image");
-                ImageIO.write(image, "PNG", new File("C:\\Users\\cedri\\Desktop\\Fac\\graph.png"));
+                ImageIO.write(image, "PNG", new File("@../../Images/graph.png")); //je sais plus s'il y a le "@" au début ou pas
                 System.out.println("Image générée");
             }
             catch(Exception e){
@@ -162,7 +171,7 @@ public class Controller {
 
     public void errorDialog(String header, String content){
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("ERROR");
+        alert.setTitle("ERREUR");
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();

@@ -60,13 +60,8 @@ public class BaseDeTweet {
 
 
     //CONSTRUCTEUR
-    public BaseDeTweet(String cheminCSV){
-        try {
-            importCSV(cheminCSV);
-        }
-        catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
+    public BaseDeTweet(String cheminCSV) throws FileNotFoundException{
+        importCSV(cheminCSV);
     }
 
 
