@@ -1,15 +1,15 @@
 package back_end;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class Graphe {
     public BaseDeTweet bd;
 
-    public Graphe(String path) throws FileNotFoundException {
+    public Graphe(String path, int nbLignes) throws FileNotFoundException {
         System.out.println("Entrée Import");
         //Création de la base de tweet
-        String cheminCSV = path;
-        bd = new BaseDeTweet(cheminCSV);
+        bd = new BaseDeTweet();
     }
 
 }

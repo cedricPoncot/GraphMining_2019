@@ -1,11 +1,5 @@
 package back_end;
 
-import com.mxgraph.layout.mxCircleLayout;
-import com.mxgraph.layout.mxIGraphLayout;
-import com.mxgraph.util.mxCellRenderer;
-import org._3pq.jgrapht.ListenableGraph;
-import org._3pq.jgrapht.ext.JGraphModelAdapter;
-import org.jgraph.JGraph;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
@@ -58,14 +52,95 @@ public class BaseDeTweet {
         return volume;
     }
 
+    public void setTweets(ArrayList<Tweet> tweets) {
+        this.tweets = tweets;
+    }
 
     //CONSTRUCTEUR
-    public BaseDeTweet(String cheminCSV) throws FileNotFoundException{
+    /*public BaseDeTweet(String cheminCSV) throws FileNotFoundException{
         importCSV(cheminCSV);
-    }
+    }*/
 
 
     //FONCTIONS
+
+    //construction du graphe et calculs
+    public void calculs(){
+        int sommeDegre=0;
+        int poids_min_tabCentralite=0;
+
+        for(Tweet t: tweets){
+            if(t.getRetweeter()!=null) {
+                if (centrality.get(t.getRetweeter()) == null) {
+                    centrality.put(t.getRetweeter(), 1);
+                } else {
+                    centrality.put(t.getRetweeter(), centrality.get(t.getRetweeter()) + 1);
+                }
+                if (g.addVertex(t.getRetweeter())) {
+                    ordre++;
+                }
+                if (g.addVertex(t.getTweeter())) {
+                    ordre++;
+                }
+                //On ne compte pas les gens qui se retweet eux mêmes
+                if (!t.getRetweeter().equals(t.getTweeter())) {
+                    if (!g.containsEdge(t.getRetweeter(), t.getTweeter())) {
+                        g.addEdge(t.getRetweeter(), t.getTweeter());
+                        g.setEdgeWeight(t.getRetweeter(), t.getTweeter(), 1);
+                        volume++;
+                    } else {
+                        int poids = (int) g.getEdgeWeight(g.getEdge(t.getRetweeter(), t.getTweeter())) + 1;
+                        g.setEdgeWeight(t.getRetweeter(), t.getTweeter(), poids);
+                    }
+                    //On gagne un degré ext et un degré int à chaque ajout d'arrête
+                    sommeDegre += 2;
+                }
+
+                if (baseLink.get(t.getRetweeter()) == null) {
+                    HashMap<String, Integer> retweeter = new HashMap();
+                    retweeter.put(t.getTweeter(), 1);
+                    baseLink.put(t.getRetweeter(), retweeter);
+
+                } else {
+                    if (baseLink.get(t.getRetweeter()).get(t.getTweeter()) == null) {
+                        HashMap<String, Integer> retweeter = baseLink.get(t.getRetweeter());
+                        retweeter.put(t.getTweeter(), 1);
+                        baseLink.put(t.getRetweeter(), retweeter);
+                    } else {
+                        int value = baseLink.get(t.getRetweeter()).get(t.getTweeter()) + 1;
+                        baseLink.get(t.getRetweeter()).put(t.getTweeter(), value);
+                    }
+                }
+            }
+        }
+        if(ordre!=0) {
+            degreeMoyen = sommeDegre*1.0 / ordre;
+            System.out.println(degreeMoyen);
+            System.out.println(ordre);
+        }
+        listenableG=new DefaultListenableGraph(g);
+
+        //Calcul du diamètre
+        double distance;
+        boolean sortie=false;
+        for(String s1:g.vertexSet()) {
+            for(String s2:g.vertexSet()){
+                DijkstraShortestPath dijkstra=new DijkstraShortestPath(g);
+                distance=dijkstra.getPathWeight(s1,s2);
+                if(distance>diametre){
+                    diametre=distance;
+                }
+                //Si la distance est infinie, on peut arrêter les calculs : le diamêtre sera +inf
+                if(diametre==Double.POSITIVE_INFINITY){
+                    sortie=true;
+                    //On sort de la première boucle for
+                    break;
+                }
+            }
+            //On sort de la seconde boucle for
+            if(sortie)break;
+        }
+    }
 
     //Import des données
     void importCSV(String cheminCSV) throws FileNotFoundException {
@@ -219,9 +294,6 @@ public class BaseDeTweet {
 
     //Calcul le plus court chemin entre les sommets s1 et s2 dans le graphe g (défini en global).
     //Dijkstra est un bon algo pour ce type de graphe car toutes les arêtes sont valuées strictement positives
-    int Dijkstra(Vertex s1,Vertex s2){
-        return 0;
-    }
 
 
     public TreeSet<Centrality>  UserCentraux(){

@@ -29,13 +29,14 @@
     -fx-text-family: "System";
 }
 .label4{
-    -fx-text-fill : white;
+    -fx-text-fill : black;
     -fx-font-size: 18;
     -fx-text-family: "System";
-    -fx-font-weight: bold;
 }
 .button1{
     -fx-font-size: 18;
+    -fx-border-color: #00b5b5;
+    -fx-border-radius: 5;
 }
 .line{
     -fx-stroke: #6e9cf7;
@@ -46,9 +47,9 @@
 }
 .radio-button{
     -fx-font-size: 18;
-    -fx-text-fill: white;
-    -jfx-selected-color: #fbfdce;
-    -jfx-unselected-color: white;
+    -fx-text-fill: black;
+    -jfx-selected-color: #00b5b5;
+    -jfx-unselected-color: gray;
 }
 .check-box{
     -fx-font-size: 14;

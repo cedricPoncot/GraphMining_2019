@@ -2,14 +2,17 @@ package frontEnd;
 
 import back_end.Centrality;
 import back_end.Graphe;
+import back_end.ImportTask;
 import back_end.Tweet;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXRadioButton;
-import com.mxgraph.layout.mxCircleLayout;
-import com.mxgraph.layout.mxIGraphLayout;
 import com.mxgraph.util.mxCellRenderer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -17,12 +20,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import org._3pq.jgrapht.edge.DefaultEdge;
-import org.jgrapht.Graph;
-import org.jgrapht.ListenableGraph;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import org.jgrapht.ext.JGraphXAdapter;
 import org.jgrapht.graph.DefaultEdge;
-import org.jgrapht.graph.DirectedWeightedMultigraph;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -43,13 +44,19 @@ public class Controller {
     TableColumn col1, col2, col3, col4, col5, col6, col7;
 
     @FXML
-    JFXButton bVisualiser, bCalculer;
+    JFXButton bVisualiser, bCalculer, bImport, bAnnuler;
 
     @FXML
-    Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy;
+    Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy, lbProgressStatus;
 
     @FXML
-    AnchorPane pnGraphe, pnAffichage, pnCalculs;
+    AnchorPane pnGraphe, pnAffichage, pnCalculs, pnImport;
+
+    @FXML
+    JFXProgressBar importProgress;
+
+    @FXML
+    HBox menuBox;
 
     private byte dataset = 0; //1: climat 2 : foot
     private Graphe g=null;
@@ -57,32 +64,86 @@ public class Controller {
     /***********************************FONCTIONS***********************************/
 
     //Import des données
-    public void importerDonnees(){
+    public void importerDonnees() throws InterruptedException {
+        bImport.setDisable(true);
+        bAnnuler.setDisable(false);
+        menuBox.setDisable(true);
+        String path = "";
+        int nbLignes=0;
+
         if(dataset==1){
-            try {
-                g = new Graphe("src/data/climat.txt");
-            } catch (FileNotFoundException e) {
-                errorDialog("Fichier de données non existant !", "Le fichier de données n'a pas été retrouvé.");
-            }
-            informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
+            path = "src/data/climat.txt";
+            nbLignes = 1977769;
         }
         else{
             if(dataset==2){
-                try {
-                    g = new Graphe("src/data/foot.txt");
-                } catch (FileNotFoundException e) {
-                    errorDialog("Fichier de données non existant !", "Le fichier de données n'a pas été retrouvé.");
-                }
-                informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
+                path ="src/data/foot.txt";
+                nbLignes= 899597;
             }
             else
                 errorDialog("Dataset non sélectionné !", "Veuillez sélectionner un dataset à importer.");
         }
+
+        //Création du graphe et import des données
+        try {
+            g = new Graphe(path, nbLignes);
+
+            //Import des données
+            importProgress.setVisible(true);
+            importProgress.setProgress(0);
+
+            ImportTask importTask = new ImportTask(path, nbLignes); // création de la tâche d'import des données
+
+            importProgress.progressProperty().unbind();
+            importProgress.progressProperty().bind(importTask.progressProperty());
+            lbProgressStatus.textProperty().unbind();
+            lbProgressStatus.textProperty().bind(importTask.messageProperty());
+
+            Thread importThread = new Thread(importTask); // création du thread qui exécute la tâche
+            importThread.start(); // lancement du thread d'import des données
+
+            importTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, new EventHandler<WorkerStateEvent>() {
+                @Override
+                public void handle(WorkerStateEvent event) {
+                    if(importTask.isDone()) { //quand l'import est terminé : on récupère le résultat
+                        g.bd.setTweets(importTask.getValue());
+                        importProgress.progressProperty().unbind();
+                        importProgress.setProgress(0);
+                        importProgress.setVisible(false);
+                        lbProgressStatus.textProperty().unbind();
+                        lbProgressStatus.setText("Chargement des données terminé.");
+                        bImport.setDisable(false);
+                        menuBox.setDisable(false);
+                        bAnnuler.setDisable(true);
+                        informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
+                    }
+                }
+            });
+
+            //Annulation de l'import
+            bAnnuler.setOnAction(event -> {
+                bImport.setDisable(false);
+                bAnnuler.setDisable(true);
+                menuBox.setDisable(false);
+                importTask.cancel(true);
+                importProgress.progressProperty().unbind();
+                lbProgressStatus.textProperty().unbind();
+                lbProgressStatus.setText("Chargement des données annulé");
+                importProgress.setProgress(0);
+            });
+
+        } catch (FileNotFoundException e) {
+            errorDialog("Fichier de données non existant !", "Le fichier de données n'a pas été retrouvé.");
+        }
+
     }
+
+
 
     //Calculs : volume, diamètre, ordre etc.
     public void calculs(){
         if(g!=null) {
+            g.bd.calculs();
             DecimalFormat df = new DecimalFormat("0.00");
             lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
             lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
@@ -110,9 +171,18 @@ public class Controller {
     }
 
     //Methodes d'affichages des panes
+    public void importPane(){
+        pnCalculs.setVisible(false);
+        //pnGraphe.setVisible(false);
+        pnAffichage.setVisible(false);
+        pnImport.setVisible(true);
+        bAnnuler.setDisable(true);
+    }
+
     public void affichagePane(){
         pnCalculs.setVisible(false);
-       // pnGraphe.setVisible(false);
+        //pnGraphe.setVisible(false);
+        pnImport.setVisible(false);
         pnAffichage.setVisible(true);
         if(g!=null)
             afficherTweets();
@@ -123,17 +193,19 @@ public class Controller {
     public void calculsPane(){
         pnAffichage.setVisible(false);
         //pnGraphe.setVisible(false);
+        pnImport.setVisible(false);
         pnCalculs.setVisible(true);
         if(g!=null)
-            calculs();
+            this.calculs();
         else
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
     //Affichage du graphe
-    public void graphePane(){
+    /*public void graphePane(){
        // pnAffichage.setVisible(false);
        // pnCalculs.setVisible(false);
+       // pnImport.setVisible(false);
        // pnGraphe.setVisible(true);
         if(g!=null) {
             System.out.println("création adapter");
@@ -153,7 +225,7 @@ public class Controller {
         }
         else
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
-    }
+    }*/
 
     public void afficherTweets(){
         ObservableList<Tweet> liste = FXCollections.observableArrayList(g.bd.getTweets());

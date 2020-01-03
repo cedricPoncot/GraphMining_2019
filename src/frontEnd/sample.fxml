@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXProgressBar?>
 <?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXScrollPane?>
 <?import com.jfoenix.controls.JFXTextArea?>
@@ -67,28 +68,29 @@
                   </TableView>
                </children>
             </AnchorPane>
-            <AnchorPane layoutY="57.0" prefHeight="60.0" prefWidth="1000.0" styleClass="anchor2">
+            <AnchorPane fx:id="pnMenuBar" layoutY="57.0" prefHeight="60.0" prefWidth="1000.0" styleClass="anchor2">
                <children>
-                  <HBox layoutX="64.0" prefHeight="60.0" prefWidth="299.0" spacing="30.0">
+                  <HBox fx:id="menuBox" layoutX="112.0" prefHeight="60.0" prefWidth="670.0">
                      <children>
-                        <Label styleClass="label4" text="Dataset :">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin></Label>
-                        <JFXRadioButton fx:id="rdClimat" onAction="#selectedDataset" styleClass="radio-button" text="Climat">
-                           <toggleGroup>
-                                    <ToggleGroup fx:id="group1" />
-                           </toggleGroup>
-                        </JFXRadioButton>
-                        <JFXRadioButton fx:id="rdFoot" onAction="#selectedDataset" styleClass="radio-button" text="Foot" toggleGroup="$group1" />
-                     </children>
-                     <padding>
-                        <Insets top="15.0" />
-                     </padding>
-                  </HBox>
-                  <HBox layoutX="677.0" prefHeight="60.0" prefWidth="200.0">
-                     <children>
-                        <JFXButton fx:id="bCalculer" onAction="#calculsPane" prefHeight="60.0" prefWidth="55.0" text=" ">
+                        <JFXButton fx:id="bImporter" onAction="#importPane" prefHeight="60.0" prefWidth="164.0" styleClass="label3" text="Importer">
+                           <graphic>
+                              <ImageView fitHeight="48.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/import.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="bVisualiser" onAction="#affichagePane" prefHeight="60.0" prefWidth="164.0" styleClass="label3" text="Visualiser">
+                           <graphic>
+                              <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../Images/binoculars.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="bCalculer" onAction="#calculsPane" prefHeight="60.0" prefWidth="172.0" styleClass="label3" text="Statistiques">
                            <graphic>
                               <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -97,7 +99,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bClustering" onAction="#graphePane" prefHeight="60.0" prefWidth="55.0" text=" ">
+                        <JFXButton fx:id="bClustering" prefHeight="60.0" prefWidth="167.0" styleClass="label3" text="Clustering">
                            <graphic>
                               <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -108,30 +110,8 @@
                         </JFXButton>
                      </children>
                   </HBox>
-                  <HBox layoutX="393.0" prefHeight="60.0" prefWidth="146.0">
-                     <children>
-                        <JFXButton fx:id="bImporter" onAction="#importerDonnees" prefHeight="60.0" prefWidth="55.0" text=" ">
-                           <graphic>
-                              <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Images/import.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXButton fx:id="bVisualiser" onAction="#affichagePane" prefHeight="60.0" prefWidth="70.0" text=" ">
-                           <graphic>
-                              <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../Images/binoculars.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                     </children>
-                  </HBox>
                </children></AnchorPane>
-            <AnchorPane fx:id="pnCalculs" layoutY="115.0" prefHeight="489.0" prefWidth="1000.0" styleClass="anchor1">
+            <AnchorPane fx:id="pnCalculs" layoutY="115.0" prefHeight="489.0" prefWidth="1000.0" styleClass="anchor1" visible="false">
             <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="9.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
                <AnchorPane layoutX="79.0" layoutY="22.0" prefHeight="152.0" prefWidth="220.0">
@@ -200,6 +180,41 @@
                   <Font size="24.0" />
                </font>
             </Label>
+            <AnchorPane fx:id="pnImport" layoutY="118.0" prefHeight="496.0" prefWidth="1000.0">
+               <children>
+                  <Rectangle fx:id="lbChargement" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
+                  <AnchorPane layoutX="35.0" layoutY="44.0" prefHeight="308.0" prefWidth="944.0">
+                     <children>
+                        <HBox layoutY="30.0" prefHeight="60.0" prefWidth="566.0" spacing="30.0">
+                           <children>
+                              <Label styleClass="label4" text="Choisissez le jeu de données à importer :">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <JFXRadioButton fx:id="rdClimat" onAction="#selectedDataset" styleClass="radio-button" text="Climat">
+                                 <toggleGroup>
+                                          <ToggleGroup fx:id="group1" />
+                                 </toggleGroup>
+                              </JFXRadioButton>
+                              <JFXRadioButton fx:id="rdFoot" onAction="#selectedDataset" styleClass="radio-button" text="Foot" toggleGroup="$group1" />
+                           </children>
+                           <padding>
+                              <Insets top="15.0" />
+                           </padding>
+                        </HBox>
+                        <VBox layoutX="573.0" layoutY="14.0" prefHeight="86.0" prefWidth="102.0" spacing="10.0">
+                           <children>
+                              <JFXButton fx:id="bImport" onAction="#importerDonnees" prefHeight="39.0" prefWidth="103.0" styleClass="button1" text="Importer" />
+                              <JFXButton fx:id="bAnnuler" disable="true" prefHeight="39.0" prefWidth="102.0" styleClass="button1" text="Annuler" />
+                           </children>
+                        </VBox>
+                        <JFXProgressBar fx:id="importProgress" layoutX="702.0" layoutY="43.0" prefHeight="17.0" prefWidth="246.0" progress="0.0" visible="false" />
+                        <Label fx:id="lbProgressStatus" layoutX="702.0" layoutY="65.0" prefHeight="25.0" prefWidth="239.0" styleClass="label1" text="0 sur ... tweets" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
          </children></AnchorPane>
    </children>
 </GridPane>
