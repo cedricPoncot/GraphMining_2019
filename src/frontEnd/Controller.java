@@ -10,8 +10,10 @@ import com.jfoenix.controls.JFXRadioButton;
 import com.mxgraph.util.mxCellRenderer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -64,13 +66,14 @@ public class Controller {
     /***********************************FONCTIONS***********************************/
 
     //Import des données
-    public void importerDonnees() throws InterruptedException {
+    public void importerDonnees() {
         bImport.setDisable(true);
         bAnnuler.setDisable(false);
         menuBox.setDisable(true);
         String path = "";
         int nbLignes=0;
 
+        //selection du dataset
         if(dataset==1){
             path = "src/data/climat.txt";
             nbLignes = 1977769;
@@ -99,24 +102,21 @@ public class Controller {
             lbProgressStatus.textProperty().unbind();
             lbProgressStatus.textProperty().bind(importTask.messageProperty());
 
-            Thread importThread = new Thread(importTask); // création du thread qui exécute la tâche
-            importThread.start(); // lancement du thread d'import des données
+            new Thread(importTask).start(); // création et lancement du thread d'import des données
 
-            importTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, new EventHandler<WorkerStateEvent>() {
-                @Override
-                public void handle(WorkerStateEvent event) {
-                    if(importTask.isDone()) { //quand l'import est terminé : on récupère le résultat
-                        g.bd.setTweets(importTask.getValue());
-                        importProgress.progressProperty().unbind();
-                        importProgress.setProgress(0);
-                        importProgress.setVisible(false);
-                        lbProgressStatus.textProperty().unbind();
-                        lbProgressStatus.setText("Chargement des données terminé.");
-                        bImport.setDisable(false);
-                        menuBox.setDisable(false);
-                        bAnnuler.setDisable(true);
-                        informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
-                    }
+            //Lorsque la tâche d'import est terminée :
+            importTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+                if(importTask.isDone()) { //quand l'import est terminé : on récupère le résultat
+                    g.bd.setTweets(importTask.getValue());
+                    importProgress.progressProperty().unbind();
+                    importProgress.setProgress(0);
+                    importProgress.setVisible(false);
+                    lbProgressStatus.textProperty().unbind();
+                    lbProgressStatus.setText("Chargement des données terminé.");
+                    bImport.setDisable(false);
+                    menuBox.setDisable(false);
+                    bAnnuler.setDisable(true);
+                    informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
                 }
             });
 
@@ -139,18 +139,30 @@ public class Controller {
     }
 
 
-
     //Calculs : volume, diamètre, ordre etc.
     public void calculs(){
         if(g!=null) {
-            g.bd.calculs();
-            DecimalFormat df = new DecimalFormat("0.00");
-            lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
-            lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
-            lbVolume.setText(String.valueOf(g.bd.getVolume()));
-            if (g.bd.getDiametre() == Double.POSITIVE_INFINITY) lbDiametre.setText("+∞");
-            else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
-            setTab(g.bd.UserCentraux());
+            Task statsTask = new Task() { //Création de la tache de calcul
+                @Override
+                protected Object call() {
+                    g.bd.calculs();
+                    return null;
+                }
+            };
+
+            new Thread(statsTask).start(); //Lancer le thread des calculs
+
+            informationDialog("Caluls des statistiques en cours", "Les calculs des statistiques du graphe sont en cours de traitement, merci de patienter.");
+            //A la fin des calculs :
+            statsTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+                DecimalFormat df = new DecimalFormat("0.00");
+                lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
+                lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
+                lbVolume.setText(String.valueOf(g.bd.getVolume()));
+                if (g.bd.getDiametre() == Double.POSITIVE_INFINITY) lbDiametre.setText("+∞");
+                else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
+                setTab(g.bd.UserCentraux());
+            });
         }
         else
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
