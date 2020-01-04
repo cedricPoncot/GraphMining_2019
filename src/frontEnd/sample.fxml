@@ -115,7 +115,7 @@
             <AnchorPane fx:id="pnCalculs" layoutY="115.0" prefHeight="489.0" prefWidth="1000.0" styleClass="anchor1" visible="false">
             <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
-               <AnchorPane layoutX="79.0" layoutY="22.0" prefHeight="152.0" prefWidth="220.0">
+               <AnchorPane layoutX="86.0" layoutY="75.0" prefHeight="152.0" prefWidth="220.0">
                      <children>
                         <VBox alignment="TOP_RIGHT" prefHeight="157.0" prefWidth="102.0" spacing="20.0">
                            <children>
@@ -153,16 +153,16 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="40.0" layoutY="191.0" prefHeight="284.0" prefWidth="319.0">
+                  <AnchorPane layoutX="40.0" layoutY="235.0" prefHeight="229.0" prefWidth="319.0">
                      <children>
-                        <VBox layoutY="-1.0" prefHeight="284.0" prefWidth="319.0" spacing="20.0">
+                        <VBox layoutY="-2.0" prefHeight="237.0" prefWidth="319.0" spacing="20.0">
                            <children>
                               <Label styleClass="label2" text="Utilisateurs centraux :">
                                  <opaqueInsets>
                                     <Insets />
                                  </opaqueInsets>
                               </Label>
-                              <TableView fx:id="table" prefHeight="221.0" prefWidth="300.0">
+                              <TableView fx:id="table" prefHeight="177.0" prefWidth="299.0">
                                  <columns>
                                     <TableColumn fx:id="col1" editable="false" prefWidth="180.0" text="Utilisateur" />
                                     <TableColumn fx:id="col2" editable="false" prefWidth="120.0" text="Poids" />
@@ -181,11 +181,13 @@
                         <Label layoutX="100.0" layoutY="143.0" styleClass="label5" text="Chargement en cours..." />
                      </children>
                   </AnchorPane>
+                  <Label layoutX="56.0" layoutY="25.0" styleClass="label4" text="Jeu de données :" />
+                  <Label fx:id="lbSelectedDataset" layoutX="200.0" layoutY="25.0" styleClass="label4" text=" " />
          </children></AnchorPane>
             <AnchorPane fx:id="pnImport" layoutY="118.0" prefHeight="496.0" prefWidth="1000.0">
                <children>
                   <Rectangle fx:id="lbChargement" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
-                  <AnchorPane layoutX="35.0" layoutY="44.0" prefHeight="308.0" prefWidth="944.0">
+                  <AnchorPane layoutX="24.0" layoutY="33.0" prefHeight="419.0" prefWidth="955.0">
                      <children>
                         <HBox layoutY="30.0" prefHeight="60.0" prefWidth="566.0" spacing="30.0">
                            <children>
@@ -211,8 +213,10 @@
                               <JFXButton fx:id="bAnnuler" disable="true" prefHeight="39.0" prefWidth="102.0" styleClass="button1" text="Annuler" />
                            </children>
                         </VBox>
-                        <JFXProgressBar fx:id="importProgress" layoutX="689.0" layoutY="39.0" prefHeight="17.0" prefWidth="246.0" progress="0.0" visible="false" />
+                        <JFXProgressBar fx:id="importProgress" layoutX="689.0" layoutY="39.0" prefHeight="17.0" prefWidth="253.0" progress="0.0" visible="false" />
                         <Label fx:id="lbProgressStatus" layoutX="688.0" layoutY="65.0" prefHeight="25.0" prefWidth="253.0" styleClass="label1" text="0 sur ... tweets" visible="false" />
+                        <Label layoutY="135.0" styleClass="label4" text="Description du jeu de données :" />
+                        <JFXTextArea fx:id="txtDescriptionDonnees" editable="false" focusColor="#705fd900" layoutX="6.0" layoutY="169.0" prefHeight="244.0" prefWidth="892.0" unFocusColor="#705fd900" />
                      </children>
                   </AnchorPane>
                </children>

@@ -7,6 +7,7 @@ import back_end.Tweet;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXRadioButton;
+import com.jfoenix.controls.JFXTextArea;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -37,7 +38,7 @@ public class Controller {
     JFXButton bVisualiser, bCalculer, bImport, bAnnuler;
 
     @FXML
-    Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy, lbProgressStatus;
+    Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy, lbProgressStatus, lbSelectedDataset;
 
     @FXML
     AnchorPane pnGraphe, pnAffichage, pnCalculs, pnImport, pnCalculsProgress;
@@ -49,11 +50,32 @@ public class Controller {
     ProgressIndicator calculsProgress;
 
     @FXML
+    JFXTextArea txtDescriptionDonnees;
+
+    @FXML
     HBox menuBox;
 
     /***********************************AUTRES VARIABLES UTILES***********************************/
     private byte dataset = 0; //1: climat 2 : foot
     private Graphe g=null;
+    private String descriptionFoot = "Ce jeu de données met à votre disposition :\n- 899597 tweets.\n- Les tweets sélectionnés contiennent les mots clés suivants : " +
+            "\"climat\", \"climatique\", \"environnement\", \"environnemental\" et \"environnementaux\".\n- Les tweets datent du 02/09/2019.\n" +
+            "- Chaque tweet est présenté sous la forme suivante : \n\tIDTweet\tUserID\tDate de publilcation\tTexte\tRetweeterID\n" +
+            "\tOù :\n\t\tIDTweet : représente le numéro d'identification du tweet.\n" +
+            "\t\tUserID : représente le nom d'utilisateur de la personne qui a tweeté le tweet courant.\n" +
+            "\t\tDate de publilcation : représente la date de publication du tweet.\n" +
+            "\t\tTexte : contient le contenu du tweet, hashtag compris.\n" +
+            "\t\tRetweeterID : représente le nom d'utilisateur de la personne qui a retweeté le tweet courant.", //description du jeu de données Foot
+
+            descriptionClimat = "Ce jeu de données met à votre disposition :\n- 1977769 tweets.\n- Les tweets sélectionnés contiennent les mots clés suivants : " +
+            "\"foot\", \"football\", \"#WWC2019\", \"#CM2019\", \"#FootFeminin\" et \"#FIFAWWC\".\n" +
+            "- Les tweets ont été récoltés durant la période du 21/06/2019 au 10/07/2019 pendant la phase ﬁnale de la coupe du monde féminine.\n" +
+            "- Chaque tweet est présenté sous la forme suivante : \n\tIDTweet\tUserID\tDate de publilcation\tTexte\tRetweeterID\n" +
+            "\tOù :\n\t\tIDTweet : représente le numéro d'identification du tweet.\n" +
+            "\t\tUserID : représente le nom d'utilisateur de la personne qui a tweeté le tweet courant.\n" +
+            "\t\tDate de publilcation : représente la date de publication du tweet.\n" +
+            "\t\tTexte : contient le contenu du tweet, hashtag compris.\n" +
+            "\t\tRetweeterID : représente le nom d'utilisateur de la personne qui a retweeté le tweet courant.";//description du jeu de données Climat
 
     /***********************************FONCTIONS UTILES***********************************/
 
@@ -151,6 +173,10 @@ public class Controller {
 
             //A la fin des calculs :
             statsTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+                if(dataset==1)
+                    lbSelectedDataset.setText("Climat");
+                else
+                    lbSelectedDataset.setText("Foot");
                 DecimalFormat df = new DecimalFormat("0.00");
                 lbOrdre.setText(String.valueOf(g.bd.getOrdre()));
                 lbDegreMoy.setText(String.valueOf(df.format(g.bd.getDegreeMoyen())));
@@ -170,10 +196,14 @@ public class Controller {
 
     //Slection du ejeu de données
     public void selectedDataset(){
-        if(rdClimat.isSelected())
+        if(rdClimat.isSelected()) {
             dataset = 1;
-        else
+            txtDescriptionDonnees.setText(descriptionClimat);
+        }
+        else {
             dataset = 2;
+            txtDescriptionDonnees.setText(descriptionFoot);
+        }
     }
 
     //Affichage des users centraux
@@ -224,6 +254,7 @@ public class Controller {
         lbProgressStatus.setVisible(false);
         rdFoot.setSelected(false);
         rdClimat.setSelected(false);
+        txtDescriptionDonnees.setText("");
     }
 
     //Pane d'affichage des données importées
