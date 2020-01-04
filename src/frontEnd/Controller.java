@@ -7,35 +7,23 @@ import back_end.Tweet;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXProgressBar;
 import com.jfoenix.controls.JFXRadioButton;
-import com.mxgraph.util.mxCellRenderer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
-import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import org.jgrapht.ext.JGraphXAdapter;
-import org.jgrapht.graph.DefaultEdge;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.TreeSet;
 
 public class Controller {
+
+    /***********************************VARIABLES FXML***********************************/
     @FXML
     JFXRadioButton rdClimat, rdFoot;
 
@@ -52,20 +40,24 @@ public class Controller {
     Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy, lbProgressStatus;
 
     @FXML
-    AnchorPane pnGraphe, pnAffichage, pnCalculs, pnImport;
+    AnchorPane pnGraphe, pnAffichage, pnCalculs, pnImport, pnCalculsProgress;
 
     @FXML
     JFXProgressBar importProgress;
 
     @FXML
+    ProgressIndicator calculsProgress;
+
+    @FXML
     HBox menuBox;
 
+    /***********************************AUTRES VARIABLES UTILES***********************************/
     private byte dataset = 0; //1: climat 2 : foot
     private Graphe g=null;
 
-    /***********************************FONCTIONS***********************************/
+    /***********************************FONCTIONS UTILES***********************************/
 
-    //Import des données
+    //Action du bouton importer
     public void importerDonnees() {
         bImport.setDisable(true);
         bAnnuler.setDisable(false);
@@ -73,7 +65,7 @@ public class Controller {
         String path = "";
         int nbLignes=0;
 
-        //selection du dataset
+        //sélection du dataset
         if(dataset==1){
             path = "src/data/climat.txt";
             nbLignes = 1977769;
@@ -94,6 +86,7 @@ public class Controller {
             //Import des données
             importProgress.setVisible(true);
             importProgress.setProgress(0);
+            lbProgressStatus.setVisible(true);
 
             ImportTask importTask = new ImportTask(path, nbLignes); // création de la tâche d'import des données
 
@@ -106,18 +99,16 @@ public class Controller {
 
             //Lorsque la tâche d'import est terminée :
             importTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
-                if(importTask.isDone()) { //quand l'import est terminé : on récupère le résultat
-                    g.bd.setTweets(importTask.getValue());
-                    importProgress.progressProperty().unbind();
-                    importProgress.setProgress(0);
-                    importProgress.setVisible(false);
-                    lbProgressStatus.textProperty().unbind();
-                    lbProgressStatus.setText("Chargement des données terminé.");
-                    bImport.setDisable(false);
-                    menuBox.setDisable(false);
-                    bAnnuler.setDisable(true);
-                    informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
-                }
+                g.bd.setTweets(importTask.getValue());//quand l'import est terminé : on récupère le résultat
+                importProgress.progressProperty().unbind();
+                importProgress.setProgress(0);
+                importProgress.setVisible(false);
+                lbProgressStatus.textProperty().unbind();
+                lbProgressStatus.setText("Chargement des données terminé.");
+                bImport.setDisable(false);
+                menuBox.setDisable(false);
+                bAnnuler.setDisable(true);
+                informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
             });
 
             //Annulation de l'import
@@ -128,7 +119,7 @@ public class Controller {
                 importTask.cancel(true);
                 importProgress.progressProperty().unbind();
                 lbProgressStatus.textProperty().unbind();
-                lbProgressStatus.setText("Chargement des données annulé");
+                lbProgressStatus.setText("Chargement des données annulé.");
                 importProgress.setProgress(0);
             });
 
@@ -142,6 +133,8 @@ public class Controller {
     //Calculs : volume, diamètre, ordre etc.
     public void calculs(){
         if(g!=null) {
+            menuBox.setDisable(true);
+            pnCalculsProgress.setVisible(true);
             Task statsTask = new Task() { //Création de la tache de calcul
                 @Override
                 protected Object call() {
@@ -150,9 +143,12 @@ public class Controller {
                 }
             };
 
+            calculsProgress.setProgress(0);
+            calculsProgress.progressProperty().unbind();
+            calculsProgress.progressProperty().bind(statsTask.progressProperty());
+
             new Thread(statsTask).start(); //Lancer le thread des calculs
 
-            informationDialog("Caluls des statistiques en cours", "Les calculs des statistiques du graphe sont en cours de traitement, merci de patienter.");
             //A la fin des calculs :
             statsTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
                 DecimalFormat df = new DecimalFormat("0.00");
@@ -162,6 +158,10 @@ public class Controller {
                 if (g.bd.getDiametre() == Double.POSITIVE_INFINITY) lbDiametre.setText("+∞");
                 else lbDiametre.setText(String.valueOf(g.bd.getDiametre()));
                 setTab(g.bd.UserCentraux());
+                calculsProgress.progressProperty().unbind();
+                calculsProgress.setProgress(0);
+                pnCalculsProgress.setVisible(false);
+                menuBox.setDisable(false);
             });
         }
         else
@@ -182,35 +182,9 @@ public class Controller {
         table.setItems(usersCentraux);
     }
 
-    //Methodes d'affichages des panes
-    public void importPane(){
-        pnCalculs.setVisible(false);
-        //pnGraphe.setVisible(false);
-        pnAffichage.setVisible(false);
-        pnImport.setVisible(true);
-        bAnnuler.setDisable(true);
-    }
-
-    public void affichagePane(){
-        pnCalculs.setVisible(false);
-        //pnGraphe.setVisible(false);
-        pnImport.setVisible(false);
-        pnAffichage.setVisible(true);
-        if(g!=null)
-            afficherTweets();
-        else
-            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
-    }
-
-    public void calculsPane(){
-        pnAffichage.setVisible(false);
-        //pnGraphe.setVisible(false);
-        pnImport.setVisible(false);
-        pnCalculs.setVisible(true);
-        if(g!=null)
-            this.calculs();
-        else
-            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
+    public void afficherTweets(){
+        ObservableList<Tweet> liste = FXCollections.observableArrayList(g.bd.getTweets());
+        tableAffichage.setItems(liste);
     }
 
     //Affichage du graphe
@@ -239,9 +213,41 @@ public class Controller {
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }*/
 
-    public void afficherTweets(){
-        ObservableList<Tweet> liste = FXCollections.observableArrayList(g.bd.getTweets());
-        tableAffichage.setItems(liste);
+    /***********************************AFFCIHAGE DES PANES***********************************/
+    //Pane d'import des données
+    public void importPane(){
+        pnCalculs.setVisible(false);
+        //pnGraphe.setVisible(false);
+        pnAffichage.setVisible(false);
+        pnImport.setVisible(true);
+        bAnnuler.setDisable(true);
+        lbProgressStatus.setVisible(false);
+        rdFoot.setSelected(false);
+        rdClimat.setSelected(false);
+    }
+
+    //Pane d'affichage des données importées
+    public void affichagePane(){
+        pnCalculs.setVisible(false);
+        //pnGraphe.setVisible(false);
+        pnImport.setVisible(false);
+        pnAffichage.setVisible(true);
+        if(g!=null)
+            afficherTweets();
+        else
+            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
+    }
+
+    //Pane d'affichage et calul des statistiques du graphe
+    public void calculsPane(){
+        pnAffichage.setVisible(false);
+        //pnGraphe.setVisible(false);
+        pnImport.setVisible(false);
+        pnCalculs.setVisible(true);
+        if(g!=null)
+            this.calculs();
+        else
+            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
     /***********************************BOITES DE DIALOGUE***********************************/

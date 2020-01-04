@@ -7,6 +7,7 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressIndicator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -70,9 +71,9 @@
             </AnchorPane>
             <AnchorPane fx:id="pnMenuBar" layoutY="57.0" prefHeight="60.0" prefWidth="1000.0" styleClass="anchor2">
                <children>
-                  <HBox fx:id="menuBox" layoutX="112.0" prefHeight="60.0" prefWidth="670.0">
+                  <HBox fx:id="menuBox" layoutX="175.0" prefHeight="60.0" prefWidth="650.0">
                      <children>
-                        <JFXButton fx:id="bImporter" onAction="#importPane" prefHeight="60.0" prefWidth="164.0" styleClass="label3" text="Importer">
+                        <JFXButton fx:id="bImporter" onAction="#importPane" prefHeight="60.0" prefWidth="155.0" styleClass="label3" text="Importer">
                            <graphic>
                               <ImageView fitHeight="48.0" fitWidth="71.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -113,7 +114,7 @@
                </children></AnchorPane>
             <AnchorPane fx:id="pnCalculs" layoutY="115.0" prefHeight="489.0" prefWidth="1000.0" styleClass="anchor1" visible="false">
             <children>
-                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="9.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
                <AnchorPane layoutX="79.0" layoutY="22.0" prefHeight="152.0" prefWidth="220.0">
                      <children>
                         <VBox alignment="TOP_RIGHT" prefHeight="157.0" prefWidth="102.0" spacing="20.0">
@@ -174,12 +175,13 @@
                         </VBox>
                      </children>
                   </AnchorPane>
+                  <AnchorPane fx:id="pnCalculsProgress" layoutX="321.0" layoutY="95.0" prefHeight="200.0" prefWidth="400.0" styleClass="anchor3" visible="false">
+                     <children>
+                        <ProgressIndicator fx:id="calculsProgress" layoutX="153.0" layoutY="26.0" prefHeight="92.0" prefWidth="81.0" progress="0.0" style="-fx-progress-color: #6b5ad9;" />
+                        <Label layoutX="100.0" layoutY="143.0" styleClass="label5" text="Chargement en cours..." />
+                     </children>
+                  </AnchorPane>
          </children></AnchorPane>
-            <Label layoutX="52.0" layoutY="12.0" text="Graph Mining">
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </Label>
             <AnchorPane fx:id="pnImport" layoutY="118.0" prefHeight="496.0" prefWidth="1000.0">
                <children>
                   <Rectangle fx:id="lbChargement" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
@@ -209,10 +211,24 @@
                               <JFXButton fx:id="bAnnuler" disable="true" prefHeight="39.0" prefWidth="102.0" styleClass="button1" text="Annuler" />
                            </children>
                         </VBox>
-                        <JFXProgressBar fx:id="importProgress" layoutX="702.0" layoutY="43.0" prefHeight="17.0" prefWidth="246.0" progress="0.0" visible="false" />
-                        <Label fx:id="lbProgressStatus" layoutX="702.0" layoutY="65.0" prefHeight="25.0" prefWidth="239.0" styleClass="label1" text="0 sur ... tweets" />
+                        <JFXProgressBar fx:id="importProgress" layoutX="689.0" layoutY="39.0" prefHeight="17.0" prefWidth="246.0" progress="0.0" visible="false" />
+                        <Label fx:id="lbProgressStatus" layoutX="688.0" layoutY="65.0" prefHeight="25.0" prefWidth="253.0" styleClass="label1" text="0 sur ... tweets" visible="false" />
                      </children>
                   </AnchorPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane prefHeight="48.0" prefWidth="1000.0" style="-fx-border-color: #00b5b5; -fx-background-color: white;">
+               <children>
+                  <Label layoutX="8.0" layoutY="8.0" text="Graph Mining" textFill="#5e5e5e">
+                     <font>
+                        <Font name="Segoe Print" size="24.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="51.0" fitWidth="91.0" layoutX="192.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../Images/iconMenu.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children></AnchorPane>
