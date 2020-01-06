@@ -66,6 +66,24 @@ public class BaseDeTweet {
 
     //FONCTIONS
 
+    //Cette fonction calcule la centralité pour chaque utilisateur
+    public void calculCentralite(Tweet t){
+        if (centrality.get(t.getRetweeter()) == null) {
+            centrality.put(t.getRetweeter(), 1);
+        } else {
+            centrality.put(t.getRetweeter(), centrality.get(t.getRetweeter()) + 1);
+        }
+    }
+
+    //Cette fonction ajoute au graphe le tweet donné en paramêtre. Il calcule aussi l'ordre par la même occasion.
+    public void constructionGraphe(Tweet t){
+        if (g.addVertex(t.getRetweeter())) {
+            ordre++;
+        }
+        if (g.addVertex(t.getTweeter())) {
+            ordre++;
+        }
+    }
     //construction du graphe et calculs
     public void calculs(){
         int sommeDegre=0;
@@ -73,19 +91,11 @@ public class BaseDeTweet {
         centrality=new HashMap();
         for(Tweet t: tweets){
             if(t.getRetweeter()!=null) {
-                /****A METTRE DANS UNE METHODE A PART ET FAIRE L'APPEL ICI***/
-                if (centrality.get(t.getRetweeter()) == null) {
-                    centrality.put(t.getRetweeter(), 1);
-                } else {
-                    centrality.put(t.getRetweeter(), centrality.get(t.getRetweeter()) + 1);
-                }
-                /****A METTRE DANS UNE METHODE A PART ET FAIRE L'APPEL ICI***/
-                if (g.addVertex(t.getRetweeter())) {
-                    ordre++;
-                }
-                if (g.addVertex(t.getTweeter())) {
-                    ordre++;
-                }
+                /****CALCUL DE LA CENTRALITE POUR CHAQUE USER***/
+                calculCentralite(t);
+
+                /****CONSTRUCTION DU GRAPHE ET CALCUL DE L'ORDRE***/
+                constructionGraphe(t);
                 //On ne compte pas les gens qui se retweet eux mêmes
                 if (!t.getRetweeter().equals(t.getTweeter())) {
                     if (!g.containsEdge(t.getRetweeter(), t.getTweeter())) {
