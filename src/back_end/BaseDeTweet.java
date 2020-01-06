@@ -23,7 +23,7 @@ public class BaseDeTweet {
     //Graphe
     public Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph(DefaultEdge.class);
     public   DefaultListenableGraph listenableG;
-    static final int nbUserCentraux = 5;
+    //static final int nbUserCentraux = 5;
     private double degreeMoyen=0;
     private int ordre=0;
     private double diametre=0;
@@ -98,6 +98,7 @@ public class BaseDeTweet {
             if(sortie)break;
         }
     }
+
     //Cette fonction ajoute au graphe le tweet donné en paramêtre. Il calcule aussi l'ordre par la même occasion.
     public void constructionGraphe(Tweet t){
         if (g.addVertex(t.getRetweeter())) {
@@ -107,6 +108,7 @@ public class BaseDeTweet {
             ordre++;
         }
     }
+
     //construction du graphe et calculs
     public void calculs(){
         int sommeDegre=0;
@@ -114,10 +116,10 @@ public class BaseDeTweet {
         centrality=new HashMap();
         for(Tweet t: tweets){
             if(t.getRetweeter()!=null) {
-                /****CALCUL DE LA CENTRALITE POUR CHAQUE USER***/
+                //CALCUL DE LA CENTRALITE POUR CHAQUE USER
                 calculCentralite(t);
 
-                /****CONSTRUCTION DU GRAPHE ET CALCUL DE L'ORDRE***/
+                //CONSTRUCTION DU GRAPHE ET CALCUL DE L'ORDRE
                 constructionGraphe(t);
                 //On ne compte pas les gens qui se retweet eux mêmes
                 if (!t.getRetweeter().equals(t.getTweeter())) {
@@ -157,7 +159,7 @@ public class BaseDeTweet {
         }
         listenableG=new DefaultListenableGraph(g);
 
-        /****CALCUL DU DIAMETRE***/
+        //Calcul du diamètre
         calculDiametre();
     }
 
@@ -332,7 +334,7 @@ public class BaseDeTweet {
 
 
     /***RENDRE LE NOMBRE D'UTILISATEURS CENTRAUX MODIFIABLE***/
-    public TreeSet<Centrality>  UserCentraux(){
+    public TreeSet<Centrality>  UserCentraux(int nbUserCentraux){
         //Récuperation des "nbUserCentraux" (constante définie dans les attributs de la classe)  utilisateurs les plus centraux. (Complexité linéaire)
         TreeSet<Centrality> treeSetUserCentraux=new TreeSet();
         int poidsMin=0;
