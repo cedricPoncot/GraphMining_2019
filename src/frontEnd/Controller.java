@@ -21,6 +21,8 @@ import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static java.lang.Integer.parseInt;
+
 public class Controller {
     /* Calsse Controller : cette classe relie le code du backend à l'interface utilisateur.
      * Elle modifie aussi les valeurs des éléments de la GUI.
@@ -197,15 +199,29 @@ public class Controller {
             return 5; //Valeur par défaut
         else {
             // Vérification sur la saisie
-            String regex = "[1-9][0-9]*"; //Nombres entre 1 et 99999
+            try{
+                int nombre=parseInt(nb);
+                if(nombre<0 || nombre>10000){
+                    errorDialog("Nombre qui n'est pas dans l'intervalle [0,10000] !", "Entrez un nombre correct.");
+                    return -1;
+                }
+                return nombre;
+            }
+            catch (NumberFormatException e){
+                errorDialog("Nombre invalide !", "Entrez un nombre correct.");
+                return -1;
+            }
+            /*
+            String regex = "[1-9]{1-9}*"; //Nombres entre 1 et 99999
             Pattern pattern = Pattern.compile(nb);
             Matcher matcher = pattern.matcher(regex);
             if (matcher.matches())
-                return Integer.parseInt(nb);
+                return parseInt(nb);
             else {
                 errorDialog("Nombre invalide !", "Entrez un nombre correct.");
                 return -1;
             }
+            */
         }
     }
 
