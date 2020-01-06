@@ -23,7 +23,6 @@ public class BaseDeTweet {
     //Graphe
     public Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph(DefaultEdge.class);
     public   DefaultListenableGraph listenableG;
-    //static final int nbUserCentraux = 5;
     private double degreeMoyen=0;
     private int ordre=0;
     private double diametre=0;
@@ -32,6 +31,9 @@ public class BaseDeTweet {
     //GETTERS
     public HashMap<String, List<Tweet>> getBaseTweet() {
         return baseTweet;
+    }
+    public HashMap<String,HashMap<String,Integer>> getBaseLink(){
+        return baseLink;
     }
 
     public ArrayList<Tweet> getTweets(){
