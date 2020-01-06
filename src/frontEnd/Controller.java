@@ -21,7 +21,7 @@ import org._3pq.jgrapht.edge.DefaultEdge;
 import org.jgrapht.Graph;
 import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
-import org.jgrapht.graph.DefaultEdge;
+//import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 
 import javax.imageio.ImageIO;

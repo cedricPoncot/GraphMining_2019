@@ -7,6 +7,7 @@ import org._3pq.jgrapht.ListenableGraph;
 import org._3pq.jgrapht.ext.JGraphModelAdapter;
 import org.jgraph.JGraph;
 import org.jgrapht.Graph;
+import org.jgrapht.alg.scoring.ClusteringCoefficient;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultListenableGraph;
@@ -16,6 +17,8 @@ import sun.security.provider.certpath.Vertex;
 import java.io.*;
 import java.util.*;
 import java.util.List;
+
+import static javafx.scene.input.KeyCode.V;
 
 public class BaseDeTweet {
 
@@ -192,6 +195,20 @@ public class BaseDeTweet {
                 if(sortie)break;
             }
             //JGraph jgraph = new JGraph(new JGraphModelAdapter( g ) );
+            System.out.println("début cluster");
+            ClusteringCoefficient cluster=new ClusteringCoefficient(g);
+            System.out.println("fin cluster");
+            Map<String,Double> score_cluster=cluster.getScores();
+            System.out.println("passage1");
+            for (Map.Entry<String, Double> entry : score_cluster.entrySet()) {
+                System.out.println("o");
+                if(entry.getValue()<1){
+                    System.out.println("ok");
+                    g.removeVertex(entry.getKey());
+                }
+            }
+            System.out.println("passage2");
+            System.out.println(g);
         }
         catch (IOException e) {
             e.printStackTrace();
