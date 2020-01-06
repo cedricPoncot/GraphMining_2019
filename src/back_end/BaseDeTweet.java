@@ -6,13 +6,11 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.DefaultListenableGraph;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
-import sun.security.provider.certpath.Vertex;
 
 import java.io.*;
 import java.util.*;
 import java.util.List;
 
-import static javafx.scene.input.KeyCode.V;
 
 public class BaseDeTweet {
 
@@ -74,11 +72,13 @@ public class BaseDeTweet {
 
         for(Tweet t: tweets){
             if(t.getRetweeter()!=null) {
+                /****A METTRE DANS UNE METHODE A PART ET FAIRE L'APPEL ICI***/
                 if (centrality.get(t.getRetweeter()) == null) {
                     centrality.put(t.getRetweeter(), 1);
                 } else {
                     centrality.put(t.getRetweeter(), centrality.get(t.getRetweeter()) + 1);
                 }
+                /****A METTRE DANS UNE METHODE A PART ET FAIRE L'APPEL ICI***/
                 if (g.addVertex(t.getRetweeter())) {
                     ordre++;
                 }
@@ -123,6 +123,7 @@ public class BaseDeTweet {
         }
         listenableG=new DefaultListenableGraph(g);
 
+        /****A METTRE DANS UNE METHODE A PART***/
         //Calcul du diamètre
         double distance;
         boolean sortie=false;
@@ -313,6 +314,7 @@ public class BaseDeTweet {
     //Dijkstra est un bon algo pour ce type de graphe car toutes les arêtes sont valuées strictement positives
 
 
+    /***RENDRE LE NOMBRE D'UTILISATEURS CENTRAUX MODIFIABLE***/
     public TreeSet<Centrality>  UserCentraux(){
         //Récuperation des "nbUserCentraux" (constante définie dans les attributs de la classe)  utilisateurs les plus centraux. (Complexité linéaire)
         TreeSet<Centrality> treeSetUserCentraux=new TreeSet();
