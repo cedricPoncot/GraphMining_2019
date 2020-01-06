@@ -19,7 +19,8 @@ public class BaseDeTweet {
     //Attributs
     private HashMap<String, List<Tweet>>  baseTweet = new HashMap();
     private HashMap <String,HashMap<String,Integer>> baseLink = new HashMap();
-    private HashMap<String,Integer> centrality = new HashMap();
+    private HashMap<String,Integer> centrality;
+
     private ArrayList<Tweet> tweets = new ArrayList<>();
     //Graphe
     public Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph(DefaultEdge.class);
@@ -71,7 +72,7 @@ public class BaseDeTweet {
     public void calculs(){
         int sommeDegre=0;
         int poids_min_tabCentralite=0;
-
+        centrality=new HashMap();
         for(Tweet t: tweets){
             if(t.getRetweeter()!=null) {
                 if (centrality.get(t.getRetweeter()) == null) {
@@ -270,6 +271,7 @@ public class BaseDeTweet {
                 if(sortie)break;
             }
             //JGraph jgraph = new JGraph(new JGraphModelAdapter( g ) );
+            /*
             System.out.println("début cluster");
             ClusteringCoefficient cluster=new ClusteringCoefficient(g);
             System.out.println("fin cluster");
@@ -284,6 +286,7 @@ public class BaseDeTweet {
             }
             System.out.println("passage2");
             System.out.println(g);
+            */
         }
         catch (IOException e) {
             e.printStackTrace();
