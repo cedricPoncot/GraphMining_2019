@@ -57,12 +57,12 @@ public class BaseDeTweet {
     public void setTweets(ArrayList<Tweet> tweets) {
         this.tweets = tweets;
     }
-
+/*
     //CONSTRUCTEUR
-    /*public BaseDeTweet(String cheminCSV) throws FileNotFoundException{
+    public BaseDeTweet(String cheminCSV) throws FileNotFoundException{
         importCSV(cheminCSV);
-    }*/
-
+    }
+*/
 
     //FONCTIONS
 
@@ -75,6 +75,29 @@ public class BaseDeTweet {
         }
     }
 
+    //Cette fonction calcule le diametre du graphe précédemment construit
+    public void calculDiametre(){
+        //Calcul du diamètre
+        double distance;
+        boolean sortie=false;
+        for(String s1:g.vertexSet()) {
+            for(String s2:g.vertexSet()){
+                DijkstraShortestPath dijkstra=new DijkstraShortestPath(g);
+                distance=dijkstra.getPathWeight(s1,s2);
+                if(distance>diametre){
+                    diametre=distance;
+                }
+                //Si la distance est infinie, on peut arrêter les calculs : le diamêtre sera +inf
+                if(diametre==Double.POSITIVE_INFINITY){
+                    sortie=true;
+                    //On sort de la première boucle for
+                    break;
+                }
+            }
+            //On sort de la seconde boucle for
+            if(sortie)break;
+        }
+    }
     //Cette fonction ajoute au graphe le tweet donné en paramêtre. Il calcule aussi l'ordre par la même occasion.
     public void constructionGraphe(Tweet t){
         if (g.addVertex(t.getRetweeter())) {
@@ -134,27 +157,8 @@ public class BaseDeTweet {
         }
         listenableG=new DefaultListenableGraph(g);
 
-        /****A METTRE DANS UNE METHODE A PART***/
-        //Calcul du diamètre
-        double distance;
-        boolean sortie=false;
-        for(String s1:g.vertexSet()) {
-            for(String s2:g.vertexSet()){
-                DijkstraShortestPath dijkstra=new DijkstraShortestPath(g);
-                distance=dijkstra.getPathWeight(s1,s2);
-                if(distance>diametre){
-                    diametre=distance;
-                }
-                //Si la distance est infinie, on peut arrêter les calculs : le diamêtre sera +inf
-                if(diametre==Double.POSITIVE_INFINITY){
-                    sortie=true;
-                    //On sort de la première boucle for
-                    break;
-                }
-            }
-            //On sort de la seconde boucle for
-            if(sortie)break;
-        }
+        /****CALCUL DU DIAMETRE***/
+        calculDiametre();
     }
 
     //Import des données
