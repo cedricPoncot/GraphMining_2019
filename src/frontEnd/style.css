@@ -5,51 +5,75 @@
     -fx-background-color : #00b5b5;
 }
 .anchor3{
+    -fx-border-color: #00b5b5;
     -fx-background-color: white;
 }
 
 .text-field{
+    -fx-font-family: Georgia;
     -fx-text-inner-color : #000000;
     -fx-text-fill : #000000;
     -fx-prompt-text-fill: gray;
 }
+
 .label1{
     -fx-text-fill : black;
     -fx-font-size: 16;
-    -fx-text-family: "System";
+    -fx-font-family: Georgia;
 }
 .label2{
     -fx-text-fill : black;
     -fx-font-size: 14;
-    -fx-text-family: "System";
+    -fx-font-family: Georgia;
 }
 .label3{
     -fx-text-fill : #f2f2f2;
     -fx-font-size: 18;
-    -fx-text-family: "System";
+    -fx-font-family: Georgia;
 }
 .label4{
-    -fx-text-fill : white;
+    -fx-text-fill : black;
     -fx-font-size: 18;
-    -fx-text-family: "System";
-    -fx-font-weight: bold;
+    -fx-font-family: Georgia;
 }
+.label5{
+    -fx-text-fill : #5e5e5e;
+    -fx-font-size: 22;
+    -fx-font-family: Georgia;
+}
+
 .button1{
+    -fx-font-family: Georgia;
     -fx-font-size: 18;
+    -fx-border-color: #00b5b5;
+    -fx-border-radius: 5;
 }
-.line{
-    -fx-stroke: #6e9cf7;
-}
+
 .combo-box{
+    -fx-font-family: Georgia;
     -fx-text-fill: #6e9cf7;
     -fx-prompt-text-fill: grey;
 }
+
 .radio-button{
     -fx-font-size: 18;
-    -fx-text-fill: white;
-    -jfx-selected-color: #fbfdce;
-    -jfx-unselected-color: white;
+    -fx-text-fill: black;
+    -fx-font-family: Georgia;
+    -jfx-selected-color: #00b5b5;
+    -jfx-unselected-color: gray;
 }
+
 .check-box{
+    -fx-font-family: Georgia;
     -fx-font-size: 14;
 }
+
+.text-area{
+    -fx-font-family: Georgia;
+    -fx-font-size: 14;
+}
+
+.progress-indicator{
+    -fx-progress-color: #6b5ad9;
+}
+
