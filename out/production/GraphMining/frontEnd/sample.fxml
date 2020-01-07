@@ -101,7 +101,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bClustering" prefHeight="60.0" prefWidth="167.0" styleClass="label3" text="Clustering">
+                        <JFXButton fx:id="bClustering" onAction="#clustering" prefHeight="60.0" prefWidth="167.0" styleClass="label3" text="Clustering">
                            <graphic>
                               <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                  <image>

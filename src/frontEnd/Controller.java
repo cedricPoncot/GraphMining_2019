@@ -315,6 +315,7 @@ public class Controller {
         tableAffichage.setItems(liste);
     }
 
+
     /*****************************************************************************************/
     /***********************************AFFICHAGE DES PANES***********************************/
     /*****************************************************************************************/
@@ -355,6 +356,10 @@ public class Controller {
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
+    //Affichage du clustering
+    public void clustering(){
+       new Clustering(bd.g,bd.UserCentraux(2),bd.getBaseLink());
+    }
     /****************************************************************************************/
     /***********************************BOITES DE DIALOGUE***********************************/
     /****************************************************************************************/

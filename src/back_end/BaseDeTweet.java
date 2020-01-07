@@ -335,7 +335,6 @@ public class BaseDeTweet {
     //Dijkstra est un bon algo pour ce type de graphe car toutes les arêtes sont valuées strictement positives
 
 
-    /***RENDRE LE NOMBRE D'UTILISATEURS CENTRAUX MODIFIABLE***/
     public TreeSet<Centrality>  UserCentraux(int nbUserCentraux){
         //Récuperation des "nbUserCentraux" (constante définie dans les attributs de la classe)  utilisateurs les plus centraux. (Complexité linéaire)
         TreeSet<Centrality> treeSetUserCentraux=new TreeSet();
