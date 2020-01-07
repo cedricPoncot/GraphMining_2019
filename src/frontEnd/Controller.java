@@ -358,7 +358,7 @@ public class Controller {
 
     //Affichage du clustering
     public void clustering(){
-       new Clustering(bd.g,bd.UserCentraux(2),bd.getBaseLink());
+       new Clustering(bd.g,bd.UserCentraux(5),bd.getBaseLink());
     }
     /****************************************************************************************/
     /***********************************BOITES DE DIALOGUE***********************************/
