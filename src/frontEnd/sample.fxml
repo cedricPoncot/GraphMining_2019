@@ -253,13 +253,10 @@
                   <HBox layoutX="27.0" layoutY="31.0" prefHeight="28.0" prefWidth="664.0" spacing="10.0">
                      <children>
                         <Label styleClass="label4" text="Jeu de données :" />
-                        <Label fx:id="lbSelectedDataset1" prefHeight="21.0" prefWidth="84.0" styleClass="label4" text=" " />
+                        <Label fx:id="lbSelectedDatasetCl" prefHeight="21.0" prefWidth="84.0" styleClass="label4" text=" " />
                         <HBox prefHeight="28.0" prefWidth="428.0" spacing="10.0">
                            <children>
                               <Label prefHeight="16.0" prefWidth="183.0" styleClass="label2" text="Nombre de communautés :">
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>

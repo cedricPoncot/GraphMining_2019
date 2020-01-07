@@ -40,6 +40,10 @@ public class BaseDeTweet {
         return tweets;
     }
 
+    public HashMap<String,Integer> getCentrality(){
+        return centrality;
+    }
+
     public  double getDiametre(){
         return diametre;
     }

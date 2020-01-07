@@ -44,7 +44,7 @@ public class Controller {
     JFXButton bVisualiser, bUsersClustering, bImport, bAnnuler, bUsersCentraux;
 
     @FXML
-    Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy, lbProgressStatus, lbSelectedDataset;
+    Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy, lbProgressStatus, lbSelectedDataset, lbSelectedDatasetCl;
 
     @FXML
     AnchorPane pnClustering, pnAffichage, pnCalculs, pnImport, pnProgress;
@@ -218,38 +218,45 @@ public class Controller {
 
     private void clustering(){ //TODO : user centraux
         if(bd!=null) {
-            menuBox.setDisable(true);
-            pnProgress.setVisible(true);
+            if(bd.getCentrality()!=null) {
+                menuBox.setDisable(true);
+                pnProgress.setVisible(true);
 
-            //Classe  anonyme : création de la tâche qui fait le clustering
-            Task clusteringTask = new Task() {
-                @Override
-                protected Object call() throws Exception {
-                    TreeSet<Centrality> communautes = calculUsersCentraux(txtNbCommunautes.getText());
-                    if(communautes!=null)
-                        new Clustering(bd.g, communautes, bd.getBaseLink());
-                    else
-                        errorDialog("Nombre d'utilisateurs centraux saisi incorrect ! ", "Entrez un nombre valide");
-                    return null;
-                }
-            };
+                //Classe  anonyme : création de la tâche qui fait le clustering
+                Task clusteringTask = new Task() {
+                    @Override
+                    protected Object call() throws Exception {
+                        TreeSet<Centrality> communautes = calculUsersCentraux(txtNbCommunautes.getText());
+                        if (communautes != null)
+                            new Clustering(bd.g, communautes, bd.getBaseLink());
+                        else
+                            errorDialog("Nombre d'utilisateurs centraux saisi incorrect ! ", "Entrez un nombre valide");
+                        return null;
+                    }
+                };
 
-            progressIndicator.setProgress(0);
-            progressIndicator.progressProperty().unbind();
-            progressIndicator.progressProperty().bind(clusteringTask.progressProperty());
+                progressIndicator.setProgress(0);
+                progressIndicator.progressProperty().unbind();
+                progressIndicator.progressProperty().bind(clusteringTask.progressProperty());
 
-            new Thread(clusteringTask).start(); //Lancer le thread du clustering
+                new Thread(clusteringTask).start(); //Lancer le thread du clustering
 
-            //A la fin de la tâche
-            clusteringTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+                //A la fin de la tâche
+                clusteringTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+                    if(dataset==1)
+                        lbSelectedDatasetCl.setText("Climat");
+                    else lbSelectedDatasetCl.setText("Foot");
                 /*InputStream input = this.getClass().getResourceAsStream("/graphes/graphe.png");
                 /imgGrapheClustering.setImage(new Image(input)); //Afficher le graphe dans la GUI*/
-                //Retour au pane par défaut
-                progressIndicator.progressProperty().unbind();
-                progressIndicator.setProgress(0);
-                pnProgress.setVisible(false);
-                menuBox.setDisable(false);
-            });
+                    //Retour au pane par défaut
+                    progressIndicator.progressProperty().unbind();
+                    progressIndicator.setProgress(0);
+                    pnProgress.setVisible(false);
+                    menuBox.setDisable(false);
+                });
+            }
+            else
+                errorDialog("Graphe pas encore construit !", "Veuillez construire le graphe dans l'onglet \"Statistiques\" avant de procéder au Clustering.");
         }
         else
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
