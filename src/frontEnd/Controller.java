@@ -10,16 +10,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-//import org._3pq.jgrapht.edge.DefaultEdge;
-//import org.jgrapht.graph.DefaultEdge;
 
 import javafx.scene.layout.HBox;
 
+import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.util.TreeSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static java.lang.Integer.parseInt;
 
@@ -29,9 +28,9 @@ public class Controller {
      * Le positionnement des éléments de la GUI est détaillé dans le fichier FXML.
      * Le style de ces éléments est détaillé dans la feuille de style : style.css */
 
-    /*****************************************************************************************/
-    /***************************************ELEMENTS FXML*************************************/
-    /*****************************************************************************************/
+    /*******************************************************************************************************************************/
+    /**********************************************************ELEMENTS FXML********************************************************/
+    /*******************************************************************************************************************************/
     @FXML
     JFXRadioButton rdClimat, rdFoot;
 
@@ -42,19 +41,19 @@ public class Controller {
     TableColumn col1, col2, col3, col4, col5, col6, col7;
 
     @FXML
-    JFXButton bVisualiser, bCalculer, bImport, bAnnuler, bUsersCentraux;
+    JFXButton bVisualiser, bUsersClustering, bImport, bAnnuler, bUsersCentraux;
 
     @FXML
     Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy, lbProgressStatus, lbSelectedDataset;
 
     @FXML
-    AnchorPane pnGraphe, pnAffichage, pnCalculs, pnImport, pnCalculsProgress;
+    AnchorPane pnClustering, pnAffichage, pnCalculs, pnImport, pnProgress;
 
     @FXML
     JFXProgressBar importProgress;
 
     @FXML
-    ProgressIndicator calculsProgress;
+    ProgressIndicator progressIndicator;
 
     @FXML
     JFXTextArea txtDescriptionDonnees;
@@ -63,11 +62,14 @@ public class Controller {
     HBox menuBox;
 
     @FXML
-    JFXTextField txtNbUsersCentraux;
+    ImageView imgGrapheClustering;
 
-    /*****************************************************************************************/
-    /*********************************AUTRES VARIABLES UTILES*********************************/
-    /*****************************************************************************************/
+    @FXML
+    JFXTextField txtNbUsersCentraux, txtNbCommunautes;
+
+    /*******************************************************************************************************************************/
+    /****************************************************AUTRES VARIABLES UTILES****************************************************/
+    /*******************************************************************************************************************************/
     private byte dataset = 0; //1: climat 2 : foot
     BaseDeTweet bd = null;
     private final int nbTweetsClimat = 1977769, nbTweetsFoot = 899597; //Nombre de lignes par fichier
@@ -91,9 +93,9 @@ public class Controller {
             "\t\tTexte : contient le contenu du tweet, hashtag compris.\n" +
             "\t\tRetweeterID : représente le nom d'utilisateur de la personne qui a retweeté le tweet courant.";//description du jeu de données Climat
 
-    /*****************************************************************************************/
-    /*************************************FONCTIONS UTILES************************************/
-    /*****************************************************************************************/
+    /*******************************************************************************************************************************/
+    /********************************************************FONCTIONS DE CALCUL*******************************************************/
+    /*******************************************************************************************************************************/
     //Action du bouton importer
     public void importerDonnees() {
         //Modification des propriétés des éléments de la page d'import des données
@@ -156,7 +158,7 @@ public class Controller {
         if(bd!=null) {
             //Modification des propriétés des éléments de la page de calcul des statistiques
             menuBox.setDisable(true);
-            pnCalculsProgress.setVisible(true);
+            pnProgress.setVisible(true);
 
             //Classe  anonyme : création de la tâche qui fait les calculs
             Task calculsTask = new Task() {
@@ -168,9 +170,9 @@ public class Controller {
             };
 
             //Modification des propriétés des éléments de la page de calcul des statistiques
-            calculsProgress.setProgress(0);
-            calculsProgress.progressProperty().unbind();
-            calculsProgress.progressProperty().bind(calculsTask.progressProperty()); //Relier la progress bar à la progression de la tâche de calcul
+            progressIndicator.setProgress(0);
+            progressIndicator.progressProperty().unbind();
+            progressIndicator.progressProperty().bind(calculsTask.progressProperty()); //Relier la progress bar à la progression de la tâche de calcul
 
             new Thread(calculsTask).start(); //Lancer le thread des calculs
 
@@ -179,7 +181,7 @@ public class Controller {
             //A la fin des calculs :
             calculsTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
                 afficherCalculs(); //Afficher les résultats des caculs effectués
-                calculUsersCentraux(); //Afficher les utilisateurs centraux
+                afficherUsersCentraux(); //Afficher les utilisateurs centraux
                 calculsDefaultPane(); //Retour aux paramètres par défaut de la page
             });
         }
@@ -187,14 +189,14 @@ public class Controller {
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
-    public void calculUsersCentraux(){
-        int nb = checkNbUsersCentraux();
+    private TreeSet<Centrality> calculUsersCentraux(String nbUsers){
+        int nb = checkNbUsersCentraux(nbUsers);
         if(nb>0)
-            afficherUsersCentraux(bd.UserCentraux(nb));
+            return bd.UserCentraux(nb);
+        return null;
     }
 
-    private int checkNbUsersCentraux(){
-        String nb = txtNbUsersCentraux.getText();
+    private int checkNbUsersCentraux(String nb){
         if(nb.isEmpty())
             return 5; //Valeur par défaut
         else {
@@ -211,18 +213,46 @@ public class Controller {
                 errorDialog("Nombre invalide !", "Entrez un nombre correct.");
                 return -1;
             }
-            /*
-            String regex = "[1-9]{1-9}*"; //Nombres entre 1 et 99999
-            Pattern pattern = Pattern.compile(nb);
-            Matcher matcher = pattern.matcher(regex);
-            if (matcher.matches())
-                return parseInt(nb);
-            else {
-                errorDialog("Nombre invalide !", "Entrez un nombre correct.");
-                return -1;
-            }
-            */
         }
+    }
+
+    private void clustering(){ //TODO : user centraux
+        if(bd!=null) {
+            menuBox.setDisable(true);
+            pnProgress.setVisible(true);
+
+            //Classe  anonyme : création de la tâche qui fait le clustering
+            Task clusteringTask = new Task() {
+                @Override
+                protected Object call() throws Exception {
+                    TreeSet<Centrality> communautes = calculUsersCentraux(txtNbCommunautes.getText());
+                    if(communautes!=null)
+                        new Clustering(bd.g, communautes, bd.getBaseLink());
+                    else
+                        errorDialog("Nombre d'utilisateurs centraux saisi incorrect ! ", "Entrez un nombre valide");
+                    return null;
+                }
+            };
+
+            progressIndicator.setProgress(0);
+            progressIndicator.progressProperty().unbind();
+            progressIndicator.progressProperty().bind(clusteringTask.progressProperty());
+
+            new Thread(clusteringTask).start(); //Lancer le thread du clustering
+
+            //A la fin de la tâche
+            clusteringTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+                /*InputStream input = this.getClass().getResourceAsStream("/graphes/graphe.png");
+                /imgGrapheClustering.setImage(new Image(input)); //Afficher le graphe dans la GUI*/
+                //Retour au pane par défaut
+                progressIndicator.progressProperty().unbind();
+                progressIndicator.setProgress(0);
+                pnProgress.setVisible(false);
+                menuBox.setDisable(false);
+            });
+        }
+        else
+            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
     //Affichage du graphe
@@ -251,9 +281,9 @@ public class Controller {
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }*/
 
-    /*****************************************************************************************/
-    /**********************FONCTIONS QUI MODIFIENT LES ELEMENTS DE LA GUI*********************/
-    /*****************************************************************************************/
+    /*******************************************************************************************************************************/
+    /*****************************************FONCTIONS QUI MODIFIENT LES ELEMENTS DE LA GUI****************************************/
+    /*******************************************************************************************************************************/
     private void importDefaultPane(String message){
         //Page d'import par défaut
         bImport.setDisable(false);
@@ -268,9 +298,9 @@ public class Controller {
 
     private void calculsDefaultPane(){
         //Page de calculs par défaut
-        calculsProgress.progressProperty().unbind();
-        calculsProgress.setProgress(0);
-        pnCalculsProgress.setVisible(false);
+        progressIndicator.progressProperty().unbind();
+        progressIndicator.setProgress(0);
+        pnProgress.setVisible(false);
         menuBox.setDisable(false);
         pnCalculs.setDisable(false);
     }
@@ -304,7 +334,8 @@ public class Controller {
     }
 
     //Affichage des users centraux
-    private void afficherUsersCentraux(TreeSet<Centrality> tab) {
+    public void afficherUsersCentraux() {
+        TreeSet<Centrality> tab = calculUsersCentraux(txtNbUsersCentraux.getText());
         ObservableList<Centrality> usersCentraux = FXCollections.observableArrayList(tab);
         table.setItems(usersCentraux);
     }
@@ -316,13 +347,13 @@ public class Controller {
     }
 
 
-    /*****************************************************************************************/
-    /***********************************AFFICHAGE DES PANES***********************************/
-    /*****************************************************************************************/
+    /*******************************************************************************************************************************/
+    /******************************************************AFFICHAGE DES PANES******************************************************/
+    /*******************************************************************************************************************************/
     //Pane d'import des données
     public void importPane(){
         pnCalculs.setVisible(false);
-        //pnGraphe.setVisible(false);
+        pnClustering.setVisible(false);
         pnAffichage.setVisible(false);
         pnImport.setVisible(true);
         bAnnuler.setDisable(true);
@@ -335,7 +366,7 @@ public class Controller {
     //Pane d'affichage des données importées
     public void affichagePane(){
         pnCalculs.setVisible(false);
-        //pnGraphe.setVisible(false);
+        pnClustering.setVisible(false);
         pnImport.setVisible(false);
         pnAffichage.setVisible(true);
         if(bd!=null)
@@ -347,7 +378,7 @@ public class Controller {
     //Pane d'affichage et calul des statistiques du graphe
     public void calculsPane(){
         pnAffichage.setVisible(false);
-        //pnGraphe.setVisible(false);
+        pnClustering.setVisible(false);
         pnImport.setVisible(false);
         pnCalculs.setVisible(true);
         if(bd!=null)
@@ -357,12 +388,18 @@ public class Controller {
     }
 
     //Affichage du clustering
-    public void clustering(){
-       new Clustering(bd.g,bd.UserCentraux(5),bd.getBaseLink());
-    }
-    /****************************************************************************************/
-    /***********************************BOITES DE DIALOGUE***********************************/
-    /****************************************************************************************/
+    public void clusteringPane(){
+        pnAffichage.setVisible(false);
+        pnImport.setVisible(false);
+        pnCalculs.setVisible(false);
+        pnClustering.setVisible(true);
+        imgGrapheClustering.imageProperty().setValue(null);
+        clustering();
+}
+
+    /*******************************************************************************************************************************/
+    /******************************************************BOITES DE DIALOGUE*******************************************************/
+    /*******************************************************************************************************************************/
     //Message d'information
     private void informationDialog(String header, String content){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -381,9 +418,9 @@ public class Controller {
         alert.showAndWait();
     }
 
-    /*****************************************************************************************/
-    /*************************************FONCTIONS FXML**************************************/
-    /*****************************************************************************************/
+    /*******************************************************************************************************************************/
+    /********************************************************FONCTIONS FXML*********************************************************/
+    /*******************************************************************************************************************************/
     //Initialisation des TableView de la GUI
     @FXML
     public void initialize() {

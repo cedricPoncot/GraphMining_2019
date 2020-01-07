@@ -92,7 +92,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bCalculer" onAction="#calculsPane" prefHeight="60.0" prefWidth="172.0" styleClass="label3" text="Statistiques">
+                        <JFXButton fx:id="bUsersClustering" onAction="#calculsPane" prefHeight="60.0" prefWidth="172.0" styleClass="label3" text="Statistiques">
                            <graphic>
                               <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -101,7 +101,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="bClustering" onAction="#clustering" prefHeight="60.0" prefWidth="167.0" styleClass="label3" text="Clustering">
+                        <JFXButton fx:id="bClustering" onAction="#clusteringPane" prefHeight="60.0" prefWidth="167.0" styleClass="label3" text="Clustering">
                            <graphic>
                               <ImageView fitHeight="48.0" fitWidth="61.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -147,11 +147,7 @@
                   </AnchorPane>
                   <AnchorPane layoutX="367.0" layoutY="23.0" prefHeight="335.0" prefWidth="597.0">
                      <children>
-                        <ImageView fitHeight="338.0" fitWidth="598.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../../Images/building_architecture_facade_146874_1920x1080.jpg" />
-                           </image>
-                        </ImageView>
+                        <ImageView fitHeight="338.0" fitWidth="598.0" pickOnBounds="true" preserveRatio="true" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="40.0" layoutY="235.0" prefHeight="229.0" prefWidth="319.0">
@@ -172,7 +168,7 @@
                                        <HBox.margin>
                                           <Insets top="2.0" />
                                        </HBox.margin></JFXTextField>
-                                    <JFXButton fx:id="bUsersCentraux" buttonType="RAISED" onAction="#calculUsersCentraux" prefHeight="25.0" prefWidth="83.0" text="Afficher">
+                                    <JFXButton fx:id="bUsersCentraux" buttonType="RAISED" onAction="#afficherUsersCentraux" prefHeight="25.0" prefWidth="83.0" text="Afficher">
                                        <HBox.margin>
                                           <Insets top="2.0" />
                                        </HBox.margin>
@@ -246,9 +242,47 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pnCalculsProgress" layoutX="308.0" layoutY="145.0" prefHeight="200.0" prefWidth="400.0" styleClass="anchor3" visible="false">
+            <AnchorPane fx:id="pnClustering" layoutY="118.0" prefHeight="496.0" prefWidth="1000.0" styleClass="anchor1" visible="false">
                <children>
-                  <ProgressIndicator fx:id="calculsProgress" layoutX="153.0" layoutY="26.0" prefHeight="92.0" prefWidth="81.0" progress="0.0" />
+                  <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
+                  <AnchorPane layoutX="35.0" layoutY="74.0" prefHeight="392.0" prefWidth="939.0">
+                     <children>
+                        <ImageView fx:id="imgGrapheClustering" fitHeight="392.0" fitWidth="939.0" pickOnBounds="true" preserveRatio="true" />
+                     </children>
+                  </AnchorPane>
+                  <HBox layoutX="27.0" layoutY="31.0" prefHeight="28.0" prefWidth="664.0" spacing="10.0">
+                     <children>
+                        <Label styleClass="label4" text="Jeu de données :" />
+                        <Label fx:id="lbSelectedDataset1" prefHeight="21.0" prefWidth="84.0" styleClass="label4" text=" " />
+                        <HBox prefHeight="28.0" prefWidth="428.0" spacing="10.0">
+                           <children>
+                              <Label prefHeight="16.0" prefWidth="183.0" styleClass="label2" text="Nombre de communautés :">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <JFXTextField fx:id="txtNbCommunautes" focusColor="#705fd9bf" prefHeight="23.0" prefWidth="58.0" promptText="ex : 5" styleClass="text-field" unFocusColor="#6b5ad9">
+                                 <HBox.margin>
+                                    <Insets top="2.0" />
+                                 </HBox.margin>
+                              </JFXTextField>
+                              <JFXButton fx:id="bGrapheSimplifie" buttonType="RAISED" onAction="#clusteringPane" prefHeight="25.0" prefWidth="159.0" text="Afficher le graphe simplifié">
+                                 <HBox.margin>
+                                    <Insets top="2.0" />
+                                 </HBox.margin>
+                              </JFXButton>
+                           </children>
+                        </HBox>
+                     </children>
+                  </HBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="pnProgress" layoutX="308.0" layoutY="145.0" prefHeight="200.0" prefWidth="400.0" styleClass="anchor3" visible="false">
+               <children>
+                  <ProgressIndicator fx:id="progressIndicator" layoutX="153.0" layoutY="26.0" prefHeight="92.0" prefWidth="81.0" progress="0.0" />
                   <Label layoutX="100.0" layoutY="143.0" styleClass="label5" text="Chargement en cours..." />
                </children>
             </AnchorPane>
