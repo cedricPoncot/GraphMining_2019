@@ -68,7 +68,7 @@ public class Controller {
     ImageView imgGrapheClustering;
 
     @FXML
-    JFXTextField txtNbUsersCentraux, txtNbCommunautes;
+    JFXTextField txtNbUsersCentraux, txtNbCommunautes, txtPourcentage;
 
     /*******************************************************************************************************************************/
     /****************************************************AUTRES VARIABLES UTILES****************************************************/

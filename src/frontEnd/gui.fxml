@@ -191,7 +191,7 @@
                   <Label layoutX="56.0" layoutY="25.0" styleClass="label4" text="Jeu de données :" />
                   <Label fx:id="lbSelectedDataset" layoutX="200.0" layoutY="25.0" styleClass="label4" text=" " />
          </children></AnchorPane>
-            <AnchorPane fx:id="pnImport" layoutY="118.0" prefHeight="496.0" prefWidth="1000.0">
+            <AnchorPane fx:id="pnImport" layoutY="118.0" prefHeight="496.0" prefWidth="1000.0" visible="false">
                <children>
                   <Rectangle fx:id="lbChargement" arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
                   <AnchorPane layoutX="24.0" layoutY="33.0" prefHeight="419.0" prefWidth="955.0">
@@ -242,10 +242,10 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="pnClustering" layoutY="118.0" prefHeight="496.0" prefWidth="1000.0" styleClass="anchor1" visible="false">
+            <AnchorPane fx:id="pnClustering" layoutY="118.0" prefHeight="496.0" prefWidth="1000.0" styleClass="anchor1">
                <children>
                   <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f2f2f2" height="465.0" layoutX="11.0" layoutY="12.0" stroke="#00b5b5" strokeType="INSIDE" width="979.0" />
-                  <HBox layoutX="27.0" layoutY="31.0" prefHeight="28.0" prefWidth="699.0" spacing="10.0">
+                  <HBox layoutX="27.0" layoutY="31.0" prefHeight="28.0" prefWidth="939.0" spacing="10.0">
                      <children>
                         <Label prefHeight="21.0" prefWidth="152.0" styleClass="label4" text="Jeu de données :">
                            <HBox.margin>
@@ -255,18 +255,24 @@
                            <HBox.margin>
                               <Insets top="2.0" />
                            </HBox.margin></Label>
-                        <HBox prefHeight="28.0" prefWidth="428.0" spacing="10.0">
+                        <HBox prefHeight="28.0" prefWidth="669.0" spacing="10.0">
                            <children>
-                              <Label prefHeight="16.0" prefWidth="183.0" styleClass="label2" text="Nombre de communautés :">
+                              <Label prefHeight="16.0" prefWidth="171.0" styleClass="label2" text="Nombre de communautés :">
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <JFXTextField fx:id="txtNbCommunautes" focusColor="#705fd9bf" prefHeight="23.0" prefWidth="58.0" promptText="ex : 5" styleClass="text-field" unFocusColor="#6b5ad9">
+                              <JFXTextField fx:id="txtNbCommunautes" focusColor="#705fd9bf" prefHeight="23.0" prefWidth="47.0" promptText="ex : 5" styleClass="text-field" unFocusColor="#6b5ad9">
                                  <HBox.margin>
                                     <Insets top="2.0" />
                                  </HBox.margin>
                               </JFXTextField>
+                              <Label styleClass="label2" text="Pourcentage des utilisateurs :">
+                                 <HBox.margin>
+                                    <Insets top="5.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <JFXTextField fx:id="txtPourcentage" focusColor="#705fd9bf" prefHeight="23.0" prefWidth="54.0" promptText="ex: 0.1" styleClass="text-field" unFocusColor="#6b5ad9" />
                               <JFXButton fx:id="bGrapheSimplifie" buttonType="RAISED" onAction="#clusteringPane" prefHeight="25.0" prefWidth="159.0" text="Afficher le graphe simplifié">
                                  <HBox.margin>
                                     <Insets top="2.0" />
