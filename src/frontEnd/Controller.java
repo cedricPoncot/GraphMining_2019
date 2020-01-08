@@ -47,7 +47,7 @@ public class Controller {
     JFXButton bVisualiser, bUsersClustering, bImport, bAnnuler, bUsersCentraux;
 
     @FXML
-    Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy, lbProgressStatus, lbSelectedDataset, lbSelectedDatasetCl;
+    Label lbOrdre, lbVolume, lbDiametre, lbDegreMoy, lbProgressStatus, lbSelectedDataset, lbSelectedDatasetCl, lbSelectedDatasetVl;
 
     @FXML
     AnchorPane pnClustering, pnAffichage, pnCalculs, pnImport, pnProgress;
@@ -196,14 +196,14 @@ public class Controller {
     }
 
     private TreeSet<Centrality> calculUsersCentraux(String nbUsers){
-        int nb = checkNbUsersCentraux(nbUsers);
+        int nb = checkNombre(nbUsers);
         System.out.println("calcul : "+nb);
         if(nb>0)
             return bd.UserCentraux(nb);
         return null;
     }
 
-    private int checkNbUsersCentraux(String nb){
+    private int checkNombre(String nb){
         if(nb.isEmpty())
             return 5; //Valeur par défaut
         else {
@@ -225,8 +225,8 @@ public class Controller {
     public void clustering(){
         if(bd!=null) {
             if(bd.getCentrality()!=null) {
-                TreeSet<Centrality> communautes = calculUsersCentraux(txtNbCommunautes.getText());
-                final int nbPercentage=checkNbUsersCentraux(txtPourcentage.getText());
+                TreeSet<Centrality> communautes = calculUsersCentraux(txtNbCommunautes.getText()); //vérifier la saisie et récupérer les utilisateurs centraux
+                final int nbPercentage=checkNombre(txtPourcentage.getText()); //vérifier la saisie
                 //Si le nombre de communautés saisi est correct alors : on lance le clustering
                 if (communautes != null && nbPercentage!=-1 && nbPercentage<100) {
                     //Modification des propriétés des éléments de la page de clustering
@@ -237,7 +237,7 @@ public class Controller {
                     //Classe  anonyme : création de la tâche qui fait le clustering
                     Task clusteringTask = new Task() {
                         @Override
-                        protected Object call() throws Exception { //Récupérer les utilisateurs centraux constitutants les commmunautés
+                        protected Object call() throws Exception { //Créer le graphe simplifié
                             new Clustering(bd.g, communautes, bd.getBaseLink(),nbPercentage);
                             return null;
                         }
@@ -379,8 +379,10 @@ public class Controller {
         pnClustering.setVisible(false);
         pnImport.setVisible(false);
         pnAffichage.setVisible(true);
-        if(bd!=null)
+        if(bd!=null){
+            afficherDataset(lbSelectedDatasetVl);
             afficherTweets();
+        }
         else
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }

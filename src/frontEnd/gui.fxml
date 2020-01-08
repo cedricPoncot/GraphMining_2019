@@ -59,7 +59,7 @@
                         </AnchorPane>
                      </children>
                   </JFXScrollPane>
-                  <TableView fx:id="tableAffichage" layoutX="55.0" layoutY="40.0" prefHeight="404.0" prefWidth="901.0">
+                  <TableView fx:id="tableAffichage" layoutX="50.0" layoutY="56.0" prefHeight="404.0" prefWidth="901.0">
                     <columns>
                       <TableColumn fx:id="col3" prefWidth="120.66665649414062" text="ID" />
                       <TableColumn fx:id="col4" prefWidth="108.33331298828125" text="Username" />
@@ -68,6 +68,8 @@
                         <TableColumn fx:id="col7" minWidth="0.0" prefWidth="105.33331298828125" text="Retweeter" />
                     </columns>
                   </TableView>
+                  <Label layoutX="50.0" layoutY="22.0" styleClass="label4" text="Jeu de données :" />
+                  <Label fx:id="lbSelectedDatasetVl" layoutX="200.0" layoutY="22.0" styleClass="label4" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="pnMenuBar" layoutY="57.0" prefHeight="60.0" prefWidth="1000.0" styleClass="anchor2">
