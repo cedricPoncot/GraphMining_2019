@@ -50,8 +50,8 @@ public class Clustering{
             HashMap<String,Integer>baseRetweeter=baseLink.get(utilisateurCentral);
 
             for(Map.Entry<String,Integer> entry : baseRetweeter.entrySet()) {
-                //On prends 3% des noeuds aléatoirement (afin de ne pas surcharger le graphe)
-                if(Math.random()>0.97) {
+                //On prends 2% des noeuds aléatoirement (afin de ne pas surcharger le graphe)
+                if(Math.random()>0.98) {
                     Object v2;
                     if(cmp<cstCouleur)v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20,"fillColor="+couleurs[cmp]);
                     else v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20);
@@ -93,9 +93,8 @@ public class Clustering{
     }
 
 
-
+    //Transformation du JGraphXAdapter en image et ouverture de l'image
     public void afficherGraphe(JGraphXAdapter graphAdapter) {
-
         mxIGraphLayout layout = new  mxFastOrganicLayout(graphAdapter);
         //On change le style des arêtes et vertex
         setStyle(graphAdapter);
@@ -113,9 +112,5 @@ public class Clustering{
             System.out.println(e.toString());
         }
 
-    }
-
-    public Clustering(){
-        System.out.println("Passage construc cent");
     }
 }
