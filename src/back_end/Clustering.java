@@ -55,6 +55,7 @@ public class Clustering{
                 }
             }
             cmp++;
+            if(cmp==cstCouleur)cmp=0;
         }
         //Ajout des arrêtes entre retweeter
         System.out.println("passage arêtes supplémentaires");
