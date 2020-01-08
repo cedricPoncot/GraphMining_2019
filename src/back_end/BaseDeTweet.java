@@ -121,12 +121,12 @@ public class BaseDeTweet {
                         g.addEdge(t.getRetweeter(), t.getTweeter());
                         g.setEdgeWeight(t.getRetweeter(), t.getTweeter(), 1);
                         volume++;
+                        //On gagne un degré ext et un degré int à chaque ajout d'arrête
+                        sommeDegre += 2;
                     } else {
                         int poids = (int) g.getEdgeWeight(g.getEdge(t.getRetweeter(), t.getTweeter())) + 1;
                         g.setEdgeWeight(t.getRetweeter(), t.getTweeter(), poids);
                     }
-                    //On gagne un degré ext et un degré int à chaque ajout d'arrête
-                    sommeDegre += 2;
                 }
 
                 if (baseLink.get(t.getRetweeter()) == null) {
