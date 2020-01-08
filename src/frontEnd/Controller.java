@@ -222,7 +222,7 @@ public class Controller {
         }
     }
 
-    private void clustering(){ //TODO : user centraux
+    public void clustering(){
         if(bd!=null) {
             if(bd.getCentrality()!=null) {
                 TreeSet<Centrality> communautes = calculUsersCentraux(txtNbCommunautes.getText());
@@ -232,6 +232,7 @@ public class Controller {
                     //Modification des propriétés des éléments de la page de clustering
                     menuBox.setDisable(true);
                     pnProgress.setVisible(true);
+                    pnClustering.setDisable(true);
 
                     //Classe  anonyme : création de la tâche qui fait le clustering
                     Task clusteringTask = new Task() {
@@ -268,6 +269,7 @@ public class Controller {
                             errorDialog("Image introuvable !", "L'image est introuvable.");
                         }
                         //Retour au panel par défaut
+                        pnClustering.setDisable(false);
                         progressIndicator.progressProperty().unbind();
                         progressIndicator.setProgress(0);
                         pnProgress.setVisible(false);
@@ -402,7 +404,6 @@ public class Controller {
         pnCalculs.setVisible(false);
         pnClustering.setVisible(true);
         imgGrapheClustering.imageProperty().setValue(null);
-        clustering();
 }
 
     /*******************************************************************************************************************************/
