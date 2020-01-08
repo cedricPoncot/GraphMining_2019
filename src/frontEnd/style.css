@@ -10,7 +10,7 @@
 }
 
 .text-field{
-    -fx-font-family: Georgia;
+    -fx-font-family: Arial;
     -fx-text-inner-color : #000000;
     -fx-text-fill : #000000;
     -fx-prompt-text-fill: gray;
@@ -19,57 +19,46 @@
 .label1{
     -fx-text-fill : black;
     -fx-font-size: 16;
-    -fx-font-family: Georgia;
+    -fx-font-family: Arial;
 }
 .label2{
     -fx-text-fill : black;
     -fx-font-size: 14;
-    -fx-font-family: Georgia;
+    -fx-font-family: Arial;
 }
 .label3{
     -fx-text-fill : #f2f2f2;
     -fx-font-size: 18;
-    -fx-font-family: Georgia;
+    -fx-font-family: Arial;
 }
 .label4{
     -fx-text-fill : black;
     -fx-font-size: 18;
-    -fx-font-family: Georgia;
+    -fx-font-family: Arial;
 }
 .label5{
     -fx-text-fill : #5e5e5e;
     -fx-font-size: 22;
-    -fx-font-family: Georgia;
+    -fx-font-family: Arial;
 }
 
 .button1{
-    -fx-font-family: Georgia;
+    -fx-font-family: Arial;
     -fx-font-size: 18;
     -fx-border-color: #00b5b5;
     -fx-border-radius: 5;
 }
 
-.combo-box{
-    -fx-font-family: Georgia;
-    -fx-text-fill: #6e9cf7;
-    -fx-prompt-text-fill: grey;
-}
-
 .radio-button{
     -fx-font-size: 18;
     -fx-text-fill: black;
-    -fx-font-family: Georgia;
+    -fx-font-family: Arial;
     -jfx-selected-color: #6e9cf7;
     -jfx-unselected-color: gray;
 }
 
-.check-box{
-    -fx-font-family: Georgia;
-    -fx-font-size: 14;
-}
-
 .text-area{
-    -fx-font-family: Georgia;
+    -fx-font-family: Arial;
     -fx-font-size: 14;
 }
 

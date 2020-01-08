@@ -1,19 +1,13 @@
 package back_end;
 
 import com.mxgraph.layout.*;
-import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.util.mxCellRenderer;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxPerimeter;
 import com.mxgraph.view.mxStylesheet;
 import org._3pq.jgrapht.edge.DefaultEdge;
-import org._3pq.jgrapht.graph.Subgraph;
 import org.jgrapht.Graph;
-import org.jgrapht.ListenableGraph;
 import org.jgrapht.ext.JGraphXAdapter;
-import org.jgrapht.graph.AsSubgraph;
-import org.jgrapht.graph.DefaultDirectedGraph;
-import org.jgrapht.graph.DefaultListenableGraph;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 import sun.security.provider.certpath.Vertex;
 
@@ -34,7 +28,7 @@ public class Clustering{
 
     public Clustering(Graph g, TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink){
         JGraphXAdapter<Vertex, DefaultEdge> graphAdapter =constructionGraph(userCentraux,baseLink);
-        afficherGraphe(graphAdapter);
+        graphToImage(graphAdapter);
     }
 
     public JGraphXAdapter<Vertex, DefaultEdge> constructionGraph( TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink){
@@ -94,19 +88,17 @@ public class Clustering{
 
 
     //Transformation du JGraphXAdapter en image et ouverture de l'image
-    public void afficherGraphe(JGraphXAdapter graphAdapter) {
+    public void graphToImage(JGraphXAdapter graphAdapter) {
         mxIGraphLayout layout = new  mxFastOrganicLayout(graphAdapter);
         //On change le style des arêtes et vertex
         setStyle(graphAdapter);
         layout.execute(graphAdapter.getDefaultParent());
         BufferedImage image = mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
-       // File imgFile = new File("C:\\Users\\cedri\\Desktop\\graph.png");
         File imgFile = new File("graph.png");
         try
         {
             ImageIO.write(image, "PNG", imgFile);
             System.out.println("Image created successfully!");
-            Desktop.getDesktop().open(imgFile);
         } catch (IOException e)
         {
             System.out.println(e.toString());

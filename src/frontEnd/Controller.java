@@ -16,7 +16,10 @@ import javafx.scene.layout.AnchorPane;
 
 import javafx.scene.layout.HBox;
 
-import java.io.InputStream;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.util.TreeSet;
 
@@ -98,11 +101,6 @@ public class Controller {
     /*******************************************************************************************************************************/
     //Action du bouton importer
     public void importerDonnees() {
-        //Modification des propriétés des éléments de la page d'import des données
-        bImport.setDisable(true);
-        bAnnuler.setDisable(false);
-        menuBox.setDisable(true);
-
         String path = ""; //Chemin du fichier
         int nbTweets=0; //Nombre de tweets du fichier
 
@@ -120,36 +118,43 @@ public class Controller {
                 errorDialog("Dataset non sélectionné !", "Veuillez sélectionner un dataset à importer.");
         }
 
-        //Création de la base de tweets
-        bd = new BaseDeTweet();
+        if(dataset>0) {//Si un dataset est séléctionné alors lancer l'import
+            //Modification des propriétés des éléments de la page d'import des données
+            bImport.setDisable(true);
+            bAnnuler.setDisable(false);
+            menuBox.setDisable(true);
 
-        //Import des données
-        ImportTask importTask = new ImportTask(path, nbTweets); // création de la tâche d'import des données
+            //Création de la base de tweets
+            bd = new BaseDeTweet();
 
-        //Modification des propriétés des éléments de la page d'import des données
-        importProgress.setVisible(true);
-        importProgress.setProgress(0);
-        lbProgressStatus.setVisible(true);
-        importProgress.progressProperty().unbind();
-        importProgress.progressProperty().bind(importTask.progressProperty()); //Relier la progress bar à la progression de la tâche d'import des données
-        lbProgressStatus.textProperty().unbind();
-        lbProgressStatus.textProperty().bind(importTask.messageProperty()); //Relier e message à afficher à la progression de la tâche d'import des données
+            //Import des données
+            ImportTask importTask = new ImportTask(path, nbTweets); // création de la tâche d'import des données
 
-        new Thread(importTask).start(); // création et lancement du thread d'import des données
+            //Modification des propriétés des éléments de la page d'import des données
+            importProgress.setVisible(true);
+            importProgress.setProgress(0);
+            lbProgressStatus.setVisible(true);
+            importProgress.progressProperty().unbind();
+            importProgress.progressProperty().bind(importTask.progressProperty()); //Relier la progress bar à la progression de la tâche d'import des données
+            lbProgressStatus.textProperty().unbind();
+            lbProgressStatus.textProperty().bind(importTask.messageProperty()); //Relier e message à afficher à la progression de la tâche d'import des données
 
-        //Lorsque la tâche d'import est terminée :
-        importTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
-            bd.setTweets(importTask.getValue());//Quand l'import est terminé : on récupère le résultat
-            importDefaultPane("Chargement des données terminé."); //Retour à la page par défaut
-            informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
-        });
+            new Thread(importTask).start(); // création et lancement du thread d'import des données
 
-        //Annulation de l'import
-        bAnnuler.setOnAction(event -> {
-            importTask.cancel(true);
-            bd = null;
-            importDefaultPane("Chargement des données annulé."); //Retour à la page par défaut
-        });
+            //Lorsque la tâche d'import est terminée :
+            importTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+                bd.setTweets(importTask.getValue());//Quand l'import est terminé : on récupère le résultat
+                importDefaultPane("Chargement des données terminé."); //Retour à la page par défaut
+                informationDialog("Données importées !", "Vous pouvez à présent afficher les données, afficher les statistiques ou faire du Clustering.");
+            });
+
+            //Annulation de l'import
+            bAnnuler.setOnAction(event -> {
+                importTask.cancel(true);
+                bd = null;
+                importDefaultPane("Chargement des données annulé."); //Retour à la page par défaut
+            });
+        }
 
     }
 
@@ -169,7 +174,7 @@ public class Controller {
                 }
             };
 
-            //Modification des propriétés des éléments de la page de calcul des statistiques
+            //Suivi de la progression de la tâche de calcul des statistiques
             progressIndicator.setProgress(0);
             progressIndicator.progressProperty().unbind();
             progressIndicator.progressProperty().bind(calculsTask.progressProperty()); //Relier la progress bar à la progression de la tâche de calcul
@@ -180,6 +185,7 @@ public class Controller {
 
             //A la fin des calculs :
             calculsTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+                afficherDataset(lbSelectedDataset); //Afficher le nom du dataset sur lequel ont été effectués les calculs
                 afficherCalculs(); //Afficher les résultats des caculs effectués
                 afficherUsersCentraux(); //Afficher les utilisateurs centraux
                 calculsDefaultPane(); //Retour aux paramètres par défaut de la page
@@ -191,6 +197,7 @@ public class Controller {
 
     private TreeSet<Centrality> calculUsersCentraux(String nbUsers){
         int nb = checkNbUsersCentraux(nbUsers);
+        System.out.println("calcul : "+nb);
         if(nb>0)
             return bd.UserCentraux(nb);
         return null;
@@ -204,13 +211,12 @@ public class Controller {
             try{
                 int nombre=parseInt(nb);
                 if(nombre<0 || nombre>10000){
-                    errorDialog("Nombre qui n'est pas dans l'intervalle [0,10000] !", "Entrez un nombre correct.");
                     return -1;
                 }
                 return nombre;
             }
             catch (NumberFormatException e){
-                errorDialog("Nombre invalide !", "Entrez un nombre correct.");
+                //errorDialog("Nombre invalide !", "Entrez un nombre correct.");
                 return -1;
             }
         }
@@ -219,41 +225,56 @@ public class Controller {
     private void clustering(){ //TODO : user centraux
         if(bd!=null) {
             if(bd.getCentrality()!=null) {
-                menuBox.setDisable(true);
-                pnProgress.setVisible(true);
+                TreeSet<Centrality> communautes = calculUsersCentraux(txtNbCommunautes.getText());
+                //Si le nombre de communautés saisi est correct alors : on lance le clustering
+                if (communautes != null) {
+                    //Modification des propriétés des éléments de la page de clustering
+                    menuBox.setDisable(true);
+                    pnProgress.setVisible(true);
 
-                //Classe  anonyme : création de la tâche qui fait le clustering
-                Task clusteringTask = new Task() {
-                    @Override
-                    protected Object call() throws Exception {
-                        TreeSet<Centrality> communautes = calculUsersCentraux(txtNbCommunautes.getText());
-                        if (communautes != null)
+                    //Classe  anonyme : création de la tâche qui fait le clustering
+                    Task clusteringTask = new Task() {
+                        @Override
+                        protected Object call() throws Exception { //Récupérer les utilisateurs centraux constitutants les commmunautés
                             new Clustering(bd.g, communautes, bd.getBaseLink());
-                        else
-                            errorDialog("Nombre d'utilisateurs centraux saisi incorrect ! ", "Entrez un nombre valide");
-                        return null;
-                    }
-                };
+                            return null;
+                        }
+                    };
 
-                progressIndicator.setProgress(0);
-                progressIndicator.progressProperty().unbind();
-                progressIndicator.progressProperty().bind(clusteringTask.progressProperty());
-
-                new Thread(clusteringTask).start(); //Lancer le thread du clustering
-
-                //A la fin de la tâche
-                clusteringTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
-                    if(dataset==1)
-                        lbSelectedDatasetCl.setText("Climat");
-                    else lbSelectedDatasetCl.setText("Foot");
-                /*InputStream input = this.getClass().getResourceAsStream("/graphes/graphe.png");
-                /imgGrapheClustering.setImage(new Image(input)); //Afficher le graphe dans la GUI*/
-                    //Retour au pane par défaut
-                    progressIndicator.progressProperty().unbind();
+                    //Suivi de la progression de la tâche de clustering
                     progressIndicator.setProgress(0);
-                    pnProgress.setVisible(false);
-                    menuBox.setDisable(false);
-                });
+                    progressIndicator.progressProperty().unbind();
+                    progressIndicator.progressProperty().bind(clusteringTask.progressProperty()); //Relier la progress bar à la progression de la tâche de clustering
+
+                    new Thread(clusteringTask).start(); //Lancer le thread du clustering
+
+                    //A la fin de la tâche
+                    clusteringTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
+                        afficherDataset(lbSelectedDatasetCl); //Afficher le nom du dataset sur lequel a été effectué le clustering
+
+                        // Affichage du graphe simplifié dans la GUI
+                        File imgFile = new File("graph.png");
+                        try {
+                            imgGrapheClustering.setImage(new Image(imgFile.toURI().toURL().toString())); //Ajouter l'image à l'imageView de la GUI
+                            imgGrapheClustering.setOnMouseClicked(event1 -> { //Evénement de clique sur l'image
+                                try {
+                                    Desktop.getDesktop().open(imgFile);
+                                } catch (IOException e) {
+                                    errorDialog("Fichier introuvable !", "Le fichier contenant l'image est introuvable.");
+                                }
+                            });
+                        } catch (MalformedURLException e) {
+                            errorDialog("Image introuvable !", "L'image est introuvable.");
+                        }
+                        //Retour au panel par défaut
+                        progressIndicator.progressProperty().unbind();
+                        progressIndicator.setProgress(0);
+                        pnProgress.setVisible(false);
+                        menuBox.setDisable(false);
+                    });
+                }
+                else
+                    errorDialog("Nombre de communautés saisi incorrect ! ", "Entrez un nombre valide.");
             }
             else
                 errorDialog("Graphe pas encore construit !", "Veuillez construire le graphe dans l'onglet \"Statistiques\" avant de procéder au Clustering.");
@@ -262,31 +283,10 @@ public class Controller {
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
-    //Affichage du graphe
-    /*public void graphePane(){
-       // pnAffichage.setVisible(false);
-       // pnCalculs.setVisible(false);
-       // pnImport.setVisible(false);
-       // pnGraphe.setVisible(true);
-        if(g!=null) {
-            System.out.println("création adapter");
-            JGraphXAdapter<String, DefaultEdge> graphAdapter = new JGraphXAdapter<String, DefaultEdge>(g.bd.listenableG);
-            System.out.println("création image");
-            //mxIGraphLayout layout = new mxCircleLayout(graphAdapter);
-            //layout.execute(graphAdapter.getDefaultParent());
-            BufferedImage image = mxCellRenderer.createBufferedImage(graphAdapter, null, 2, Color.WHITE, true, null);
-            try {
-                System.out.println("écriture image");
-                ImageIO.write(image, "PNG", new File("@../../Images/graph.png")); //je sais plus s'il y a le "@" au début ou pas
-                System.out.println("Image générée");
-            }
-            catch(Exception e){
-                System.out.println("Problème lors de l'écriture");
-            }
-        }
-        else
-            errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
-    }*/
+    private void afficherDataset(Label label){
+        if(dataset==1) label.setText("Climat");
+        else label.setText("Foot");
+    }
 
     /*******************************************************************************************************************************/
     /*****************************************FONCTIONS QUI MODIFIENT LES ELEMENTS DE LA GUI****************************************/
@@ -314,10 +314,6 @@ public class Controller {
 
     //Affichage des calculs sur la GUI
     private void afficherCalculs(){
-        if(dataset==1)
-            lbSelectedDataset.setText("Climat");
-        else
-            lbSelectedDataset.setText("Foot");
         DecimalFormat df = new DecimalFormat("0.00");
         lbOrdre.setText(String.valueOf(bd.getOrdre()));
         lbDegreMoy.setText(String.valueOf(df.format(bd.getDegreeMoyen())));
@@ -343,8 +339,11 @@ public class Controller {
     //Affichage des users centraux
     public void afficherUsersCentraux() {
         TreeSet<Centrality> tab = calculUsersCentraux(txtNbUsersCentraux.getText());
-        ObservableList<Centrality> usersCentraux = FXCollections.observableArrayList(tab);
-        table.setItems(usersCentraux);
+        if(tab!=null) {
+            ObservableList<Centrality> usersCentraux = FXCollections.observableArrayList(tab);
+            table.setItems(usersCentraux);
+        }
+        else errorDialog("Nombre saisi incorrect ! ", "Entrez un nombre compris dans l'intervalle [0,10000].");
     }
 
     //Afficher les tweets
@@ -355,7 +354,7 @@ public class Controller {
 
 
     /*******************************************************************************************************************************/
-    /******************************************************AFFICHAGE DES PANES******************************************************/
+    /******************************************************AFFICHAGE DES PANELS******************************************************/
     /*******************************************************************************************************************************/
     //Pane d'import des données
     public void importPane(){
@@ -368,6 +367,7 @@ public class Controller {
         rdFoot.setSelected(false);
         rdClimat.setSelected(false);
         txtDescriptionDonnees.setText("");
+        dataset=0;
     }
 
     //Pane d'affichage des données importées
@@ -382,7 +382,7 @@ public class Controller {
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
-    //Pane d'affichage et calul des statistiques du graphe
+    //Panel d'affichage et calul des statistiques du graphe
     public void calculsPane(){
         pnAffichage.setVisible(false);
         pnClustering.setVisible(false);
