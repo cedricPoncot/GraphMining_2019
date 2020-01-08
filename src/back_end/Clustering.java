@@ -26,12 +26,13 @@ public class Clustering{
     private final String[] couleurs={"FFFEB5","#CAF7C9","#FFC58B","#8BDFFF","#A58BFF","#FFB5B9","#B5FFEF"};
     private final int cstCouleur=7;
 
-    public Clustering(Graph g, TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink){
-        JGraphXAdapter<Vertex, DefaultEdge> graphAdapter =constructionGraph(userCentraux,baseLink);
+    public Clustering(Graph g, TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
+        JGraphXAdapter<Vertex, DefaultEdge> graphAdapter =constructionGraph(userCentraux,baseLink,nbPercentage);
         graphToImage(graphAdapter);
     }
 
-    public JGraphXAdapter<Vertex, DefaultEdge> constructionGraph( TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink){
+    public JGraphXAdapter<Vertex, DefaultEdge> constructionGraph( TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
+        System.out.println(nbPercentage);
         JGraphXAdapter<Vertex, DefaultEdge> graphAdapter = new JGraphXAdapter(new DirectedWeightedMultigraph(org.jgrapht.graph.DefaultEdge.class));
         int cmp=0;
         //Parcours des différents utilisateurs centraux
@@ -44,8 +45,8 @@ public class Clustering{
             HashMap<String,Integer>baseRetweeter=baseLink.get(utilisateurCentral);
 
             for(Map.Entry<String,Integer> entry : baseRetweeter.entrySet()) {
-                //On prends 2% des noeuds aléatoirement (afin de ne pas surcharger le graphe)
-                if(Math.random()>0.98) {
+                //On prends un pourcentage des noeuds aléatoirement (afin de ne pas surcharger le graphe)
+                if(Math.random()>1-(nbPercentage/100.0)) {
                     Object v2;
                     if(cmp<cstCouleur)v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20,"fillColor="+couleurs[cmp]);
                     else v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20);

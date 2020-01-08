@@ -272,7 +272,7 @@
                                     <Insets top="5.0" />
                                  </HBox.margin>
                               </Label>
-                              <JFXTextField fx:id="txtPourcentage" focusColor="#705fd9bf" prefHeight="23.0" prefWidth="54.0" promptText="ex: 0.1" styleClass="text-field" unFocusColor="#6b5ad9" />
+                              <JFXTextField fx:id="txtPourcentage" focusColor="#705fd9bf" prefHeight="23.0" prefWidth="54.0" promptText="ex: 1" styleClass="text-field" unFocusColor="#6b5ad9" />
                               <JFXButton fx:id="bGrapheSimplifie" buttonType="RAISED" onAction="#clusteringPane" prefHeight="25.0" prefWidth="159.0" text="Afficher le graphe simplifié">
                                  <HBox.margin>
                                     <Insets top="2.0" />

@@ -188,44 +188,6 @@ public class BaseDeTweet {
 
     @Override
     public String toString() {
-        //Affichage des tweets (texte)
-        String data="";
-        /*
-        for(Map.Entry me : baseTweet.entrySet()){
-            System.out.println("");
-            ArrayList<Tweet> liste=(ArrayList<Tweet>)me.getValue();
-            System.out.println("User"+me.getKey()+"   Nombre de tweet :"+liste.size());
-            for(Tweet t:liste){
-                System.out.println(t);
-            }
-
-        }
-        */
-        /*
-        for(Map.Entry me : baseLink.entrySet()){
-            for(Map.Entry me2 : baseLink.get(me.getKey()).entrySet()){
-                System.out.println("->"+me.getKey()+" _ "+me2.getKey()+" "+me2.getValue());
-            }
-        }
-        */
-
-        //Affichage des arrêtes
-        /*
-        int maxRT=0;
-        String UtilisateurMaxRT="";
-        for(Map.Entry me : baseLink.entrySet()){
-            int cmptr=0;
-            for(Map.Entry me2 : baseLink.get(me.getKey()).entrySet()){
-                cmptr+=(int)me2.getValue();
-                System.out.println("->"+me.getKey()+" _ "+me2.getKey()+" "+me2.getValue());
-            }
-            if(baseLink.get(me.getKey()).size()>maxRT){
-                maxRT=cmptr;
-                UtilisateurMaxRT=(String)me.getKey();
-            }
-        }
-        System.out.println("\nMax RT="+maxRT+" by "+ UtilisateurMaxRT);
-        */
         return "";
 
     }

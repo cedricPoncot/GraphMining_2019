@@ -226,8 +226,9 @@ public class Controller {
         if(bd!=null) {
             if(bd.getCentrality()!=null) {
                 TreeSet<Centrality> communautes = calculUsersCentraux(txtNbCommunautes.getText());
+                final int nbPercentage=checkNbUsersCentraux(txtPourcentage.getText());
                 //Si le nombre de communautés saisi est correct alors : on lance le clustering
-                if (communautes != null) {
+                if (communautes != null && nbPercentage!=-1 && nbPercentage<100) {
                     //Modification des propriétés des éléments de la page de clustering
                     menuBox.setDisable(true);
                     pnProgress.setVisible(true);
@@ -236,7 +237,7 @@ public class Controller {
                     Task clusteringTask = new Task() {
                         @Override
                         protected Object call() throws Exception { //Récupérer les utilisateurs centraux constitutants les commmunautés
-                            new Clustering(bd.g, communautes, bd.getBaseLink());
+                            new Clustering(bd.g, communautes, bd.getBaseLink(),nbPercentage);
                             return null;
                         }
                     };
@@ -274,7 +275,7 @@ public class Controller {
                     });
                 }
                 else
-                    errorDialog("Nombre de communautés saisi incorrect ! ", "Entrez un nombre valide.");
+                    errorDialog("Données saisies incorrect ! ", "Entrez des nombres valide.");
             }
             else
                 errorDialog("Graphe pas encore construit !", "Veuillez construire le graphe dans l'onglet \"Statistiques\" avant de procéder au Clustering.");
