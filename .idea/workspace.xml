@@ -2,25 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="Rename package">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/graph.png" beforeDir="false" afterPath="$PROJECT_DIR$/graph.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/back_end/BaseDeTweet.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/back_end/BaseDeTweet.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/back_end/Centrality.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/back_end/Centrality.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/back_end/Clustering.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/back_end/Clustering.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/back_end/Link.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/back_end/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/JFXTweet.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/sample.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/GraphMining/frontEnd/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/GraphMining/graphes/graphe.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/back_end/BaseDeTweet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/back_end/BaseDeTweet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/back_end/Clustering.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/back_end/Clustering.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontEnd/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontEnd/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/frontEnd/gui.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/frontEnd/gui.fxml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -120,8 +102,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/frontEnd/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2372">
-              <caret line="277" column="83" selection-start-line="277" selection-start-column="83" selection-end-line="277" selection-end-column="83" />
+            <state relative-caret-position="287">
+              <caret line="441" column="82" selection-start-line="441" selection-start-column="82" selection-end-line="441" selection-end-column="82" />
               <folding>
                 <element signature="e#8410#8589#0" expanded="true" />
                 <element signature="e#8588#8589#0" expanded="true" />
@@ -373,7 +355,7 @@
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1578511474354" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1578512931814" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$USER_HOME$/Downloads/jar_files (1)/jgrapht-0.6.0.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
@@ -507,9 +489,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.21321961" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.21321961" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -518,7 +499,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.4186551" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.4186551" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3991323" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -707,8 +688,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/frontEnd/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2372">
-          <caret line="277" column="83" selection-start-line="277" selection-start-column="83" selection-end-line="277" selection-end-column="83" />
+        <state relative-caret-position="287">
+          <caret line="441" column="82" selection-start-line="441" selection-start-column="82" selection-end-line="441" selection-end-column="82" />
           <folding>
             <element signature="e#8410#8589#0" expanded="true" />
             <element signature="e#8588#8589#0" expanded="true" />
