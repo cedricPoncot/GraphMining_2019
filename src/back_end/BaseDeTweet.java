@@ -13,19 +13,24 @@ import java.util.List;
 
 
 public class BaseDeTweet {
+    /* La classe BaseDeTweet contient la liste des tweets importés, ainsi que le graphe construit à partir de ces données.
+     * Il y a aussi la structure de données baseLink qui permet de sauvegarder le lien entre un utilisateur et un autre.
+     * Cette classe se charge de faire le calculs des statistiques du graphe : diamètre, ordre, degré moyen et volume.*/
 
     /**************************************************ATTRIBUTS**************************************************/
     private HashMap <String,HashMap<String,Integer>> baseLink = new HashMap();
+    /*Le premier String de la première HashMap correspond au username du tweeter, il est relié à une autre hashmap qui contient
+     * le username de la personne qui a retweeté le tweeter, ainsi que le nombre de fois qu'elle l'a fait. */
     private HashMap<String,Integer> centrality;
-    private ArrayList<Tweet> tweets = new ArrayList<>();
-    public Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph(DefaultEdge.class); //GRAPHE
-    public   DefaultListenableGraph listenableG;
+    private ArrayList<Tweet> tweets = new ArrayList<>(); //liste des tweets importés
+    public Graph<String, DefaultEdge> g = new DirectedWeightedMultigraph(DefaultEdge.class); //Graphe
+    public DefaultListenableGraph listenableG;
     private double degreeMoyen=0;
     private int ordre=0;
     private double diametre=0;
     private int volume=0;
 
-    //GETTERS & SETTERS
+    /**********************************************GETTERS ET SETTERS**********************************************/
     public HashMap<String,HashMap<String,Integer>> getBaseLink(){
         return baseLink;
     }
@@ -61,7 +66,7 @@ public class BaseDeTweet {
 
     /*****************************************FONCTIONS*******************************************/
 
-    //Cette fonction calcule la centralité pour chaque utilisateur
+    // Cette fonction calcule la centralité pour chaque utilisateur
     private void calculCentralite(Tweet t){
         if (centrality.get(t.getRetweeter()) == null) {
             centrality.put(t.getRetweeter(), 1);
@@ -70,7 +75,7 @@ public class BaseDeTweet {
         }
     }
 
-    //Cette fonction calcule le diametre du graphe précédemment construit
+    // Cette fonction calcule le diametre du graphe précédemment construit
     private void calculDiametre(){
         //Calcul du diamètre
         double distance;
@@ -94,7 +99,7 @@ public class BaseDeTweet {
         }
     }
 
-    //Cette fonction ajoute au graphe le tweet donné en paramêtre. Il calcule aussi l'ordre par la même occasion.
+    // Cette fonction ajoute au graphe le tweet donné en paramêtre. Il calcule aussi l'ordre par la même occasion.
     private void constructionGraphe(Tweet t){
         if (g.addVertex(t.getRetweeter())) {
             ordre++;
@@ -104,7 +109,7 @@ public class BaseDeTweet {
         }
     }
 
-    //construction du graphe et calculs
+    // Construction du graphe et calculs
     public void calculs(){
         int sommeDegre=0;
         System.out.println("Passage Calc"+degreeMoyen);
@@ -159,11 +164,11 @@ public class BaseDeTweet {
         calculDiametre();
     }
 
-    //Calcul le plus court chemin entre les sommets s1 et s2 dans le graphe g (défini en global).
-    //Dijkstra est un bon algo pour ce type de graphe car toutes les arêtes sont valuées strictement positives
+    // Calcul le plus court chemin entre les sommets s1 et s2 dans le graphe g (défini en global).
+    // Dijkstra est un bon algo pour ce type de graphe car toutes les arêtes sont valuées strictement positives
 
+    // Récuperation des "nbUserCentraux" (constante définie dans les attributs de la classe)  utilisateurs les plus centraux. (Complexité linéaire)
     public TreeSet<Centrality>  UserCentraux(int nbUserCentraux){
-        //Récuperation des "nbUserCentraux" (constante définie dans les attributs de la classe)  utilisateurs les plus centraux. (Complexité linéaire)
         TreeSet<Centrality> treeSetUserCentraux=new TreeSet();
         int poidsMin=0;
         int taille=0;
@@ -181,10 +186,10 @@ public class BaseDeTweet {
                 }
             }
         }
-
+        /*//Affichage des utilisateurs centraux dans la console (utilisée pour les tests)
         for(Centrality c : treeSetUserCentraux){
             System.out.println(c.getNom()+" "+c.getPoids());
-        }
+        }*/
         return treeSetUserCentraux;
     }
 

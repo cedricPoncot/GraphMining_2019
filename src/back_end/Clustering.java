@@ -19,18 +19,26 @@ import java.io.IOException;
 import java.util.*;
 
 public class Clustering{
+    /* Clustering crée un graphe simplifié en communautés du graphe initial. Ces communautés sont créées à partir des
+     * utilisateurs centraux, on définit une communauté par un utilisateur central et les utilisateurs l'ayant le plus
+     * retweeté.
+     * Cette classe construit donc le graphe avec des couleurs diiférentes pour chaque communauté et sauvegarde le
+     * résultat dans une image au format PNG. */
 
+    /**************************************************ATTRIBUTS***************************************************/
     private HashMap<String,Object> vertexGraphAdapter=new HashMap<>();
 
     //Couleur des communautées
     private final String[] couleurs={"FFFEB5","#CAF7C9","#FFC58B","#8BDFFF","#A58BFF","#FFB5B9","#B5FFEF"};
     private final int cstCouleur=7;
 
+    /*************************************************CONSTRUCTEUR*************************************************/
     public Clustering(TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
         JGraphXAdapter<Vertex, DefaultEdge> graphAdapter =constructionGraph(userCentraux,baseLink,nbPercentage);
         graphToImage(graphAdapter);
     }
 
+    /**************************************************FONCTIONS**************************************************/
     private JGraphXAdapter<Vertex, DefaultEdge> constructionGraph( TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
         System.out.println(nbPercentage);
         JGraphXAdapter<Vertex, DefaultEdge> graphAdapter = new JGraphXAdapter(new DirectedWeightedMultigraph(org.jgrapht.graph.DefaultEdge.class));
@@ -39,8 +47,11 @@ public class Clustering{
         for(Centrality c:userCentraux){
             String utilisateurCentral=c.getNom();
             Object v1;
-            if(cmp<cstCouleur)v1=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,utilisateurCentral,0,0,20,20,"fillColor="+couleurs[cmp]);
-            else v1=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,utilisateurCentral,0,0,20,20);
+            if(cmp<cstCouleur)
+                v1=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,utilisateurCentral,0,0,20,20,"fillColor="+couleurs[cmp]);
+            else
+                v1=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,utilisateurCentral,0,0,20,20);
+
             vertexGraphAdapter.put(utilisateurCentral,v1);
             HashMap<String,Integer>baseRetweeter=baseLink.get(utilisateurCentral);
 
@@ -48,14 +59,18 @@ public class Clustering{
                 //On prends un pourcentage des noeuds aléatoirement (afin de ne pas surcharger le graphe)
                 if(Math.random()>1-(nbPercentage/100.0)) {
                     Object v2;
-                    if(cmp<cstCouleur)v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20,"fillColor="+couleurs[cmp]);
-                    else v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20);
+                    if(cmp<cstCouleur)
+                        v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20,"fillColor="+couleurs[cmp]);
+                    else
+                        v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20);
+
                     vertexGraphAdapter.put(entry.getKey(),v2);
                     graphAdapter.insertEdge(graphAdapter.getDefaultParent(),null,""+entry.getValue(),v2, v1);
                 }
             }
             cmp++;
-            if(cmp==cstCouleur)cmp=0;
+            if(cmp==cstCouleur)
+                cmp=0;
         }
         //Ajout des arrêtes entre retweeter
         System.out.println("passage arêtes supplémentaires");
@@ -66,7 +81,6 @@ public class Clustering{
                 for (Map.Entry<String, Integer> entry2 : baseRetweeter2.entrySet()) {
                     if (!entry2.getKey().equals(nameRetweeter)&&vertexGraphAdapter.get(entry2.getKey())!=null) {
                         graphAdapter.insertEdge(graphAdapter.getDefaultParent(),null,""+entry2.getValue(),vertexGraphAdapter.get(entry2.getKey()), vertexGraphAdapter.get(nameRetweeter));
-
                     }
                 }
             }

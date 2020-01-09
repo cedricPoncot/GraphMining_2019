@@ -48,7 +48,7 @@
                                        </image>
                                     </ImageView>
                                     <Label layoutX="63.0" layoutY="23.0" text="username" />
-                                    <JFXTextArea layoutX="63.0" layoutY="57.0" prefHeight="60.0" prefWidth="400.0" text="balblab blablaba tweet" unFocusColor="#e4e4e4" />
+                                    <JFXTextArea layoutX="63.0" layoutY="57.0" prefHeight="60.0" prefWidth="400.0" unFocusColor="#e4e4e4" />
                                     <Label layoutX="115.0" layoutY="129.0" text="20/12/2019" />
                                     <Label layoutX="63.0" layoutY="129.0" text="11:20" />
                                     <Label layoutX="395.0" layoutY="129.0" text="20" />
