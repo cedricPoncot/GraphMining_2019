@@ -62,7 +62,7 @@ public class BaseDeTweet {
     /*****************************************FONCTIONS*******************************************/
 
     //Cette fonction calcule la centralité pour chaque utilisateur
-    public void calculCentralite(Tweet t){
+    private void calculCentralite(Tweet t){
         if (centrality.get(t.getRetweeter()) == null) {
             centrality.put(t.getRetweeter(), 1);
         } else {
@@ -71,7 +71,7 @@ public class BaseDeTweet {
     }
 
     //Cette fonction calcule le diametre du graphe précédemment construit
-    public void calculDiametre(){
+    private void calculDiametre(){
         //Calcul du diamètre
         double distance;
         boolean sortie=false;
@@ -95,7 +95,7 @@ public class BaseDeTweet {
     }
 
     //Cette fonction ajoute au graphe le tweet donné en paramêtre. Il calcule aussi l'ordre par la même occasion.
-    public void constructionGraphe(Tweet t){
+    private void constructionGraphe(Tweet t){
         if (g.addVertex(t.getRetweeter())) {
             ordre++;
         }

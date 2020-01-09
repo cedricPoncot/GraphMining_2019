@@ -26,12 +26,12 @@ public class Clustering{
     private final String[] couleurs={"FFFEB5","#CAF7C9","#FFC58B","#8BDFFF","#A58BFF","#FFB5B9","#B5FFEF"};
     private final int cstCouleur=7;
 
-    public Clustering(Graph g, TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
+    public Clustering(TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
         JGraphXAdapter<Vertex, DefaultEdge> graphAdapter =constructionGraph(userCentraux,baseLink,nbPercentage);
         graphToImage(graphAdapter);
     }
 
-    public JGraphXAdapter<Vertex, DefaultEdge> constructionGraph( TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
+    private JGraphXAdapter<Vertex, DefaultEdge> constructionGraph( TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
         System.out.println(nbPercentage);
         JGraphXAdapter<Vertex, DefaultEdge> graphAdapter = new JGraphXAdapter(new DirectedWeightedMultigraph(org.jgrapht.graph.DefaultEdge.class));
         int cmp=0;
@@ -73,7 +73,7 @@ public class Clustering{
         return graphAdapter;
     }
 
-    public void setStyle(JGraphXAdapter graphAdapter){
+    private void setStyle(JGraphXAdapter graphAdapter){
         Map<String, Object> edgeStyle = new HashMap<String, Object>();
 
         mxStylesheet stylesheet = new mxStylesheet();
@@ -89,7 +89,7 @@ public class Clustering{
 
 
     //Transformation du JGraphXAdapter en image et ouverture de l'image
-    public void graphToImage(JGraphXAdapter graphAdapter) {
+    private void graphToImage(JGraphXAdapter graphAdapter) {
         mxIGraphLayout layout = new  mxFastOrganicLayout(graphAdapter);
         //On change le style des arêtes et vertex
         setStyle(graphAdapter);

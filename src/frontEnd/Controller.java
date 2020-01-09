@@ -238,7 +238,7 @@ public class Controller {
                     Task clusteringTask = new Task() {
                         @Override
                         protected Object call() throws Exception { //Créer le graphe simplifié
-                            new Clustering(bd.g, communautes, bd.getBaseLink(),nbPercentage);
+                            new Clustering(communautes, bd.getBaseLink(),nbPercentage);
                             return null;
                         }
                     };
