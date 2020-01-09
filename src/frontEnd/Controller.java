@@ -32,7 +32,7 @@ public class Controller {
      * Le style de ces éléments est détaillé dans la feuille de style : style.css */
 
     /*******************************************************************************************************************************/
-    /**********************************************************ELEMENTS FXML********************************************************/
+    /****************************************************ELEMENTS DE LA GUI - FXML**************************************************/
     /*******************************************************************************************************************************/
     @FXML
     JFXRadioButton rdClimat, rdFoot;
@@ -77,15 +77,17 @@ public class Controller {
     BaseDeTweet bd = null;
     private final int nbTweetsClimat = 1977769, nbTweetsFoot = 899597; //Nombre de lignes par fichier
     private final String pathClimat = "src/data/climat.txt", pathFoot = "src/data/foot.txt"; //Chemin des fichiers de données
-    private final String descriptionFoot = "Ce jeu de données met à votre disposition :\n- 899597 tweets.\n- Les tweets sélectionnés contiennent les mots clés suivants : " +
+    private final String
+            //description du jeu de données Foot
+            descriptionFoot = "Ce jeu de données met à votre disposition :\n- 899597 tweets.\n- Les tweets sélectionnés contiennent les mots clés suivants : " +
             "\"climat\", \"climatique\", \"environnement\", \"environnemental\" et \"environnementaux\".\n- Les tweets datent du 02/09/2019.\n" +
             "- Chaque tweet est présenté sous la forme suivante : \n\tIDTweet\tUserID\tDate de publilcation\tTexte\tRetweeterID\n" +
             "\tOù :\n\t\tIDTweet : représente le numéro d'identification du tweet.\n" +
             "\t\tUserID : représente le nom d'utilisateur de la personne qui a tweeté le tweet courant.\n" +
             "\t\tDate de publilcation : représente la date de publication du tweet.\n" +
             "\t\tTexte : contient le contenu du tweet, hashtag compris.\n" +
-            "\t\tRetweeterID : représente le nom d'utilisateur de la personne qui a retweeté le tweet courant.", //description du jeu de données Foot
-
+            "\t\tRetweeterID : représente le nom d'utilisateur de la personne qui a retweeté le tweet courant.",
+            //description du jeu de données Climat
             descriptionClimat = "Ce jeu de données met à votre disposition :\n- 1977769 tweets.\n- Les tweets sélectionnés contiennent les mots clés suivants : " +
             "\"foot\", \"football\", \"#WWC2019\", \"#CM2019\", \"#FootFeminin\" et \"#FIFAWWC\".\n" +
             "- Les tweets ont été récoltés durant la période du 21/06/2019 au 10/07/2019 pendant la phase ﬁnale de la coupe du monde féminine.\n" +
@@ -94,7 +96,7 @@ public class Controller {
             "\t\tUserID : représente le nom d'utilisateur de la personne qui a tweeté le tweet courant.\n" +
             "\t\tDate de publilcation : représente la date de publication du tweet.\n" +
             "\t\tTexte : contient le contenu du tweet, hashtag compris.\n" +
-            "\t\tRetweeterID : représente le nom d'utilisateur de la personne qui a retweeté le tweet courant.";//description du jeu de données Climat
+            "\t\tRetweeterID : représente le nom d'utilisateur de la personne qui a retweeté le tweet courant.";
 
     /*******************************************************************************************************************************/
     /********************************************************FONCTIONS DE CALCUL*******************************************************/
@@ -104,7 +106,7 @@ public class Controller {
         String path = ""; //Chemin du fichier
         int nbTweets=0; //Nombre de tweets du fichier
 
-        //sélection du dataset
+        //Après la sélection du dataset :
         if(dataset==1){
             path = pathClimat;
             nbTweets = nbTweetsClimat;
@@ -181,9 +183,9 @@ public class Controller {
 
             new Thread(calculsTask).start(); //Lancer le thread des calculs
 
-            pnCalculs.setDisable(true);
+            pnCalculs.setDisable(true); //désactiver le panel des calculs jusqu'à la fin de la tâche
 
-            //A la fin des calculs :
+            //A la fin de la tâche calculTask (fin des calculs) :
             calculsTask.addEventHandler(WorkerStateEvent.WORKER_STATE_SUCCEEDED, event -> {
                 afficherDataset(lbSelectedDataset); //Afficher le nom du dataset sur lequel ont été effectués les calculs
                 afficherCalculs(); //Afficher les résultats des caculs effectués
@@ -195,16 +197,18 @@ public class Controller {
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
+    //Récupérer la liste des utilistauers centraux à partir d'un nombre donné
     private TreeSet<Centrality> calculUsersCentraux(String nbUsers){
-        int nb = checkNombre(nbUsers);
+        int nb = checkNombre(nbUsers); //vérifier si le nombre saisiest correct
         System.out.println("calcul : "+nb);
         if(nb>0)
-            return bd.UserCentraux(nb);
+            return bd.UserCentraux(nb); //récupérer la liste des utilistauers centraux
         return null;
     }
 
+    //Vérifier la saisie d'un nombre
     private int checkNombre(String nb){
-        if(nb.isEmpty())
+        if(nb.isEmpty()) //Si rien n'est entré et le champ de saisie est vide
             return 5; //Valeur par défaut
         else {
             // Vérification sur la saisie
@@ -216,12 +220,12 @@ public class Controller {
                 return nombre;
             }
             catch (NumberFormatException e){
-                //errorDialog("Nombre invalide !", "Entrez un nombre correct.");
                 return -1;
             }
         }
     }
 
+    //Action du bouton : Afficher le graphe simplifié
     public void clustering(){
         if(bd!=null) {
             if(bd.getCentrality()!=null) {
@@ -238,7 +242,7 @@ public class Controller {
                     Task clusteringTask = new Task() {
                         @Override
                         protected Object call() throws Exception { //Créer le graphe simplifié
-                            new Clustering(bd.g, communautes, bd.getBaseLink(),nbPercentage);
+                            new Clustering(communautes, bd.getBaseLink(),nbPercentage);
                             return null;
                         }
                     };
@@ -286,6 +290,7 @@ public class Controller {
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");
     }
 
+    //Afficher le nom du dataset séléctionné dans les différents Labels des différentes pages
     private void afficherDataset(Label label){
         if(dataset==1) label.setText("Climat");
         else label.setText("Foot");
@@ -294,8 +299,8 @@ public class Controller {
     /*******************************************************************************************************************************/
     /*****************************************FONCTIONS QUI MODIFIENT LES ELEMENTS DE LA GUI****************************************/
     /*******************************************************************************************************************************/
+    //Page d'import par défaut
     private void importDefaultPane(String message){
-        //Page d'import par défaut
         bImport.setDisable(false);
         menuBox.setDisable(false);
         bAnnuler.setDisable(true);
@@ -306,8 +311,8 @@ public class Controller {
         lbProgressStatus.setText(message);
     }
 
+    //Page de calculs par défaut
     private void calculsDefaultPane(){
-        //Page de calculs par défaut
         progressIndicator.progressProperty().unbind();
         progressIndicator.setProgress(0);
         pnProgress.setVisible(false);
@@ -359,7 +364,7 @@ public class Controller {
     /*******************************************************************************************************************************/
     /******************************************************AFFICHAGE DES PANELS******************************************************/
     /*******************************************************************************************************************************/
-    //Pane d'import des données
+    //Panel d'import des données
     public void importPane(){
         pnCalculs.setVisible(false);
         pnClustering.setVisible(false);
@@ -373,15 +378,15 @@ public class Controller {
         dataset=0;
     }
 
-    //Pane d'affichage des données importées
+    //Panel d'affichage des données importées
     public void affichagePane(){
         pnCalculs.setVisible(false);
         pnClustering.setVisible(false);
         pnImport.setVisible(false);
         pnAffichage.setVisible(true);
         if(bd!=null){
-            afficherDataset(lbSelectedDatasetVl);
-            afficherTweets();
+            afficherDataset(lbSelectedDatasetVl); //afficher le nom du dataset séléctionné
+            afficherTweets(); //Afficher les tweets dans la table view
         }
         else
             errorDialog("Données non importées !", "Veuillez importer les données avant de procéder aux calculs.");

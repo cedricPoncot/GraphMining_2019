@@ -19,7 +19,14 @@ import java.io.IOException;
 import java.util.*;
 
 public class Clustering{
+    /* Clustering crée un graphe simplifié en communautés du graphe initial. Ces communautés sont créées à partir des
+     * utilisateurs centraux, on définit une communauté par un utilisateur central et les utilisateurs l'ayant le plus
+     * retweeté.
+     * Cette classe construit donc le graphe avec des couleurs diiférentes pour chaque communauté et sauvegarde le
+     * résultat dans une image au format PNG. */
 
+    
+    /**************************************************ATTRIBUTS***************************************************/
     //Graph JGraphX (celui qui va être visionné)
     private HashMap<String,Object> vertexGraphAdapter=new HashMap<>();
     //Couleur des communautées
@@ -27,16 +34,16 @@ public class Clustering{
     //Taille du tableau précédent
     private final int cstCouleur=7;
 
-    //Constructor
-    public Clustering(Graph g, TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
-        //Construction du graphe JGraphX
+
+    /*************************************************CONSTRUCTEUR*************************************************/
+    public Clustering(TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
         JGraphXAdapter<Vertex, DefaultEdge> graphAdapter =constructionGraph(userCentraux,baseLink,nbPercentage);
         //Génération de l'image et affichage / téléchargement
         graphToImage(graphAdapter);
     }
 
     //Fonction qui construit le JgraphX noeuds par noeuds et arête par arête. Le style du noeuds est modifié en fonction de l'appartenance à une communauté.
-    public JGraphXAdapter<Vertex, DefaultEdge> constructionGraph( TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
+    private JGraphXAdapter<Vertex, DefaultEdge> constructionGraph( TreeSet<Centrality>userCentraux, HashMap<String, HashMap<String,Integer>>baseLink,int nbPercentage){
         System.out.println(nbPercentage);
         //Instanciation du JgraphX
         JGraphXAdapter<Vertex, DefaultEdge> graphAdapter = new JGraphXAdapter(new DirectedWeightedMultigraph(org.jgrapht.graph.DefaultEdge.class));
@@ -45,10 +52,13 @@ public class Clustering{
         for(Centrality c:userCentraux){
             String utilisateurCentral=c.getNom();
             Object v1;
-            //On ajoute le noeuds (Vertex) avec sa couleur choisie dans le tableau global couleur.
-            if(cmp<cstCouleur)v1=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,utilisateurCentral,0,0,20,20,"fillColor="+couleurs[cmp]);
-            else v1=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,utilisateurCentral,0,0,20,20);
+			//On ajoute le noeuds (Vertex) avec sa couleur choisie dans le tableau global couleur.
+            if(cmp<cstCouleur)
+                v1=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,utilisateurCentral,0,0,20,20,"fillColor="+couleurs[cmp]);
+            else
+                v1=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,utilisateurCentral,0,0,20,20);
             //On enregistre les différents objets Vertex dans une Hashmap afin de pouvoir créer les arêtes ultérieurement.
+
             vertexGraphAdapter.put(utilisateurCentral,v1);
             HashMap<String,Integer>baseRetweeter=baseLink.get(utilisateurCentral);
             //Parcours de la communauté de l'utilisateur c
@@ -56,15 +66,19 @@ public class Clustering{
                 //On prends un pourcentage des noeuds aléatoirement (afin de ne pas surcharger le graphe)
                 if(Math.random()>1-(nbPercentage/100.0)) {
                     Object v2;
-                    if(cmp<cstCouleur)v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20,"fillColor="+couleurs[cmp]);
-                    else v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20);
+                    if(cmp<cstCouleur)
+                        v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20,"fillColor="+couleurs[cmp]);
+                    else
+                        v2=graphAdapter.insertVertex(graphAdapter.getDefaultParent(),null,entry.getKey(),0,0,20,20);
+
                     vertexGraphAdapter.put(entry.getKey(),v2);
                     graphAdapter.insertEdge(graphAdapter.getDefaultParent(),null,""+entry.getValue(),v2, v1);
                 }
             }
             cmp++;
             //On fait boucler les couleurs si il y a plus de communautés que de couleurs présente dans le tableau global "couleur"
-            if(cmp==cstCouleur)cmp=0;
+            if(cmp==cstCouleur)
+                cmp=0;
         }
         //Ajout des arrêtes entre retweeter
         for(Map.Entry<String,Object> entry : vertexGraphAdapter.entrySet()){
@@ -83,9 +97,8 @@ public class Clustering{
         return graphAdapter;
     }
 
-
-    //Modifie les propriétés de style des vertex. Afin d'avoir un rendu plus esthétique.
-    public void setStyle(JGraphXAdapter graphAdapter){
+    private void setStyle(JGraphXAdapter graphAdapter){
+   		 //Modifie les propriétés de style des vertex. Afin d'avoir un rendu plus esthétique.
         mxStylesheet stylesheet = new mxStylesheet();
         Map<String, Object> vertexStyle = new HashMap<String, Object>();
         vertexStyle.put(mxConstants.STYLE_FONTCOLOR, "#000000");
@@ -99,7 +112,8 @@ public class Clustering{
 
 
     //Transformation du JGraphXAdapter en image et ouverture de cette image
-    public void graphToImage(JGraphXAdapter graphAdapter) {
+    private void graphToImage(JGraphXAdapter graphAdapter) {
+		
         //Séléction d'un layout permettant un visualisation facile des communautés
         mxIGraphLayout layout = new  mxFastOrganicLayout(graphAdapter);
         //On change le style des arêtes et vertex

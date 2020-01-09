@@ -5,15 +5,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Tweet {
-    //ATTRIBUTS
+    /***************************************************ATTRIBUTS****************************************************/
     private BigInteger identifiant;
     private String tweeter;
     private LocalDateTime date;
     private String texte;
     private String retweeter;
 
-    //CONSTRUCTEURS
-    Tweet(String identifiant,String tweeter,String date,String texte,String retweeter){
+    /*************************************************CONSTRUCTEURS**************************************************/
+    public Tweet(String identifiant,String tweeter,String date,String texte,String retweeter){
         this.identifiant=new BigInteger(identifiant);
         this.tweeter=tweeter;
         DateTimeFormatter format=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
@@ -21,7 +21,8 @@ public class Tweet {
         this.texte=texte;
         this.retweeter=retweeter;
     }
-    Tweet(String identifiant,String tweeter,String date,String texte){
+
+    public Tweet(String identifiant,String tweeter,String date,String texte){
         this.identifiant=new BigInteger(identifiant);
         this.tweeter=tweeter;
         DateTimeFormatter format=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
@@ -29,7 +30,7 @@ public class Tweet {
         this.texte=texte;
     }
 
-    //GETTERS AND SETTERS
+    /**********************************************GETTERS ET SETTERS**********************************************/
     public String getRetweeter() {
         return retweeter;
     }
@@ -50,7 +51,7 @@ public class Tweet {
         return texte;
     }
 
-    //FONCTIONS
+    /**************************************************FONCTIONS**************************************************/
     public String toString(){
         if(retweeter==null) {
             return identifiant + "\t" + tweeter + "\t" + date + "\t" + texte;
