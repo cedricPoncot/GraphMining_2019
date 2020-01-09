@@ -20,9 +20,9 @@ import java.util.*;
 
 public class Clustering{
     /* Clustering crée un graphe simplifié en communautés du graphe initial. Ces communautés sont créées à partir des
-     * utilisateurs centraux, on définit une communauté par un utilisateur central et les utilisateurs l'ayant le plus
+     * utilisateurs centraux, on définit une communauté par un utilisateur central et les utilisateurs l'ayant
      * retweeté.
-     * Cette classe construit donc le graphe avec des couleurs diiférentes pour chaque communauté et sauvegarde le
+     * Cette classe construit donc le graphe avec des couleurs différentes pour chaque communauté et sauvegarde le
      * résultat dans une image au format PNG. */
 
     
