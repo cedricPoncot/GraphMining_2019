@@ -4,7 +4,7 @@ Logiciel de fouille de graphe, travaillant sur deux jeux de données : climat et
 Ce logiciel a été developpé avec l'IDE IntelliJ IDEA, nous avons essayé de le rendre compatible avec Netbeans mais il se pourrait
 qu'il y ait des problèmes d'affichage de la GUI.
 
-/**LANCEMENT ET CONFIGURATION DE L'APPLICATION**/
+**LANCEMENT ET CONFIGURATION DE L'APPLICATION**
 
 Suivez les étapes suivantes : 
 - Ouvrez le projet sur Netbeans ou IntelliJ IDEA.
@@ -15,6 +15,6 @@ Suivez les étapes suivantes :
 ** IntelliJ : allez dans File -> Project Structure ensuite supprimez les bibliothèques causant problème et ajoutez celles fournies
 - Lancer la classe Main.java du package front_end.
 
-/**TELECHARGEMENT DU PROJET**/
+**TELECHARGEMENT DU PROJET**
 
 Il faut noter que la version finale (complète et fonctionnelle) du projet se trouve sur la branche "GUI".
