@@ -346,12 +346,16 @@ public class Controller {
 
     //Affichage des users centraux
     public void afficherUsersCentraux() {
-        TreeSet<Centrality> tab = calculUsersCentraux(txtNbUsersCentraux.getText());
-        if(tab!=null) {
-            ObservableList<Centrality> usersCentraux = FXCollections.observableArrayList(tab);
-            table.setItems(usersCentraux);
+        if(bd!=null) {
+            TreeSet<Centrality> tab = calculUsersCentraux(txtNbUsersCentraux.getText());
+            if (tab != null) {
+                ObservableList<Centrality> usersCentraux = FXCollections.observableArrayList(tab);
+                table.setItems(usersCentraux);
+            } else errorDialog("Nombre saisi incorrect ! ", "Entrez un nombre compris dans l'intervalle [0,10000].");
         }
-        else errorDialog("Nombre saisi incorrect ! ", "Entrez un nombre compris dans l'intervalle [0,10000].");
+        else{
+            errorDialog("Données non importées !", "Veuillez importer les données avant.");
+        }
     }
 
     //Afficher les tweets
