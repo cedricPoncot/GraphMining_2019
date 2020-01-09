@@ -107,6 +107,7 @@ public class BaseDeTweet {
     //construction du graphe et calculs
     public void calculs(){
         int sommeDegre=0;
+        System.out.println("Passage Calc"+degreeMoyen);
         centrality=new HashMap();
         for(Tweet t: tweets){
             if(t.getRetweeter()!=null) {
@@ -121,12 +122,13 @@ public class BaseDeTweet {
                         g.addEdge(t.getRetweeter(), t.getTweeter());
                         g.setEdgeWeight(t.getRetweeter(), t.getTweeter(), 1);
                         volume++;
+                        //On gagne un degré ext et un degré int à chaque ajout d'arrête
+                        sommeDegre += 2;
+
                     } else {
                         int poids = (int) g.getEdgeWeight(g.getEdge(t.getRetweeter(), t.getTweeter())) + 1;
                         g.setEdgeWeight(t.getRetweeter(), t.getTweeter(), poids);
                     }
-                    //On gagne un degré ext et un degré int à chaque ajout d'arrête
-                    sommeDegre += 2;
                 }
 
                 if (baseLink.get(t.getRetweeter()) == null) {
@@ -146,7 +148,7 @@ public class BaseDeTweet {
                 }
             }
         }
-        if(ordre!=0) {
+        if(ordre!=0 && degreeMoyen==0) {
             degreeMoyen = sommeDegre*1.0 / ordre;
             System.out.println(degreeMoyen);
             System.out.println(ordre);
